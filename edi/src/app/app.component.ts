@@ -4,7 +4,7 @@
  * 
  * Allows the inclusion of other services/functionality needed in later derived components
  */
-import { Component } from '@angular/core'; // Allows for creation of components
+import { Component, OnInit } from '@angular/core'; // Allows for creation of components
 
 
 // Components (Component Decorator)
@@ -39,8 +39,6 @@ import { Component } from '@angular/core'; // Allows for creation of components
  * 
  */
 export class AppComponent {
-  title = 'EDI';
-
   appData = [
     {
       title: 'Facebook',
@@ -53,7 +51,7 @@ export class AppComponent {
       usrRating: 4
     },
     {
-      title: 'SociamSocial',
+      title: 'Sociam Social',
       leeks: 2,
       usrRating: 4.5
     }
