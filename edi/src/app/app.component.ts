@@ -38,7 +38,7 @@ import { Component, OnInit } from '@angular/core'; // Allows for creation of com
  * Components outlines can be quickly created using the angular cli... ng g component comp-name
  * 
  */
-export class AppComponent {
+export class AppComponent{
   appData = [
     {
       title: 'Facebook',
