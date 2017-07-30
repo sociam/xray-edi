@@ -8,10 +8,18 @@ import { Component} from '@angular/core';
 export class NavbarComponent {
   title = "EDI"
 
-  links = [{
-
-  },
-{
-  
-}]
+  links = [
+    {
+      title:'About',
+      url: '#'
+    },
+    {
+      title:'SOCIAM',
+      url: '#'
+    },
+    {
+      title:'GitHub',
+      url: '#'
+    }
+  ]
 }
