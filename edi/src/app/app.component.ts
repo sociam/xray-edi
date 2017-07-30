@@ -43,17 +43,23 @@ export class AppComponent {
     {
       title: 'Facebook',
       leeks: 40,
-      usrRating: 4.8
+      usrRating: 4.8,
+      description: 'The Facebook app does more than help you stay connected with your friends and interests. It\'s also your personal organizer for storing, saving and sharing photos. It\'s easy to share photos straight from your Android camera, and you have full control over your photos and privacy settings. You can choose when to keep individual photos private or even set up a secret photo album to control who sees it.',
+      image: '../assets/images/facebook.png'
     },
     {
-      title: 'Bebo',
+      title: 'Twitter',
       leeks: 28,
-      usrRating: 4
+      usrRating: 4.5,
+      description: 'From breaking news and entertainment to sports, politics, and everyday interests, when it happens in the world, it happens on Twitter first. See all sides of the story. Join the conversation. Watch live streaming events. Twitter is what’s happening in the world and what people are talking about right now.',
+      image: '../assets/images/twitter.png'
     },
     {
       title: 'Sociam Social',
       leeks: 2,
-      usrRating: 4.5
+      usrRating: 3.8,
+      description: 'A Social media playform that complies with the Ethical Data Initiative\'s data handling guidelines, the platform allows you to connect with and share content with friends. All Whilst not giving away your personal information to the highest bidder.',
+      image: '../assets/images/sociam_social.png'
     }
   ];
 }

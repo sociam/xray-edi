@@ -14,14 +14,28 @@
 <div>
     <ul>
         <li *ngFor="let app of appData">
+            <div class="col s12 m7">
+                <div class="card horizontal">
+                    <div class="card-image">
+                        <img src="{{app.image}}" class="responsive-img">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <h3>{{app.title}}</h3>
+                            <p>{{app.description}}</p>
+                        </div>
+                        <div class="card-action">
+                            <div class="chip">
+                                <img src="../assets/images/leek.png" alt="leek"> {{app.leeks}}
+                            </div>
+                            <div class="chip">
+                                <img src="../assets/images/star.png" alt="leek"> {{app.usrRating}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            {{app.title}}
-            <div class="chip">
-                <img src="../assets/images/leek.png" alt="leek"> {{app.leeks}}
-            </div>
-            <div class="chip">
-                <img src="../assets/images/star.png" alt="leek"> {{app.usrRating}}
-            </div>
         </li>
     </ul>
 </div>
