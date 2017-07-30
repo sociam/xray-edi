@@ -1,0 +1,28 @@
+<!--
+ - Component Templated
+ -
+ - This is an HTML file that represents what is going to be injected into the app.
+ - Events that occur through this template can be referred to in the component it
+ - forms part of. Likewise, variables and methods defined in the component class
+ - can be utilised from within this template.
+ -
+ -->
+
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+
+<div style="text-align:center">
+    <h1>
+        {{title}}!
+    </h1>
+</div>
+<div>
+    <ul>
+        <li *ngFor="let app of appDat">
+
+        </li>
+    </ul>
+</div>
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/js/materialize.min.js"></script>
