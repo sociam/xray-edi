@@ -10,3 +10,5 @@ A **SOCIAM** project for viewing where mobile applications are sending your pers
 Ensure you have node, npm and angularCli set up for quick start.
 
 ```cd``` to the ```edi``` folder in the project. Then run ```npm install``` followed by ```ng serve -o```. This will initialise the node modules required by the project and then use the angular command line interface to serve the page to ```localhost:4200```. You can use ```--port <num>``` to specify a different port.
+
+[materialise for angular 4](https://github.com/sherweb/ng2-materialize) thingie was used.
