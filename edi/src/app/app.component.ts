@@ -4,9 +4,8 @@
  * 
  * Allows the inclusion of other services/functionality needed in later derived components
  */
-import { Component, OnInit } from '@angular/core'; // Allows for creation of components
-
-
+import { Component, OnInit, Injectable } from '@angular/core'; // Allows for creation of components
+import { HttpClient } from '@angular/common/http';
 // Components (Component Decorator)
 /**
  * Components
@@ -38,7 +37,22 @@ import { Component, OnInit } from '@angular/core'; // Allows for creation of com
  * Components outlines can be quickly created using the angular cli... ng g component comp-name
  * 
  */
-export class AppComponent{
+export class AppComponent implements OnInit{
+
+  results = {
+
+  }
+  someText = "Results: "
+  constructor(private httpClient: HttpClient) {}
+
+  ngOnInit(): void {
+    this.httpClient.get('localhost:8080/api/apps').subscribe(data => {
+      // Read the result field from the JSON response.
+      this.results = data['results'];
+      console.log(this.results);
+    });
+  }
+
   appData = [
     {
       title: 'Facebook',

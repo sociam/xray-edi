@@ -8,6 +8,9 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 
+// HttpClientModule for issueing http requests.
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,9 +21,11 @@ import { SearchComponent } from './search/search.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterializeModule.forRoot()
+    MaterializeModule.forRoot(),
+    HttpClientModule
   ],
   providers: [],
-  bootstrap: [NavbarComponent, FooterComponent, SearchComponent]
+  bootstrap: [AppComponent, NavbarComponent, FooterComponent, SearchComponent]
 })
+
 export class AppModule { }
