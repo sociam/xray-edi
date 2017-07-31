@@ -21,6 +21,6 @@ import { SearchComponent } from './search/search.component';
     MaterializeModule.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent, NavbarComponent, FooterComponent, SearchComponent]
+  bootstrap: [NavbarComponent, FooterComponent, SearchComponent]
 })
 export class AppModule { }
