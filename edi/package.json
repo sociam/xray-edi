@@ -21,10 +21,12 @@
         "@angular/platform-browser": "^4.0.0",
         "@angular/platform-browser-dynamic": "^4.0.0",
         "@angular/router": "^4.0.0",
+        "body-parser": "^1.17.2",
         "core-js": "^2.4.1",
+        "express": "^4.15.3",
+        "materialize-css": "^0.100.1",
         "mdi": "^2.0.46",
         "ng2-materialize": "^1.5.1",
-        "materialize-css": "^0.100.1",
         "rxjs": "^5.4.1",
         "zone.js": "^0.8.14"
     },
