@@ -45,7 +45,7 @@ constructor(private httpClient: HttpClient) {}
   searchApps() {
     const headers = new HttpHeaders().set('Accept', 'application/json');
     headers.set('Access-Control-Allow-Origin', '*');
-    this.httpClient.get('http://localhost:8118/api/search/apps/test',{ headers}).
+    this.httpClient.get('http://localhost:8118/api/search/apps/' + this.searchTerm ,{ headers}).
     subscribe(
       (data) => {
         console.log(data)
