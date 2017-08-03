@@ -3,21 +3,26 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'ng2-materialize'
 import { FormsModule } from '@angular/forms';
+// HttpClientModule for issueing http requests.
+import { HttpClientModule } from '@angular/common/http';
+
+import { D3Service } from 'd3-ng2-service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 
-// HttpClientModule for issueing http requests.
-import { HttpClientModule } from '@angular/common/http';
+
+import { D3Component } from './d3/d3.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    SearchComponent
+    SearchComponent,
+    D3Component
   ],
   imports: [
     BrowserModule,
@@ -26,8 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent, NavbarComponent, FooterComponent, SearchComponent]
+  providers: [D3Service],
+  bootstrap: [AppComponent, NavbarComponent, FooterComponent, SearchComponent, D3Component]
 })
 
 export class AppModule { }

@@ -24,6 +24,7 @@
     "@angular/router": "^4.0.0",
     "body-parser": "^1.17.2",
     "core-js": "^2.4.1",
+    "d3-ng2-service": "^1.16.0",
     "express": "^4.15.3",
     "materialize-css": "^0.100.1",
     "mdi": "^2.0.46",
@@ -49,7 +50,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
-    "tslint": "~5.3.2",
+    "tslint": "^5.3.2",
     "typescript": "~2.3.3"
   }
 }

@@ -19,9 +19,10 @@
 
         </form>
 </div>
+
 <div class="container">
     <ul>
-        <li *ngFor="let app of appData">
+        <li *ngFor="let app of ">
             <div class="col s12 m7">
                 <div class="card horizontal">
                     <div class="card-image">
@@ -46,4 +47,8 @@
 
         </li>
     </ul>
+
+    <div *ngIf="appData?.length == 0">
+        <h3>No Results</h3>
+    </div>
 </div>
