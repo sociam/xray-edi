@@ -2,22 +2,54 @@
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <div id="search" class="container">
-    <div class="card">
         <div>
             <span class="center-align"><h1>Search for an App</h1></span>
         </div>
         <form>
             <div class="row">
                 <div class="col s10">
-                    <input type="search" value="" placeholder="type keyword(s) here" />
+                    <input [(ngModel)]="searchTerm" name="search-bar" class="form-control" type="search" value="" placeholder="type keyword(s) here" />
 
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button [(ngModel)]="appData" name="submit-search" (click)="searchApps()" type="button" class="btn btn-primary">Search</button>
 
                 </div>
             </div>
 
         </form>
+</div>
+
+<div class="container">
+     
+    <ul>
+        <li *ngFor="let app of ">
+            <div class="col s12 m7">
+                <div class="card horizontal">
+                    <div class="card-image">
+                        <img src="{{app.icon}}" class="responsive-img ">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <h3>{{app.title}}</h3>
+                            <p>{{app.description}}</p>
+                        </div>
+                        <div class="card-action">
+                            <div class="chip">
+                                <img src="../assets/images/leek.png" alt="leek"> {{app.leeks}}
+                            </div>
+                            <div class="chip">
+                                <img src="../assets/images/star.png" alt="leek"> {{app.rating}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+
+    <div *ngIf="appData?.length == 0">
+        <h3>No Results</h3>
     </div>
 </div>
