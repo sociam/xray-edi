@@ -21,6 +21,10 @@
 </div>
 
 <div class="container">
+        
+    <div ng-if="appData == 0"> 
+        <h3 class="card horizontal"> No matching search results :( </h3>
+    </div>
     <ul>
         <li *ngFor="let app of ">
             <div class="col s12 m7">
