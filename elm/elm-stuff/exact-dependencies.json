@@ -1,5 +1,11 @@
 {
+    "elm-lang/animation-frame": "1.0.1",
     "elm-lang/virtual-dom": "2.0.4",
+    "elm-lang/mouse": "1.0.1",
+    "rundis/elm-bootstrap": "3.0.0",
+    "elm-lang/dom": "1.1.1",
     "elm-lang/html": "2.0.0",
+    "debois/elm-dom": "1.2.3",
+    "elm-lang/window": "1.0.1",
     "elm-lang/core": "5.1.1"
 }
