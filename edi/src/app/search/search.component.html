@@ -23,7 +23,7 @@
 <div class="container">
      
     <ul>
-        <li *ngFor="let app of ">
+        <li *ngFor="let app of appData">
             <div class="col s12 m7">
                 <div class="card horizontal">
                     <div class="card-image">
@@ -48,8 +48,4 @@
 
         </li>
     </ul>
-
-    <div *ngIf="appData?.length == 0">
-        <h3>No Results</h3>
-    </div>
 </div>
