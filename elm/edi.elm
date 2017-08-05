@@ -29,19 +29,24 @@ update (NewContent content) oldContent =
 view content =
     Grid.container []
     [ CDN.stylesheet
-    , Grid.row []
-        [ Grid.col [] [ h1[] [ text "EDI" ] ] ]
-    , Grid.row []
-        [ Grid.col [] [ h2[] [ text "Ethical Data Initiative" ] ] ]
-    , Grid.row []
-        [ Grid.col [] [Input.text
-                           [ Input.attrs [ placeholder "Search for an App"
-                                         , style [ ( "text-align", "center" ) ]
-                                         ]
-                           , Input.large
-                           ] ] ]
-    , Card.config []
+        , Card.config []
         |> Card.block []
-            [ Card.text [] [ text "This is some text within a card block." ] ]
+            [ Card.text [] [ h1 [ style [ ( "text-align", "center" )] ]
+                                [ text "EDI" ]
+                           ]
+            , Card.text [] [ h3 [ style [ ( "text-align", "center" )] ]
+                                [ text "Ethical Data Initiative" ]
+                           ]
+            , Card.text []  [ Input.text
+                                [ Input.attrs
+                                      [ placeholder "Search for an App"
+                                      , style [ ( "text-align", "center" ) ]
+                                      , onInput NewContent
+                                      ]
+                                , Input.large
+                                ]
+                            ]
+            , Card.text [] [ text content ]
+            ]
         |> Card.view
     ]
