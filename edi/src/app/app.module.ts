@@ -14,15 +14,13 @@ import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
 
 
-import { D3Component } from './d3/d3.component';
-
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     FooterComponent,
     SearchComponent,
-    D3Component
+    
   ],
   imports: [
     BrowserModule,
@@ -32,7 +30,7 @@ import { D3Component } from './d3/d3.component';
     FormsModule
   ],
   providers: [D3Service],
-  bootstrap: [AppComponent, NavbarComponent, FooterComponent, SearchComponent, D3Component]
+  bootstrap: [AppComponent, NavbarComponent, FooterComponent, SearchComponent ]
 })
 
 export class AppModule { }
