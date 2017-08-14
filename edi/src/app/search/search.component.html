@@ -8,7 +8,7 @@
     <form>
         <div class="row">
             <div class="col s10">
-                <input [(ngModel)]="searchTerm" name="search-bar" (onUpdate)="postSearchQuery()" class="form-control" type="search" value="" placeholder="type keyword(s) here" />
+                <input [(ngModel)]="searchTerm" name="search-bar" class="form-control" type="search" value="" placeholder="type keyword(s) here" />
 
             </div>
             <div class="col">
@@ -21,31 +21,36 @@
 </div>
 
 <div class="container">
-
-    <ul>
-        <li *ngFor="let app of appData">
-            <div class="col s12 m7">
-                <div class="card horizontal">
-                    <div class="card-image">
-                        <img src="http://sociamnat.cs.ox.ac.uk:8003/api{{app.icon}}" class="responsive-img ">
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <h3>{{app.storeinfo.title}}</h3>
-                            <p>{{app.app}}</p>
+    <div *ngIf="appData.length">
+        <ul>
+            <li *ngFor="let app of appData">
+                <div class="col s12 m7" *ngIf="app?.title != ''">
+                    <div class="card horizontal">
+                        <div class="card-image">
+                            <img src="localhost:8118{{app.icon}}" class="responsive-img ">
                         </div>
-                        <div class="card-action">
-                            <div class="chip">
-                                <img src="../assets/images/leek.png" alt="leek"> {{app.hosts.length}}
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <h3>{{app.storeinfo.title}}</h3>
+                                <p>{{app.app}}</p>
                             </div>
-                            <div class="chip">
-                                <img src="../assets/images/star.png" alt="leek"> {{app.storeinfo.rating}}
+                            <div class="card-action">
+                                <div class="chip">
+                                    <img src="../assets/images/leek.png" alt="leek"> {{app.hosts.length}}
+                                </div>
+                                <div class="chip">
+                                    <img src="../assets/images/star.png" alt="leek"> {{app.storeinfo.rating}}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </li>
-    </ul>
+            </li>
+        </ul>
+    </div>
+    <div>
+
+    </div>
+
 </div>

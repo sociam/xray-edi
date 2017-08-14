@@ -72,10 +72,8 @@ interface FullApp {
 export class SearchComponent implements OnInit{
 constructor(private httpClient: HttpClient) {}
   
-  searchTerm: string
-
-  appStubs: AppStub[]
-  appData:  FullApp[]
+  searchTerm: string;
+  appData:  FullApp[];
 
   getHeaders() {
     return new HttpHeaders().set('Accept', 'application/json');
@@ -83,7 +81,7 @@ constructor(private httpClient: HttpClient) {}
 
   postSearchQuery() {
     this.appData = [];
-    const headers = this.getHeaders();
+    const headers = this.getHeaders(); 
 
     let urlParams = new URLSearchParams();
 
@@ -91,7 +89,7 @@ constructor(private httpClient: HttpClient) {}
     let body = urlParams.toString();      
 
     this.httpClient
-    .post<FullApp[]>('http://sociamnat.cs.ox.ac.uk:8003/api/apps?isFull=True&startsWith='+this.searchTerm,
+    .post<FullApp[]>('http://localhost:8118/api/apps?isFull=True&limit=10&startsWith='+this.searchTerm,
       body, 
       { headers: headers }
     )
@@ -102,32 +100,9 @@ constructor(private httpClient: HttpClient) {}
   
   }
 
-  postAppQuery(appID:string) {
-    var appData: FullApp[];
-    
-    const headers = this.getHeaders();
-
-    let urlParams = new URLSearchParams();
-
-    urlParams.append('title', this.searchTerm);
-    let body = urlParams.toString();      
-
-    this.httpClient
-    .post<FullApp[]>('http://sociamnat.cs.ox.ac.uk:8003/api/apps?isfull=true&appId='+appID,
-      body,
-      {headers: headers}
-    )
-    .subscribe(
-      (data) => { appData = data; },
-      (err) => { console.log(err) }
-    );
-    return appData;
-  }
-
-
   ngOnInit(): void {
-    this.appData = []
-    this.searchTerm = ''
+    this.appData = [];
+    this.searchTerm = '';
   }
   
 }
