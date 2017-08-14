@@ -12,7 +12,7 @@
 
             </div>
             <div class="col">
-                <button [(ngModel)]="appData" name="submit-search" (click)="postSearchQuery()" type="button" class="btn btn-primary">Search</button>
+                <button name="submit-search" [(ngModel)]="appData" (click)="postSearchQuery()" type="button" class="btn btn-primary">Search</button>
 
             </div>
         </div>
@@ -20,7 +20,9 @@
     </form>
 </div>
 
-<div class="container">
+<div class="container" [(ngModel)]="appData">
+    <p>{{appData.length}}</p>
+
     <div *ngIf="appData.length">
         <ul>
             <li *ngFor="let app of appData">
