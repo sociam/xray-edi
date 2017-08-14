@@ -80,7 +80,7 @@ constructor(private httpClient: HttpClient) {}
   }
 
   postSearchQuery() {
-    this.appData = [];
+    this.appData = Object.assign([], []);
     const headers = this.getHeaders(); 
 
     let urlParams = new URLSearchParams();
@@ -94,7 +94,7 @@ constructor(private httpClient: HttpClient) {}
       { headers: headers }
     )
     .subscribe(
-      (data) => { this.appData = data; console.log(data)},
+      (data) => { this.appData = Object.assign([],data)},
       (err) => { console.log(err) }
     );
   
