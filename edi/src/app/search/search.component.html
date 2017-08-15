@@ -3,7 +3,7 @@
 
 <div id="search" class="container">
     <div>
-        <span class="center-align"><h1>Search for an App</h1></span>
+        <span class="center-align"><h4>Search for an App</h4></span>
     </div>
     <form>
         <div class="row">
@@ -12,7 +12,7 @@
 
             </div>
             <div class="col">
-                <button name="submit-search" [(ngModel)]="appData" (click)="postSearchQuery()" type="button" class="btn btn-primary">Search</button>
+                <button name="submit-search" (click)="postSearchQuery()" type="button" class="btn btn-primary">Search</button>
 
             </div>
         </div>
@@ -20,45 +20,26 @@
     </form>
 </div>
 
-<div class="container" [(ngModel)]="appData">
-    <p>{{appData.length}}</p>
-
-    <div *ngIf="appData.length">
-        <ul>
-            <li *ngFor="let app of appData; let i = index;">
-                <div class="col s12 m7" *ngIf="app?.title != '' && i < 10">
-                    <div class="card horizontal">
-                        <div class="card-image">
-                            <img src="localhost:8118{{app.icon}}" class="responsive-img ">
-                        </div>
-                        <div class="card-stacked">
-                            <div class="card-content">
-                                <h3>{{app.storeinfo.title}}</h3>
-                                <p>{{app.app}}</p>
-                            </div>
-                            <div class="card-action">
-                                <div class="chip">
-                                    <img src="../assets/images/leek.png" alt="leek"> {{app.hosts.length}}
-                                </div>
-                                <div class="chip">
-                                    <img src="../assets/images/openLock.png" alt="permissions"> {{app.perms.length}}
-                                </div>
-                                <div class="chip">
-                                    <img src="../assets/images/star.png" alt="rating"> {{app.storeinfo.rating}}
-                                </div>
-                                <div>
-                                    <a href="https://play.google.com/store/apps/details?id={{app.app}}" class="chip"><img src="../assets/images/gplay.png" alt="gplay"> D/L </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="container">
+    <ul class="collection">
+        <li *ngFor="let app of appData" (ngModel)="appData" class="collection-item avatar">
+            <div class="col s12 m7">
+                <div class="circle">
+                    <img src="localhost:8118{{app.icon}}" class="responsive-img ">
                 </div>
-
-            </li>
-        </ul>
-    </div>
-    <div>
-
-    </div>
-
+                <span class="title">{{app.storeinfo.title}}</span>
+                <p>{{app.developer.name}}</p>
+            </div>
+            <div class="chip">
+                <img src="../assets/images/leek.png" alt="leek"> {{app.hosts.length}}
+            </div>
+            <div class="chip">
+                <img src="../assets/images/openLock.png" alt="permissions"> {{app.perms.length}}
+            </div>
+            <div class="chip">
+                <img src="../assets/images/star.png" alt="rating"> {{app.storeinfo.rating}}
+            </div>
+            <a href="https://play.google.com/store/apps/details?id={{app.app}}" class="chip"><img src="../assets/images/gplay.png" alt="gplay"> D/L </a>
+        </li>
+    </ul>
 </div>

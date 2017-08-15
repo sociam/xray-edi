@@ -79,8 +79,13 @@ constructor(private httpClient: HttpClient) {}
     return new HttpHeaders().set('Accept', 'application/json');
   }
 
+  trackApp(index, app) {
+    return app ? app.appID : undefined;
+  }
+  
   postSearchQuery() {
     this.appData = Object.assign([], []);
+    console.log(this.appData)
     const headers = this.getHeaders(); 
 
     let urlParams = new URLSearchParams();
@@ -89,7 +94,7 @@ constructor(private httpClient: HttpClient) {}
     let body = urlParams.toString();      
 
     this.httpClient
-    .post<FullApp[]>('http://localhost:8118/api/apps?isFull=True&limit=10&startsWith='+this.searchTerm,
+    .post<FullApp[]>('http://localhost:8118/api/apps?isFull=True&limit=10&onlyAnalyzed=False&startsWith='+this.searchTerm,
       body, 
       { headers: headers }
     )
