@@ -6,12 +6,14 @@ import { FormsModule } from '@angular/forms';
 // HttpClientModule for issueing http requests.
 import { HttpClientModule } from '@angular/common/http';
 
-import { D3Service } from 'd3-ng2-service';
-
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { SearchComponent } from './search/search.component';
+
+// My Own Services
+import { AppInfoTypesService } from './service/app-info-types.service';
+import { XrayAPIService } from './service/xray-api.service';
 
 
 @NgModule({
@@ -29,7 +31,7 @@ import { SearchComponent } from './search/search.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [D3Service],
+  providers: [AppInfoTypesService, XrayAPIService],
   bootstrap: [AppComponent, NavbarComponent, FooterComponent, SearchComponent ]
 })
 
