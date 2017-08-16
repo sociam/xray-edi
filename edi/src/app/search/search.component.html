@@ -1,23 +1,12 @@
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
 <div id="search" class="container">
     <div>
         <span class="center-align"><h4>Search for an App</h4></span>
     </div>
-    <form>
-        <div class="row">
-            <div class="col s10">
-                <input [(ngModel)]="searchTerm" name="search-bar" (keyup)="search()" class="form-control" type="search" value="" placeholder="type keyword(s) here" />
-
-            </div>
-            <div class="col">
-                <button name="submit-search" (click)="search()" type="button" class="btn btn-primary">Search</button>
-
-            </div>
-        </div>
-
-    </form>
+    <div class="row">
+        <form>
+            <input [(ngModel)]="searchTerm" name="search-bar" (keyup)="search()" class="form-control" type="search" value="" />
+        </form>
+    </div>
 </div>
 
 <div class="container">
@@ -39,7 +28,7 @@
             <div class="chip">
                 <img src="../assets/images/star.png" alt="rating"> {{app.storeinfo.rating}}
             </div>
-            <a href="https://play.google.com/store/apps/details?id={{app.app}}" class="chip"><img src="../assets/images/gplay.png" alt="gplay"> D/L </a>
+            <a href="https://play.google.com/store/apps/details?id={{app.app}}" class="chip"><img src="../assets/images/gplay.png" alt="gplay"> Google Play </a>
         </li>
     </ul>
 </div>

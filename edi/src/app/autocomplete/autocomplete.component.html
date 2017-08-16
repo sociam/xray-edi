@@ -1,0 +1,18 @@
+<div class="container">
+    <div>
+        <span class="center-align"><h4>Search for an App</h4></span>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <fa class="material-icons prefix" name="search"></fa>
+            <input id="country" type="text" class="validate filter-input" [(ngModel)]=query (keyup)=filter() placeholder="type app title here.">
+        </div>
+        <div class="suggestions" *ngIf="filteredList.length > 0">
+            <ul *ngFor="let item of filteredList">
+                <li>
+                    <a (click)="select(item)">{{item.storeinfo.title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
