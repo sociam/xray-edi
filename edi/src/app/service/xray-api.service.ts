@@ -11,10 +11,19 @@ export class XrayAPIService {
 
   constructor(private httpClient: HttpClient) {}
   
+  /**
+   * Returns a HTTP Headers object with the necessary headers required to
+   * interact with the xray API.
+   */
   getHeaders() {
     return new HttpHeaders().set('Accept', 'application/json');
   }
 
+  /**
+   * Parses JSON Object into a URL param options object and then Turns that to a
+   * string. 
+   * @param options JSON of param options that can be used to query the xray API.
+   */
   private parseFetchAppParams(options: {
       title?: string,
       startsWith?: string, 
@@ -47,6 +56,12 @@ export class XrayAPIService {
     return urlParams.toString();
   }
 
+  /**
+   * Issues a get request to the xray API using the param options provied as a
+   * json parameter. the JSON is passed to 'parseFetchAppParams' that acts as a 
+   * helper function to stringify the optins into a URL acceptable string.
+   * @param options JSON of param options that can be used to query the xray API.
+   */
   fetchApps(options: {
       title?: string,
       startsWith?: string, 

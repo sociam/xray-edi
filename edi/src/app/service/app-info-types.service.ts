@@ -1,15 +1,33 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * AppStub represents the app information returned from the API when
+ * the 'isFull' flag is set to false.
+ * title - Title of the app the stub is for
+ * appID - ID of the app that the stub is for
+ */
 export interface AppStub {
   title: string;
   appID: string;
 }
 
+/**
+ * Installs represents the range of install that an app may have.
+ * The install data scraped from google proviedes a max and a min
+ * amount
+ * min - The minimum amount of installs that a specific app could have
+ * max - The maximum amount of installs that a specific app could have
+ */
 export interface Installs {
   min: number;
   max: number;
 }
 
+/**
+ * StoreInfo is all of the information that could be scraped from
+ * an app's google playstore a page. This information is returned
+ * from the xray API when the 'isFull' flag is set to true.
+ */
 export interface StoreInfo {
   title: string;
   summary: string;
