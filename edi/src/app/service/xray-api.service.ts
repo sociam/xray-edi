@@ -77,8 +77,14 @@ export class XrayAPIService {
 
     return this.httpClient.get<FullApp[]>( 'http://localhost:8118/api/apps?' + body, { headers: headers })
     .toPromise()
-    .then((data) => { console.log(data); return data; })
-    .catch((err) => { return err; })
+    .then((data) => {
+       return data.map((app) => {
+         app.hosts = app.hosts?app.hosts:[];
+         app.perms = app.perms?app.perms:[];
+         return app;
+       }); 
+      })
+    .catch((err) => { console.log(err); return err; })
 
   }
 

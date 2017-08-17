@@ -5,12 +5,23 @@
     <div class="row">
         <div class="input-field col s12">
             <fa class="material-icons prefix" name="search"></fa>
-            <input id="country" type="text" class="validate filter-input" [(ngModel)]=query (keyup)=filter() placeholder="type app title here.">
+            <input id="country" type="text" class="validate filter-input" [(ngModel)]=query (keydown)=search() placeholder="type app title here.">
         </div>
-        <div class="suggestions" *ngIf="filteredList.length > 0">
-            <ul *ngFor="let item of filteredList">
-                <li>
-                    <a (click)="select(item)">{{item.storeinfo.title}}</a>
+        <div *ngIf="filteredList.length > 0">
+            <ul class="collection">
+                <li *ngFor="let item of filteredList" class="collection-item avatar suggestion" (click)="select(item)">
+                    <img src="http://localhost:8118{{item.icon}}" alt="" class="circle">
+                    <span class="title">{{item.storeinfo.title}}</span>
+                    <br>
+                    <div class="chip">
+                        <img src="../assets/images/leek.png" alt="leek"> {{item.hosts.length}}
+                    </div>
+                    <div class="chip">
+                        <img src="../assets/images/openLock.png" alt="permissions"> {{item.perms.length}}
+                    </div>
+                    <div class="chip">
+                        <img src="../assets/images/star.png" alt="rating"> {{item.storeinfo.rating}}
+                    </div>
                 </li>
             </ul>
         </div>

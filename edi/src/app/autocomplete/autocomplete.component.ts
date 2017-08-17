@@ -17,27 +17,22 @@ export class AutocompleteComponent implements OnInit {
   appData:  FullApp[];
 
   search() {
-    
-  }
-  filter() {
-    
-    if (this.query !== ""){
-      this.api.fetchApps({title: this.query, fullInfo: true})
-      .then((apps)=> this.appData = apps)
-      .then(()=>{
-        this.filteredList = this.appData.filter(function(el){
-          return el.storeinfo.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
-        }.bind(this));
-      })
-      .catch((err) => console.log(err));
-    }else{
-      this.filteredList = [];
-    }
+      if (this.query.trim() !== ""){
+        this.api.fetchApps({title: this.query, fullInfo: true, onlyAnalyzed: true})
+        .then((apps)=> {return apps.filter((el) => {
+            return el.storeinfo.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
+          })
+        })
+        .then((apps) => this.filteredList = apps)
+        .catch((err) => console.log(err));
+      }else{
+        this.filteredList = []; 
+      }
   }
   
   select(item: FullApp){
     alert( item.app + ' ' + item.storeinfo.title);
-    this.filteredList = [];
+    //this.filteredList = [];
   }
  
   constructor(myElement: ElementRef, private api: XrayAPIService) {
