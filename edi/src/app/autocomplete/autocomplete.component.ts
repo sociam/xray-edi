@@ -4,8 +4,8 @@ import { FullApp } from '../service/app-info-types.service';
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.css']
-})
+  styleUrls: ['./autocomplete.component.css',
+              './autocomplete.component.scss']})
 export class AutocompleteComponent implements OnInit {
 
   public query = '';

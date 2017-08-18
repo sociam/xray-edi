@@ -1,29 +1,28 @@
-<div class="container">
-    <div>
-        <span class="center-align"><h4>Search for an App</h4></span>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <fa class="material-icons prefix" name="search"></fa>
-            <input id="country" type="text" class="validate filter-input" [(ngModel)]=query (keydown)=search() placeholder="type app title here.">
-        </div>
-        <div *ngIf="filteredList.length > 0">
-            <ul class="collection">
-                <li *ngFor="let item of filteredList" class="collection-item avatar suggestion" (click)="select(item)">
-                    <img src="http://localhost:8118{{item.icon}}" alt="" class="circle">
-                    <span class="title">{{item.storeinfo.title}}</span>
-                    <br>
-                    <div class="chip">
-                        <img src="../assets/images/leek.png" alt="leek"> {{item.hosts.length}}
-                    </div>
-                    <div class="chip">
-                        <img src="../assets/images/openLock.png" alt="permissions"> {{item.perms.length}}
-                    </div>
-                    <div class="chip">
-                        <img src="../assets/images/star.png" alt="rating"> {{item.storeinfo.rating}}
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div class="search">
+    <fa class="material-icons icon" name="search"></fa>
+    <input class="bar" type="text" [(ngModel)]=query (keydown)=search() placeholder="type app title here.">
+</div>
+<div>
+    <table class="suggestions">
+        <tr *ngFor="let item of filteredList" (click)="select(item)">
+            <td>
+                <!--<img src="http://localhost:8118{{item.icon}}" alt="" class="circle"> -->
+                <img src="../../assets/images/leek.png">
+            </td>
+            <td>
+                <div class="app-title">{{item.storeinfo.title}}</div>
+                <div class="app-dev">By {{item.developer?.name}}</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div *ngIf="filteredList.length == 0 && query != ''">
+    <table class="no-results">
+        <tr>
+            <td>
+                <div class="app-title">No Results Found</div>
+                <div class="app-dev"></div>
+            </td>
+        </tr>
+    </table>
 </div>
