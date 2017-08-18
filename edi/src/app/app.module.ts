@@ -15,6 +15,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { AutocompleteComponent } from './autocomplete/autocomplete.component';
     NavbarComponent,
     FooterComponent,
     AutocompleteComponent,
+    SidenavComponent,
     
   ],
   imports: [
@@ -34,7 +36,7 @@ import { AutocompleteComponent } from './autocomplete/autocomplete.component';
     AngularFontAwesomeModule
   ],
   providers: [AppInfoTypesService, XrayAPIService],
-  bootstrap: [AppComponent, NavbarComponent, FooterComponent, AutocompleteComponent ]
+  bootstrap: [AppComponent, NavbarComponent, FooterComponent, AutocompleteComponent,SidenavComponent ]
 })
 
 export class AppModule { }
