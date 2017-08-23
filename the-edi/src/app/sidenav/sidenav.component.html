@@ -1,0 +1,7 @@
+<div class="sidenav">
+
+    <app-autocomplete [(selectedApp)]='appDetails' (selectionChange)='appSelected($event)'></app-autocomplete>
+    <div *ngIf="isAppSelected">
+        {{appDetails.app}}
+    </div>
+</div>

@@ -4,37 +4,32 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 // HttpClientModule for issueing http requests.
 import { HttpClientModule } from '@angular/common/http';
-import { AngularFontAwesomeModule } from 'angular-font-awesome/angular-font-awesome';
 
+
+// Components
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { FooterComponent } from './footer/footer.component';
+import { AutocompleteComponent } from './autocomplete/autocomplete.component';
 
-// My Own Services
+// Services
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
-import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
-
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    FooterComponent,
     AutocompleteComponent,
-    SidenavComponent,
-    
+    NavbarComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
-    AngularFontAwesomeModule
+    FormsModule
   ],
   providers: [AppInfoTypesService, XrayAPIService],
-  bootstrap: [AppComponent, NavbarComponent, FooterComponent, AutocompleteComponent,SidenavComponent ]
+  bootstrap: [AppComponent,AutocompleteComponent, SidenavComponent, NavbarComponent]
 })
-
 export class AppModule { }
