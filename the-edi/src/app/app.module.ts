@@ -9,19 +9,22 @@ import { HttpClientModule } from '@angular/common/http';
 // Components
 import { AppComponent } from './app.component';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { AppDisplayComponent } from './app-display/app-display.component';
 
 // Services
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
-import { NavbarComponent } from './navbar/navbar.component';
-import { SidenavComponent } from './sidenav/sidenav.component';
+import { SelectionTrackingService } from './service/selection-tracking.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     AutocompleteComponent,
     NavbarComponent,
-    SidenavComponent
+    SidenavComponent,
+    AppDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AppInfoTypesService, XrayAPIService],
-  bootstrap: [AppComponent,AutocompleteComponent, SidenavComponent, NavbarComponent]
+  providers: [AppInfoTypesService, XrayAPIService, SelectionTrackingService],
+  bootstrap: [AppComponent,AutocompleteComponent, SidenavComponent, NavbarComponent, AppDisplayComponent]
 })
 export class AppModule { }

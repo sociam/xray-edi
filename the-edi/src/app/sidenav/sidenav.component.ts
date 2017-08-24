@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FullApp } from '../service/app-info-types.service';
+import { SelectionTrackingService } from '../service/selection-tracking.service';
+
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -7,13 +9,14 @@ import { FullApp } from '../service/app-info-types.service';
 })
 export class SidenavComponent implements OnInit {
 
-  @Input() appDetails: FullApp;
   public isAppSelected: boolean;
   
-  @Output() selectionChange: EventEmitter<FullApp> = new EventEmitter<FullApp>();
+  @Output() selectionChange: EventEmitter<FullApp>;
+  @Input() appDetails: FullApp;
 
-  constructor() {
+  constructor(private appTracker: SelectionTrackingService) {
     this.isAppSelected = false;
+    this.selectionChange = new EventEmitter<FullApp>();
    }
 
   appSelected(app: FullApp) {
@@ -22,7 +25,6 @@ export class SidenavComponent implements OnInit {
     this.isAppSelected = true;
     this.appDetails = app;
     this.selectionChange.emit(app);
-    console.log('Side Nav Event Emitted.');
   }
   ngOnInit() {
   }

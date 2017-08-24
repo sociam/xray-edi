@@ -1,5 +1,8 @@
-import { Component, Output } from '@angular/core';
+import { Component, Output, Input } from '@angular/core';
 import { FullApp } from './service/app-info-types.service';
+
+// services
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,7 +11,7 @@ import { FullApp } from './service/app-info-types.service';
 export class AppComponent {
   title = 'EDI';
 
-  public appData: FullApp;
+   public appData: FullApp;
   
   constructor() {}
   

@@ -1,0 +1,19 @@
+<div>
+    <app-sidenav></app-sidenav>
+</div>
+<div class="main-display">
+    <table *ngIf="allSelections.size != 0">
+        <tr>
+            <h3>{{currentSelection.storeinfo.title}}</h3>
+            <p> App Selected: {{currentSelection.app}}</p>
+        </tr>
+        <tr *ngFor="let key of allSelections.keys()">
+            <td>
+                {{allSelections.get(key).storeinfo.title}}
+            </td>
+        </tr>
+    </table>
+    <div *ngIf="allSelections.size == 0">
+        No selections. Please select an app from the panel in the left hand size.
+    </div>
+</div>
