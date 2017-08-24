@@ -11,6 +11,7 @@ export class AppDisplayComponent implements OnInit {
   
   public currentSelection: FullApp;
   public allSelections: Map<string, FullApp> = new Map<string, FullApp>();
+  public selectionValues: FullApp[];
 
   constructor(private appTracker: SelectionTrackingService) { }
 
@@ -21,6 +22,8 @@ export class AppDisplayComponent implements OnInit {
 
     this.appTracker.appSelectionsChanged.subscribe((data) => {
       this.allSelections = this.appTracker.getSelections();
+      this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+      console.log(this.selectionValues);
     })
   }
 

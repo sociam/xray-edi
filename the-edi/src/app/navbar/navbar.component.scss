@@ -1,8 +1,12 @@
 /deep/ body {
     margin: 0;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 nav {
+    position: fixed;
+    display: inline-block;
     width: 100%;
     background: #227722;
     display: block;

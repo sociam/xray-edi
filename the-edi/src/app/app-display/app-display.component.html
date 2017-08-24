@@ -1,4 +1,4 @@
-<div>
+<div class="side-panel">
     <app-sidenav></app-sidenav>
 </div>
 <div class="main-display">
@@ -7,9 +7,12 @@
             <h3>{{currentSelection.storeinfo.title}}</h3>
             <p> App Selected: {{currentSelection.app}}</p>
         </tr>
-        <tr *ngFor="let key of allSelections.keys()">
+        <tr *ngFor="let app of selectionValues">
             <td>
-                {{allSelections.get(key).storeinfo.title}}
+                <div class="chip">
+                    <img src="http://localhost:8118{{app.icon}}" alt="..." width="96" height="96"> {{app.storeinfo.title}}
+
+                </div>
             </td>
         </tr>
     </table>

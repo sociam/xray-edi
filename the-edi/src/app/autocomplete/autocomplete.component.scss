@@ -9,20 +9,10 @@ input {
 }
 
 table.suggestions {
-    width: 87%;
-    padding: 0px 0px;
-    margin: 0px 0px;
-    border: none;
+    width: 100%;
     img {
         width: 30px;
         height: 30px;
-    }
-    tr td {
-        padding: 1px 5px;
-        margin: 0px 0px;
-    }
-    tr {
-        border-bottom: 0.5px solid #fff;
     }
     tr:hover {
         background-color: #bbb;
@@ -30,14 +20,10 @@ table.suggestions {
     .app-dev {
         color: #666;
         font-size: 12px;
-        padding: inherit;
-        margin: inherit;
     }
     .app-title {
         color: #111;
         font-size: 12px;
-        padding: inherit;
-        margin: inherit;
     }
 }
 
