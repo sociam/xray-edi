@@ -1,0 +1,34 @@
+input {
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 87%;
+    font-family: Arial;
+    .icon .bar {
+        float: left;
+    }
+}
+
+table.suggestions {
+    width: 100%;
+    img {
+        width: 30px;
+        height: 30px;
+    }
+    tr:hover {
+        background-color: #bbb;
+    }
+    .app-dev {
+        color: #666;
+        font-size: 12px;
+    }
+    .app-title {
+        color: #111;
+        font-size: 12px;
+    }
+}
+
+table.no-results {
+    tr td {
+        text-align: center;
+    }
+}
