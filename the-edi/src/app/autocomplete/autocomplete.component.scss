@@ -10,6 +10,11 @@ input {
 
 table.suggestions {
     width: 100%;
+    margin: 0px;
+    tr,
+    td {
+        margin: inherit;
+    }
     img {
         width: 30px;
         height: 30px;
