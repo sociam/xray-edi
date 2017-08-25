@@ -17,6 +17,7 @@ import { AppDisplayComponent } from './app-display/app-display.component';
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
 import { SelectionTrackingService } from './service/selection-tracking.service';
+import { HostCountBarChartComponent } from './host-count-bar-chart/host-count-bar-chart.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SelectionTrackingService } from './service/selection-tracking.service';
     AutocompleteComponent,
     NavbarComponent,
     SidenavComponent,
-    AppDisplayComponent
+    AppDisplayComponent,
+    HostCountBarChartComponent
   ],
   imports: [
     BrowserModule,
