@@ -14,8 +14,12 @@ table.suggestions {
     tr,
     td {
         margin: inherit;
+        padding: 5px;
     }
     img {
+        float: left;
+        padding-right: 5px;
+        padding-bottom: 5px;
         width: 30px;
         height: 30px;
     }
