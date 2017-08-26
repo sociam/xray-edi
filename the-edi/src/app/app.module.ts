@@ -1,10 +1,9 @@
+// Imports
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-// HttpClientModule for issueing http requests.
 import { HttpClientModule } from '@angular/common/http';
-// Routing Modules for routing on button presses.
 import { RouterModule, Routes } from '@angular/router';
 
 // Components
@@ -17,6 +16,7 @@ import { HostCountBarChartComponent } from './host-count-bar-chart/host-count-ba
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
+import { ObservatoryComponent } from './observatory/observatory.component';
 
 // Services
 import { AppInfoTypesService } from './service/app-info-types.service';
@@ -28,7 +28,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about',component: AboutComponent },
   { path: 'refine',component: AppDisplayComponent },
-  { path: 'observatory',component: PageNotFoundComponent },
+  { path: 'observatory',component: ObservatoryComponent },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -46,7 +46,8 @@ const appRoutes: Routes = [
     HostCountBarChartComponent,
     PageNotFoundComponent,
     AboutComponent,
-    HomeComponent
+    HomeComponent,
+    ObservatoryComponent
   ],
   imports: [
     BrowserModule,
