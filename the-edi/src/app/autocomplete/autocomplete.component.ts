@@ -24,10 +24,8 @@ export class AutocompleteComponent implements OnInit {
   search() {
       if (this.query.trim() !== ""){
         this.api.fetchApps({title: this.query, fullInfo: true, onlyAnalyzed: true})
-        .subscribe((apps)=> {return apps.filter((el) => {
-            el.storeinfo.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
-            this.filteredList = apps;
-          })
+        .subscribe((apps)=> {
+          this.filteredList = apps.filter((el) => el.storeinfo.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1)
         })
       }else{
         this.filteredList = []; 

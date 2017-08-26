@@ -13,6 +13,10 @@ export class AppDisplayComponent implements OnInit {
   public allSelections: Map<string, FullApp> = new Map<string, FullApp>();
   public selectionValues: FullApp[];
 
+  removeApp(id: string) {
+    console.log('Removing ' + id);
+    this.appTracker.removeApp(id);
+  }
   constructor(private appTracker: SelectionTrackingService) { }
 
   ngOnInit() {

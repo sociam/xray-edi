@@ -9,27 +9,44 @@ div.side-panel {
     padding-top: 50px
 }
 
+div.selections {
+    width: 100%;
+    padding: 5px;
+    max-height: 50px;
+    overflow-y: scroll;
+    div.selection {
+        padding: 2px;
+    }
+}
+
 .chip {
     display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
     padding: 0 25px;
-    height: 50px;
-    font-size: 18px;
-    line-height: 50px;
-    border-radius: 25px;
+    height: 25px;
+    width: 75px;
+    max-width: 75px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    line-height: 25px;
+    border-radius: 12px;
     background-color: #f1f1f1;
     img {
         float: left;
         margin: 0 10px 0 -25px;
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
+        height: 25px;
+        width: 25px;
+        border-radius: 25%;
     }
     .closebtn {
-        padding-left: 10px;
+        padding-left: 5px;
+        padding-bottom: 5px;
         color: #888;
         font-weight: bold;
         float: right;
-        font-size: 20px;
+        font-size: 10px;
         cursor: pointer;
     }
     .closebtn:hover {
