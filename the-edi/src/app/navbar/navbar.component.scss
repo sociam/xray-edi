@@ -27,4 +27,20 @@ nav {
             }
         }
     }
+    a {
+        color: #fff;
+    }
+    /* unvisited link */
+    a:visited {
+        color: #fff;
+    }
+    /* visited link */
+    a:hover {
+        color: #fff;
+    }
+    /* mouse over link */
+    a:active {
+        color: #efefef;
+    }
+    /* selected link */
 }

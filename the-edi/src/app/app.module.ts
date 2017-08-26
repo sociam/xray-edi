@@ -28,6 +28,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about',component: AboutComponent },
   { path: 'refine',component: AppDisplayComponent },
+  { path: 'observatory',component: PageNotFoundComponent },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'

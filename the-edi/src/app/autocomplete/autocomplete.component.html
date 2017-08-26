@@ -5,7 +5,7 @@
     <table class="suggestions">
         <tr *ngFor="let item of filteredList" (click)="select(item)">
             <td>
-                <img src="http://localhost:8118{{item.icon}}" alt="" class="">
+                <img src="https://localhost:8118{{item.icon}}" alt="" class="">
                 <div class="app-title">{{item.storeinfo.title}}</div>
                 <div class="app-dev">By {{item.developer?.name}}</div>
             </td>
