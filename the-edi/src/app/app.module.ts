@@ -60,6 +60,6 @@ const appRoutes: Routes = [
     )
   ],
   providers: [AppInfoTypesService, XrayAPIService, SelectionTrackingService],
-  bootstrap: [AppComponent,AutocompleteComponent, SidenavComponent, NavbarComponent, AppDisplayComponent]
+  bootstrap: [AppComponent,NavbarComponent,]
 })
 export class AppModule { }

@@ -5,7 +5,7 @@
     <table class="suggestions">
         <tr *ngFor="let item of filteredList" (click)="select(item)">
             <td>
-                <img src="https://localhost:8118{{item.icon}}" alt="" class="">
+                <img src="https://negi.io/api/icons{{item.icon}}" alt="" class="">
                 <div class="app-title">{{item.storeinfo.title}}</div>
                 <div class="app-dev">By {{item.developer?.name}}</div>
             </td>
@@ -13,12 +13,11 @@
     </table>
 </div>
 <div *ngIf="filteredList.length == 0 && query != ''">
-    <table class="no-results">
-        <tr>
-            <td>
-                <div class="app-title">No Results Found</div>
-                <div class="app-dev"></div>
-            </td>
-        </tr>
-    </table>
+    <!-- http://tobiasahlin.com/spinkit/ -->
+    <div class="sk-folding-cube">
+        <div class="sk-cube1 sk-cube"></div>
+        <div class="sk-cube2 sk-cube"></div>
+        <div class="sk-cube4 sk-cube"></div>
+        <div class="sk-cube3 sk-cube"></div>
+    </div>
 </div>
