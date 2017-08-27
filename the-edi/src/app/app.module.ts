@@ -22,6 +22,7 @@ import { ObservatoryComponent } from './observatory/observatory.component';
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
 import { SelectionTrackingService } from './service/selection-tracking.service';
+import { ForceDirectedGraphComponent } from './force-directed-graph/force-directed-graph.component';
 
 
 const appRoutes: Routes = [
@@ -47,7 +48,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     AboutComponent,
     HomeComponent,
-    ObservatoryComponent
+    ObservatoryComponent,
+    ForceDirectedGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +62,6 @@ const appRoutes: Routes = [
     )
   ],
   providers: [AppInfoTypesService, XrayAPIService, SelectionTrackingService],
-  bootstrap: [AppComponent,AutocompleteComponent, SidenavComponent, NavbarComponent, AppDisplayComponent]
+  bootstrap: [AppComponent,NavbarComponent,]
 })
 export class AppModule { }

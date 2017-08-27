@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { XrayAPIService } from '../service/xray-api.service'; 
 import { FullApp } from '../service/app-info-types.service';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-autocomplete',
@@ -12,18 +13,24 @@ import { SelectionTrackingService } from '../service/selection-tracking.service'
 
 export class AutocompleteComponent implements OnInit {
   //private appTracker: SelectionTrackingService = new SelectionTrackingService();
-  public query = '';
-  public titles = [ ];
+  public query: string = '';
+  public titles: string[] = [ ];
 
-  public filteredList = [];
+  public filteredList: FullApp[] = [];
 
   @Output() selectionChange : EventEmitter<FullApp>;
   @Input() selectedApp: FullApp;
 
+  private querySubscription : Subscription;
+
   appData:  FullApp[];
   search() {
-      if (this.query.trim() !== ""){
-        this.api.fetchApps({title: this.query, fullInfo: true, onlyAnalyzed: true})
+      if (this.query.trim() != ''){
+        if(this.querySubscription) {
+          this.querySubscription.unsubscribe();
+          this.filteredList = [];
+        }
+        this.querySubscription = this.api.fetchApps({title: this.query, fullInfo: true, onlyAnalyzed: true})
         .subscribe((apps)=> {
           this.filteredList = apps.filter((el) => el.storeinfo.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1)
         })
@@ -39,7 +46,6 @@ export class AutocompleteComponent implements OnInit {
     
     this.appTracker.setCurrentSelection(item);
     this.appTracker.addApp(item);
-    console.log(this.appTracker.getSelections().size);
 
     //this.appTracker.addApp(item);
     //console.log('Selection Count: ' + this.appTracker.currentAppSelection.id);
