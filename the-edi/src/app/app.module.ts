@@ -17,12 +17,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { ObservatoryComponent } from './observatory/observatory.component';
+import { ForceDirectedGraphComponent } from './force-directed-graph/force-directed-graph.component';
+import { AppInspectComponent } from './app-inspect/app-inspect.component';
 
 // Services
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
 import { SelectionTrackingService } from './service/selection-tracking.service';
-import { ForceDirectedGraphComponent } from './force-directed-graph/force-directed-graph.component';
 
 
 const appRoutes: Routes = [
@@ -30,6 +31,9 @@ const appRoutes: Routes = [
   { path: 'about',component: AboutComponent },
   { path: 'refine',component: AppDisplayComponent },
   { path: 'observatory',component: ObservatoryComponent },
+  { path: 'apps/:app', component:AppInspectComponent },
+  { path: 'apps', component: AppInspectComponent},
+  { path: '404', component: PageNotFoundComponent },
   { path: '',
     redirectTo: '/home',
     pathMatch: 'full'
@@ -49,7 +53,8 @@ const appRoutes: Routes = [
     AboutComponent,
     HomeComponent,
     ObservatoryComponent,
-    ForceDirectedGraphComponent
+    ForceDirectedGraphComponent,
+    AppInspectComponent
   ],
   imports: [
     BrowserModule,

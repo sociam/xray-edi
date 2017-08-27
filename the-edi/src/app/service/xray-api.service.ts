@@ -42,7 +42,7 @@ export class XrayAPIService {
       urlParams.append('startsWith', options.startsWith);
     }
     if(options.appID) {
-      urlParams.append('appID', options.appID);
+      urlParams.append('appId', options.appID);
     }
     if(options.fullInfo) {
       urlParams.append('isFull',  options.fullInfo ? 'true': 'false');
