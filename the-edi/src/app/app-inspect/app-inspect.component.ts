@@ -17,6 +17,8 @@ export class AppInspectComponent implements OnInit {
   public allSelections: Map<string, FullApp> = new Map<string, FullApp>();
   public selectionValues: FullApp[];
 
+  public test: string = '';
+
   removeApp(id: string) {
     this.appTracker.removeApp(id);
   }
@@ -44,6 +46,7 @@ export class AppInspectComponent implements OnInit {
     this.appTracker.currentSelectionChanged.subscribe((data) => {
       this.currentSelection = this.appTracker.getCurrentSelection();
       this.selectionMade = true;
+      this.test = JSON.stringify(this.currentSelection,null,'  ');
       this.router.navigate(['apps/' + this.currentSelection.app]);
     })
 
