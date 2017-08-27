@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { FullApp } from '../service/app-info-types.service';
 import * as d3 from 'd3';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-force-directed-graph',
@@ -31,9 +32,18 @@ export class ForceDirectedGraphComponent implements OnInit {
     //   ]
     // }
     let nodes = selection.map((app, idx) => {
-      return {'id': app.app, 'title': app.storeinfo.title, 'group': idx}
-    })
-    return {'nodes':nodes,'links':[]};
+      return app.hosts.map((host) => {
+        return {'id': host, 'title': host,'group': 3}
+      }).concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
+    }).reduce((a,b) => a.concat(b),[]);
+
+    let links = selection.map((app) => {
+      return app.hosts.map((host) => {
+        return {'source': app.app, 'target': host, 'value': 1};
+      })
+    }).reduce((a,b) => a.concat(b), []);
+
+    return {'nodes':_.uniqBy(nodes, 'id'),'links':links};
   }
 
   buildGraph(dataset) {
@@ -85,8 +95,9 @@ export class ForceDirectedGraphComponent implements OnInit {
                   d.fy = null;
                 })
               );
+              
     node.append('title')
-        .text((d) => {return d.id});
+        .text((d) => {return d.title});
 
     simulation.nodes(dataset.nodes)
               .on('tick', (d) => {
@@ -104,9 +115,9 @@ export class ForceDirectedGraphComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.appTracker.currentSelectionChanged.subscribe((data) => {
+    this.appTracker.appSelectionsChanged.subscribe((data) => {
       let selection = this.appTracker.getSelections();
-      var dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+      let dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
       this.buildGraph(dataset);
     });
     // Select the HTMl SVG Element from the template
