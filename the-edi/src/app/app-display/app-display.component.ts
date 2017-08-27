@@ -14,7 +14,6 @@ export class AppDisplayComponent implements OnInit {
   public selectionValues: FullApp[];
 
   removeApp(id: string) {
-    console.log('Removing ' + id);
     this.appTracker.removeApp(id);
   }
   constructor(private appTracker: SelectionTrackingService) { }
@@ -27,7 +26,6 @@ export class AppDisplayComponent implements OnInit {
     this.appTracker.appSelectionsChanged.subscribe((data) => {
       this.allSelections = this.appTracker.getSelections();
       this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
-      console.log(this.selectionValues);
     })
   }
 

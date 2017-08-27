@@ -20,7 +20,6 @@ export class SidenavComponent implements OnInit {
    }
 
   appSelected(app: FullApp) {
-    console.log('Event Caught in Side Nav')
     //console.log(app);
     this.isAppSelected = true;
     this.appDetails = app;

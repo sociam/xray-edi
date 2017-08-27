@@ -46,7 +46,6 @@ export class AutocompleteComponent implements OnInit {
     
     this.appTracker.setCurrentSelection(item);
     this.appTracker.addApp(item);
-    console.log(this.appTracker.getSelections().size);
 
     //this.appTracker.addApp(item);
     //console.log('Selection Count: ' + this.appTracker.currentAppSelection.id);
