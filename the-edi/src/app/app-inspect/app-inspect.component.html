@@ -1,7 +1,51 @@
 <div class="main-display">
 
     <div *ngIf="selectionMade">
-        {{test}}
+        <div>
+            Title: {{currentSelection.storeinfo.title}}
+        </div>
+        <div>
+            App ID: {{currentSelection.app}}
+        </div>
+        <div>
+            {{currentSelection.rating}}
+        </div>
+        <div>
+            <img src="https://negi.io/api/icons{{currentSelection.icon}}">
+        </div>
+        <div>
+            Installs: {{currentSelection.storeinfo.installs.min}} - {{currentSelection.storeinfo.installs.max}}
+        </div>
+        <div>
+            App Summary: {{currentSelection.storeinfo.summary}}
+        </div>
+        <div>
+            Developer Name: {{currentSelection.developer.name}}
+        </div>
+        <div>
+            Developer Emails: {{currentSelection.developer.emails}}
+        </div>
+        <div>
+            Google Play Page: {{currentSelection.developer.storeSite}}
+        </div>
+        <div>
+            Developers Site: {{currentSelection.developer.site}}
+        </div>
+        <div>
+            Permission Requirements: {{currentSelection.perms}}
+        </div>
+        <div>
+            Hosts: {{currentSelection.hosts}}
+        </div>
+        <br>
+        <div>
+            {{currentSelection}}
+        </div>
+        <br>
+        <div>
+            {{test}}
+        </div>
+
     </div>
 </div>
 <app-sidenav></app-sidenav>
