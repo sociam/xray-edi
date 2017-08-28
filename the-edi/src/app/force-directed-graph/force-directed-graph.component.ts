@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { FullApp } from '../service/app-info-types.service';
+import { Router, NavigationEnd } from '@angular/router';
+
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 
@@ -18,7 +20,17 @@ export class ForceDirectedGraphComponent implements OnInit {
   chartWidth: number = 960;
   chartHeight: number = 600;
 
-  constructor(private appTracker: SelectionTrackingService) { }
+  constructor(private appTracker: SelectionTrackingService, private router: Router) {
+    router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+        let selection = this.appTracker.getSelections();
+        if (selection.size != 0) {
+          let dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key))); 
+          this.buildGraph(this.dataset);
+        }
+      }
+    });
+  }
 
   buildDataset(selection: FullApp[]) {
     // {

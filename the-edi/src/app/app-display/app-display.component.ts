@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
+import { Router, NavigationEnd } from '@angular/router';
 import { FullApp } from '../service/app-info-types.service';
 
 @Component({
@@ -16,11 +17,18 @@ export class AppDisplayComponent implements OnInit {
   removeApp(id: string) {
     this.appTracker.removeApp(id);
   }
-  constructor(private appTracker: SelectionTrackingService) {
-    this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+  constructor(private appTracker: SelectionTrackingService, private router: Router) {
+    router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd ) {
+            this.allSelections = this.appTracker.getSelections();
+            this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+      }
+    });
    }
 
   ngOnInit() {
+        this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+
     this.appTracker.currentSelectionChanged.subscribe((data) => {
       this.currentSelection = this.appTracker.getCurrentSelection();
     })
