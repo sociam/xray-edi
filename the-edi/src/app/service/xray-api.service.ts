@@ -75,7 +75,7 @@ export class XrayAPIService {
     let body = this.parseFetchAppParams(options);    
     let appData: FullApp[];
 
-    return this.httpClient.get<FullApp[]>( 'http://localhost:8118/api/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
+    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
       return data.map((app: FullApp) =>{
          app.hosts = app.hosts?app.hosts:[];
          app.perms = app.perms?app.perms:[];

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef, HostListener } from '@angular/core';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { FullApp } from '../service/app-info-types.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 export class ForceDirectedGraphComponent implements OnInit {
 
   @ViewChild('chart') chart: ElementRef;
-  @Input() dataset: any;
+  private dataset: any = {links:[], nodes:[]}
 
   // https://bl.ocks.org/mbostock/4062045
   chartWidth: number = 960;
@@ -22,16 +22,15 @@ export class ForceDirectedGraphComponent implements OnInit {
 
   constructor(private appTracker: SelectionTrackingService, private router: Router) {
     router.events.subscribe((evt) => {
-      if (evt instanceof NavigationEnd) {
-        let selection = this.appTracker.getSelections();
-        if (selection.size != 0) {
-          let dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key))); 
-          this.buildGraph(this.dataset);
-        }
+      if (evt instanceof NavigationEnd ) {
+        this.buildGraph(this.dataset);
       }
     });
+   }
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+      this.buildGraph(this.dataset);
   }
-
   buildDataset(selection: FullApp[]) {
     // {
     //   "nodes": [
@@ -61,6 +60,7 @@ export class ForceDirectedGraphComponent implements OnInit {
   buildGraph(dataset) {
     var svg = d3.select(this.chart.nativeElement);
     svg.selectAll('*').remove();
+    console.log('Drawing chart');
 
     // Set the height and width of the SVG element.
     svg.attr('height', this.chartHeight)
@@ -120,17 +120,20 @@ export class ForceDirectedGraphComponent implements OnInit {
 
                 node.attr("cx", (d) => { return d.x; })
                     .attr("cy", (d) => { return d.y; });
-              })
+              });
     simulation.force('link')
               .links(dataset.links);
   }
 
   ngOnInit(): void {
+    let selection = this.appTracker.getSelections();
+    this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+    this.buildGraph(this.dataset);
 
     this.appTracker.appSelectionsChanged.subscribe((data) => {
       let selection = this.appTracker.getSelections();
-      let dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-      this.buildGraph(dataset);
+      this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+      this.buildGraph(this.dataset);
     });
     // Select the HTMl SVG Element from the template
   }
