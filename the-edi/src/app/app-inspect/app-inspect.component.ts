@@ -23,6 +23,7 @@ export class AppInspectComponent implements OnInit {
   private currentSubscription: Subscription;
   private selectionSubscription: Subscription;
 
+  public downloads:string = '0';
 
   removeApp(id: string) {
     this.appTracker.removeApp(id);
@@ -61,6 +62,8 @@ export class AppInspectComponent implements OnInit {
       this.currentSelection = this.appTracker.getCurrentSelection();
       this.selectionMade = true;
       this.test = JSON.stringify(this.currentSelection,null,'  ');
+      this.downloads = this.currentSelection.storeinfo.installs.max.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
       this.router.navigate(['apps/' + this.currentSelection.app]);
     })
 

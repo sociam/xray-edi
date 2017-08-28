@@ -2,61 +2,50 @@
 
     <div *ngIf="selectionMade">
         <div class="app-details">
-            Details
+            <div class="app-header">
+                <img class="app-icon" src="https://negi.io/api/icons{{currentSelection.icon}}">
+                <div class="app-title">
+                    {{currentSelection.storeinfo.title}}
+                </div>
+                <div class="app-apk">
+                    {{currentSelection.app}}
+                </div>
+                <br>
+                <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Identity-icon.png">{{currentSelection.hosts.length}}</div>
+                <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Star-fav-icon.png">{{currentSelection.perms.length}}</div>
+                <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Star-fav-icon.png">{{currentSelection.storeinfo.rating}}</div>
+                <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Arrow-download-3-icon.png">{{downloads}}</div>
+
+            </div>
+
+            <div>
+                App Summary: {{currentSelection.storeinfo.summary}}
+            </div>
+            <div>
+                Developer Name: {{currentSelection.developer.name}}
+            </div>
+            <div>
+                Developer Emails: {{currentSelection.developer.emails}}
+            </div>
+            <div>
+                Google Play Page: {{currentSelection.developer.storeSite}}
+            </div>
+            <div>
+                Developers Site: {{currentSelection.developer.site}}
+            </div>
+            <div>
+                Permission Requirements: {{currentSelection.perms}}
+            </div>
+            <div>
+                Hosts: {{currentSelection.hosts}}
+            </div>
         </div>
+
         <div class="app-details">
             Charts
         </div>
 
-
-        <div>
-            Title: {{currentSelection.storeinfo.title}}
-        </div>
-        <div>
-            App ID: {{currentSelection.app}}
-        </div>
-        <div>
-            {{currentSelection.rating}}
-        </div>
-        <div>
-            <img src="https://negi.io/api/icons{{currentSelection.icon}}">
-        </div>
-        <div>
-            Installs: {{currentSelection.storeinfo.installs.min}} - {{currentSelection.storeinfo.installs.max}}
-        </div>
-        <div>
-            App Summary: {{currentSelection.storeinfo.summary}}
-        </div>
-        <div>
-            Developer Name: {{currentSelection.developer.name}}
-        </div>
-        <div>
-            Developer Emails: {{currentSelection.developer.emails}}
-        </div>
-        <div>
-            Google Play Page: {{currentSelection.developer.storeSite}}
-        </div>
-        <div>
-            Developers Site: {{currentSelection.developer.site}}
-        </div>
-        <div>
-            Permission Requirements: {{currentSelection.perms}}
-        </div>
-        <div>
-            Hosts: {{currentSelection.hosts}}
-        </div>
-        <br>
-        <div>
-            {{currentSelection}}
-        </div>
-        <br>
-        <div>
-            {{test}}
-        </div>
-
     </div>
 </div>
-<app-sidenav></app-sidenav>
 
-<div class="side-panel">
-</div>
+<app-sidenav [updateCurrent]="true" [updateList]="false"></app-sidenav>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef, HostListener, HostBinding } from '@angular/core';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { FullApp } from '../service/app-info-types.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -14,23 +14,28 @@ import * as _ from 'lodash';
 export class ForceDirectedGraphComponent implements OnInit {
 
   @ViewChild('chart') chart: ElementRef;
+  private child: ElementRef;
   private dataset: any = {links:[], nodes:[]}
 
   // https://bl.ocks.org/mbostock/4062045
-  chartWidth: number = 960;
-  chartHeight: number = 600;
+  private chartWidth: number;
+  private chartHeight: number;
 
-  constructor(private appTracker: SelectionTrackingService, private router: Router) {
+  constructor(private appTracker: SelectionTrackingService, private router: Router,private el: ElementRef) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
         this.buildGraph(this.dataset);
       }
     });
-   }
+  }
+
+
   @HostListener('window:resize', ['$event'])
   onResize(event){
       this.buildGraph(this.dataset);
   }
+
+
   buildDataset(selection: FullApp[]) {
     // {
     //   "nodes": [
@@ -60,11 +65,13 @@ export class ForceDirectedGraphComponent implements OnInit {
   buildGraph(dataset) {
     var svg = d3.select(this.chart.nativeElement);
     svg.selectAll('*').remove();
-    console.log('Drawing chart');
+
+    this.chartHeight = this.el.nativeElement.children[0].offsetHeight;
+    this.chartWidth = this.el.nativeElement.children[0].offsetWidth;
 
     // Set the height and width of the SVG element.
-    svg.attr('height', this.chartHeight)
-    svg.attr('width', this.chartWidth);
+    svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
+    svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
 
