@@ -9,21 +9,21 @@ import { SelectionTrackingService } from '../service/selection-tracking.service'
 })
 export class SidenavComponent implements OnInit {
 
-  public isAppSelected: boolean;
-  
-  @Output() selectionChange: EventEmitter<FullApp>;
-  @Input() appDetails: FullApp;
+  @Input() updateCurrent: boolean = true;
+  @Input() updateList: boolean = false;
 
   constructor(private appTracker: SelectionTrackingService) {
-    this.isAppSelected = false;
-    this.selectionChange = new EventEmitter<FullApp>();
    }
 
   appSelected(app: FullApp) {
     //console.log(app);
-    this.isAppSelected = true;
-    this.appDetails = app;
-    this.selectionChange.emit(app);
+
+    if(this.updateCurrent) {
+      this.appTracker.setCurrentSelection(app);
+    }
+    if(this.updateList) {
+      this.appTracker.addApp(app);
+    }
   }
   ngOnInit() {
   }

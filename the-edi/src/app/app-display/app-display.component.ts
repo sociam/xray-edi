@@ -16,7 +16,9 @@ export class AppDisplayComponent implements OnInit {
   removeApp(id: string) {
     this.appTracker.removeApp(id);
   }
-  constructor(private appTracker: SelectionTrackingService) { }
+  constructor(private appTracker: SelectionTrackingService) {
+    this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+   }
 
   ngOnInit() {
     this.appTracker.currentSelectionChanged.subscribe((data) => {

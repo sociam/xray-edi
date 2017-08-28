@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { FullApp } from '../service/app-info-types.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { XrayAPIService } from '../service/xray-api.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-app-inspect',
@@ -19,15 +20,27 @@ export class AppInspectComponent implements OnInit {
 
   public test: string = '';
 
+  private currentSubscription: Subscription;
+  private selectionSubscription: Subscription;
+
+
   removeApp(id: string) {
     this.appTracker.removeApp(id);
   }
   constructor(private appTracker: SelectionTrackingService,
               private route: ActivatedRoute,
               private router: Router,
-              private xrayAPI: XrayAPIService) { }
+              private xrayAPI: XrayAPIService) {
+                router.events.subscribe((event) => {
+                  if (event instanceof NavigationStart) {
+                    this.currentSubscription.unsubscribe();
+                    this.selectionSubscription.unsubscribe();
+                  }
+                })
+              }
 
   ngOnInit() {
+
     this.route.params.subscribe((param) => {
       if(param.app && param.app) {
         this.xrayAPI
@@ -43,14 +56,15 @@ export class AppInspectComponent implements OnInit {
       }
     })
 
-    this.appTracker.currentSelectionChanged.subscribe((data) => {
+
+    this.currentSubscription = this.appTracker.currentSelectionChanged.subscribe((data) => {
       this.currentSelection = this.appTracker.getCurrentSelection();
       this.selectionMade = true;
       this.test = JSON.stringify(this.currentSelection,null,'  ');
       this.router.navigate(['apps/' + this.currentSelection.app]);
     })
 
-    this.appTracker.appSelectionsChanged.subscribe((data) => {
+    this.selectionSubscription = this.appTracker.appSelectionsChanged.subscribe((data) => {
       this.allSelections = this.appTracker.getSelections();
       this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
     })

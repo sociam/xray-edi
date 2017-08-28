@@ -5,7 +5,15 @@ div.main-display {
     width: 85%;
     float: right;
     display: inline-block;
-    padding-top: 48px
+    padding-top: 48px;
+    background: #eee;
+}
+
+div.app-details {
+    width: 45%;
+    margin: 20px;
+    display: inline-block;
+    background: #fff;
 }
 
 div.side-panel {
@@ -52,6 +60,7 @@ div.selections {
         font-weight: bold;
         float: right;
         font-size: 10px;
+        height: 100%;
         cursor: pointer;
     }
     .closebtn:hover {
