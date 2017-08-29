@@ -14,30 +14,35 @@
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Star-fav-icon.png">{{currentSelection.perms.length}}</div>
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Star-fav-icon.png">{{currentSelection.storeinfo.rating}}</div>
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Arrow-download-3-icon.png">{{downloads}}</div>
-
             </div>
 
-            <div>
-                App Summary: {{currentSelection.storeinfo.summary}}
+            <div class="app-body">
+                <div>
+                    App Summary: {{currentSelection.storeinfo.summary}}
+                </div>
+                <div>
+                    Developer Name: {{currentSelection.developer.name}}
+                </div>
+                <div>
+                    Developer Emails: {{currentSelection.developer.emails}}
+                </div>
+                <div>
+                    Google Play Page: {{currentSelection.developer.storeSite}}
+                </div>
+                <div class="lists">
+                    <div class="list">
+                        <div class="list-item" *ngFor="let host of currentSelection.hosts">
+                            {{host}}
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div class="list-item" *ngFor="let perm of currentSelection.perms">
+                            {{perm}}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                Developer Name: {{currentSelection.developer.name}}
-            </div>
-            <div>
-                Developer Emails: {{currentSelection.developer.emails}}
-            </div>
-            <div>
-                Google Play Page: {{currentSelection.developer.storeSite}}
-            </div>
-            <div>
-                Developers Site: {{currentSelection.developer.site}}
-            </div>
-            <div>
-                Permission Requirements: {{currentSelection.perms}}
-            </div>
-            <div>
-                Hosts: {{currentSelection.hosts}}
-            </div>
+
             <div class="alt-apps" *ngIf="altApps.length != 0">
                 <div class="alt-app" *ngFor="let app of altApps">
                     {{app.storeinfo.title}}
@@ -45,8 +50,7 @@
             </div>
         </div>
 
-        <div class="app-details">
-            Charts
+        <div class="app-charts">
             <div class="chart">
                 <app-force-directed-graph [onlySingle]="true"></app-force-directed-graph>
             </div>

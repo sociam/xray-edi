@@ -37,7 +37,32 @@ div.app-details {
     .app-count {
         font-size: 0.75em;
     }
+    div.list {
+        height: 20vh;
+        overflow-y: auto;
+        overflow-wrap: break-word;
+        float: left;
+        padding: 10px;
+        margin: 10px;
+        color: #222;
+        background: #eee;
+        width: 44%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        div.list-item {
+            font-size: 0.75em;
+        }
+    }
+}
+
+div.app-charts {
+    width: 45%;
+    float: left;
     div.chart {
+        width: 100%;
+        margin: 20px;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         height: 20vh;
         width: 100%;
         float: left;
