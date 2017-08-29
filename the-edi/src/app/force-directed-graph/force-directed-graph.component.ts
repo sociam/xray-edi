@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef, HostListener, HostBinding } from '@angular/core';
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { FullApp } from '../service/app-info-types.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { CompanyInfoService, CompanyInfo } from '../service/company-info.service';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 
@@ -11,14 +13,26 @@ import * as _ from 'lodash';
 })
 export class ForceDirectedGraphComponent implements OnInit {
 
+  @Input() onlySingle: boolean = false;
+
   @ViewChild('chart') chart: ElementRef;
-  @Input() dataset: any;
+  private child: ElementRef;
+  private dataset: any = {links:[], nodes:[]}
 
   // https://bl.ocks.org/mbostock/4062045
-  chartWidth: number = 960;
-  chartHeight: number = 600;
+  private chartWidth: number;
+  private chartHeight: number;
 
-  constructor(private appTracker: SelectionTrackingService) { }
+  constructor(private appTracker: SelectionTrackingService,
+              private router: Router,
+              private el: ElementRef,
+              private companyLookup: CompanyInfoService) {
+    router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd ) {
+        this.buildGraph(this.dataset);
+      }
+    });
+  }
 
   buildDataset(selection: FullApp[]) {
     // {
@@ -33,14 +47,20 @@ export class ForceDirectedGraphComponent implements OnInit {
     // }
     let nodes = selection.map((app, idx) => {
       return app.hosts.map((host) => {
-        return {'id': host, 'title': host,'group': 3}
-      }).concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
+        let companies = this.companyLookup.getCompanyFromDomain(host)
+          return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
+        return {'id': company.id, 'title': company.id,'group': 3}
+        });
+      }).reduce((a,b) => a.concat(b),[])
+        .concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
     }).reduce((a,b) => a.concat(b),[]);
 
     let links = selection.map((app) => {
       return app.hosts.map((host) => {
-        return {'source': app.app, 'target': host, 'value': 1};
-      })
+         return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
+          return {'source': app.app, 'target': company.id, 'value': 1};
+        });
+      }).reduce((a,b) => a.concat(b),[])
     }).reduce((a,b) => a.concat(b), []);
 
     return {'nodes':_.uniqBy(nodes, 'id'),'links':links};
@@ -50,9 +70,12 @@ export class ForceDirectedGraphComponent implements OnInit {
     var svg = d3.select(this.chart.nativeElement);
     svg.selectAll('*').remove();
 
+    this.chartHeight = this.el.nativeElement.children[0].offsetHeight;
+    this.chartWidth = this.el.nativeElement.children[0].offsetWidth;
+
     // Set the height and width of the SVG element.
-    svg.attr('height', this.chartHeight)
-    svg.attr('width', this.chartWidth);
+    svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
+    svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -108,17 +131,42 @@ export class ForceDirectedGraphComponent implements OnInit {
 
                 node.attr("cx", (d) => { return d.x; })
                     .attr("cy", (d) => { return d.y; });
-              })
+              });
     simulation.force('link')
               .links(dataset.links);
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+      this.buildGraph(this.dataset);
+  }
+
   ngOnInit(): void {
+    if(this.onlySingle) {
+      let selection = this.appTracker.getCurrentSelection();
+      if(selection) {
+        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+      }
+    }
+    else {
+      let selection = this.appTracker.getSelections();
+      this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+
+    }
+    this.buildGraph(this.dataset);
+
+    this.appTracker.currentSelectionChanged.subscribe((data) => {
+      if(this.onlySingle) {
+        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+      }
+    });
 
     this.appTracker.appSelectionsChanged.subscribe((data) => {
-      let selection = this.appTracker.getSelections();
-      let dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-      this.buildGraph(dataset);
+      if(!this.onlySingle) {
+        let selection = this.appTracker.getSelections();
+        this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+      }
+      this.buildGraph(this.dataset);
     });
     // Select the HTMl SVG Element from the template
   }

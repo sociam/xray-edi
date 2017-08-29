@@ -7,6 +7,6 @@ div.sidenav {
     width: 15%;
     position: fixed;
     background: #222;
-    z-index: -1;
+    z-index: 10;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }

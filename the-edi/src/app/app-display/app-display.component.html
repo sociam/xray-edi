@@ -1,19 +1,22 @@
 <div class="main-display">
 
-    <div class="selections" *ngIf="allSelections.size != 0">
+    <div class="selections" *ngIf="selectionValues.length != 0">
         <div class="chip" *ngFor="let app of selectionValues">
             <div class="closebtn" (click)="removeApp(app.app)">&times;</div>
 
             <img src="https://negi.io/api/icons{{app.icon}}" alt="" width="100" height="100"> {{app.storeinfo.title}}
         </div>
     </div>
-    <div *ngIf="allSelections.size == 0">
+    <div *ngIf="selectionValues.length == 0">
         No selections. Please select an app from the panel in the left hand size.
     </div>
-    <!--<app-host-count-bar-chart></app-host-count-bar-chart>-->
-    <app-force-directed-graph></app-force-directed-graph>
+    <!-- <app-host-count-bar-chart></app-host-count-bar-chart> -->
+    <div class="chart">
+        <app-force-directed-graph [onlySingle]="false"></app-force-directed-graph>
+    </div>
+
 </div>
-<app-sidenav></app-sidenav>
+<app-sidenav [updateCurrent]="true" [updateList]="true"></app-sidenav>
 
 <div class="side-panel">
 </div>

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject} from 'rxjs';
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/toPromise';
 import { FullApp } from './app-info-types.service';
 
 
@@ -42,7 +43,7 @@ export class XrayAPIService {
       urlParams.append('startsWith', options.startsWith);
     }
     if(options.appID) {
-      urlParams.append('appID', options.appID);
+      urlParams.append('appId', options.appID);
     }
     if(options.fullInfo) {
       urlParams.append('isFull',  options.fullInfo ? 'true': 'false');
@@ -72,17 +73,35 @@ export class XrayAPIService {
     }) :Observable<FullApp[]> {
     
     const headers = this.getHeaders(); 
-    let body = this.parseFetchAppParams(options);    
-    let appData: FullApp[];
+    let body = this.parseFetchAppParams(options);
 
-    return this.httpClient.get<FullApp[]>( 'http://localhost:8118/api/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
+    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
       return data.map((app: FullApp) =>{
          app.hosts = app.hosts?app.hosts:[];
          app.perms = app.perms?app.perms:[];
          return app;
        }); 
     });
-    
+  }
+
+  fetchApp(app) {
+    const headers = this.getHeaders(); 
+    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/apps?isFull=true&appId=' + app, { headers: headers })
+    .toPromise().then((apps) => {return apps[0]});
+
+  }
+
+  fetchAlts(app) {
+    const headers = this.getHeaders(); 
+    return this.httpClient.get<string[]>( 'https://negi.io/api/alt/' + app, { headers: headers }).map((data: string[]) => {
+      return data.map((app: string) =>{
+         return this.fetchApp(app).then(alt => {
+          alt.hosts = alt.hosts?alt.hosts:[];
+          alt.perms = alt.perms?alt.perms:[];
+          return alt;
+        });
+      }); 
+    });
   }
 
 }

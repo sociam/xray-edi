@@ -5,7 +5,9 @@ div.main-display {
     width: 85%;
     float: right;
     display: inline-block;
-    padding-top: 48px
+    padding-top: 48px;
+    height: 100%;
+    z-index: -2;
 }
 
 div.side-panel {
@@ -20,6 +22,11 @@ div.selections {
     div.selection {
         padding: 2px;
     }
+}
+
+div.chart {
+    height: 90vh;
+    width: 100%;
 }
 
 .chip {
@@ -48,6 +55,7 @@ div.selections {
         padding-left: 5px;
         padding-bottom: 5px;
         vertical-align: middle;
+        height: 100%;
         color: #888;
         font-weight: bold;
         float: right;
