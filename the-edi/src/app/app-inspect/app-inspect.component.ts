@@ -61,9 +61,7 @@ export class AppInspectComponent implements OnInit {
       }
     })
 
-    console.log('-- INIT --')
     this.currentSubscription = this.appTracker.currentSelectionChanged.subscribe((data) => {
-      console.log('Selection Changed!')
       this.currentSelection = this.appTracker.getCurrentSelection();
       this.selectionMade = true;
       this.test = JSON.stringify(this.currentSelection,null,'  ');
