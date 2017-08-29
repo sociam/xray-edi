@@ -45,7 +45,7 @@
 
             <div class="alt-apps" *ngIf="altApps.length != 0">
                 <div class="alt-app" *ngFor="let app of altApps">
-                    {{app.storeinfo.title}}
+                    <img class="alt-icon" src="https://negi.io/api/icons{{app.icon}}"> {{app.storeinfo.title}}
                 </div>
             </div>
         </div>
