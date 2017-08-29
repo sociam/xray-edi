@@ -10,8 +10,12 @@
     <div *ngIf="selectionValues.length == 0">
         No selections. Please select an app from the panel in the left hand size.
     </div>
-    <!--<app-host-count-bar-chart></app-host-count-bar-chart>-->
-    <app-force-directed-graph></app-force-directed-graph>
+    <!-- <app-host-count-bar-chart></app-host-count-bar-chart> -->
+    <div class="chart">
+
+        <app-force-directed-graph [onlySingle]="false"></app-force-directed-graph>
+    </div>
+
 </div>
 <app-sidenav [updateCurrent]="true" [updateList]="true"></app-sidenav>
 

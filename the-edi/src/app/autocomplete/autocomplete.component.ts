@@ -43,7 +43,6 @@ export class AutocompleteComponent implements OnInit {
     //alert( item.app + ' ' + item.storeinfo.title);
     this.selectedApp = item;
     this.selectionChange.emit(item);
-    
     // this.appTracker.setCurrentSelection(item);
     // this.appTracker.addApp(item);
 

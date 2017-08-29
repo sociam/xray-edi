@@ -13,6 +13,8 @@ import * as _ from 'lodash';
 })
 export class ForceDirectedGraphComponent implements OnInit {
 
+  @Input() onlySingle: boolean = false;
+
   @ViewChild('chart') chart: ElementRef;
   private child: ElementRef;
   private dataset: any = {links:[], nodes:[]}
@@ -28,13 +30,6 @@ export class ForceDirectedGraphComponent implements OnInit {
       }
     });
   }
-
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event){
-      this.buildGraph(this.dataset);
-  }
-
 
   buildDataset(selection: FullApp[]) {
     // {
@@ -132,14 +127,36 @@ export class ForceDirectedGraphComponent implements OnInit {
               .links(dataset.links);
   }
 
-  ngOnInit(): void {
-    let selection = this.appTracker.getSelections();
-    this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-    this.buildGraph(this.dataset);
+  @HostListener('window:resize', ['$event'])
+  onResize(event){
+      this.buildGraph(this.dataset);
+  }
 
-    this.appTracker.appSelectionsChanged.subscribe((data) => {
+  ngOnInit(): void {
+    if(this.onlySingle) {
+      let selection = this.appTracker.getCurrentSelection();
+      if(selection) {
+        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+      }
+    }
+    else {
       let selection = this.appTracker.getSelections();
       this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+
+    }
+    this.buildGraph(this.dataset);
+
+    this.appTracker.currentSelectionChanged.subscribe((data) => {
+      if(this.onlySingle) {
+        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+      }
+    });
+
+    this.appTracker.appSelectionsChanged.subscribe((data) => {
+      if(!this.onlySingle) {
+        let selection = this.appTracker.getSelections();
+        this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+      }
       this.buildGraph(this.dataset);
     });
     // Select the HTMl SVG Element from the template

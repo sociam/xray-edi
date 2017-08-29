@@ -22,8 +22,7 @@ export class AppInspectComponent implements OnInit {
 
   private currentSubscription: Subscription;
   private selectionSubscription: Subscription;
-
-  public downloads:string = '0';
+  public downloads: string = '0';
 
   removeApp(id: string) {
     this.appTracker.removeApp(id);
@@ -33,7 +32,7 @@ export class AppInspectComponent implements OnInit {
               private router: Router,
               private xrayAPI: XrayAPIService) {
                 router.events.subscribe((event) => {
-                  if (event instanceof NavigationStart) {
+                  if (event instanceof NavigationStart && event.url.split('/')[1] != 'apps') {
                     this.currentSubscription.unsubscribe();
                     this.selectionSubscription.unsubscribe();
                   }
@@ -57,8 +56,9 @@ export class AppInspectComponent implements OnInit {
       }
     })
 
-
+    console.log('-- INIT --')
     this.currentSubscription = this.appTracker.currentSelectionChanged.subscribe((data) => {
+      console.log('Selection Changed!')
       this.currentSelection = this.appTracker.getCurrentSelection();
       this.selectionMade = true;
       this.test = JSON.stringify(this.currentSelection,null,'  ');

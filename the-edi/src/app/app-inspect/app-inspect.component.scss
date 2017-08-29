@@ -3,6 +3,7 @@ div.main-display {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     width: 85%;
+    height: 100%;
     float: right;
     display: inline-block;
     padding-top: 48px;
@@ -19,20 +20,27 @@ div.app-details {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     .app-icon {
         float: left;
+        width: 10%;
+        padding: 5px;
     }
     .app-title {
-        padding: 5px;
         display: inline-block;
         font-size: 2em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
-    .app-apk {
-        display: inline-block;
-    }
+    .app-apk {}
     .app-rating {
         padding: 5px;
     }
     .app-count {
         font-size: 0.75em;
+    }
+    div.chart {
+        height: 20vh;
+        width: 100%;
+        float: left;
     }
 }
 
