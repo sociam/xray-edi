@@ -17,7 +17,7 @@ export class AppInspectComponent implements OnInit {
 
   public allSelections: Map<string, FullApp> = new Map<string, FullApp>();
   public selectionValues: FullApp[];
-
+  public altApps: FullApp[] = [];
   public test: string = '';
 
   private currentSubscription: Subscription;
@@ -53,6 +53,11 @@ export class AppInspectComponent implements OnInit {
             this.router.navigate(['404']);
           }
         })
+
+        this.xrayAPI.fetchAlts(param.app).subscribe((alts) => {
+          this.altApps = [];
+          alts.map((alt) => alt.then((app) => this.altApps.push(app)));
+        });
       }
     })
 

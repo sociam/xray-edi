@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { URLSearchParams } from '@angular/http';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject} from 'rxjs';
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/toPromise';
 import { FullApp } from './app-info-types.service';
 
 
@@ -83,15 +84,23 @@ export class XrayAPIService {
     });
   }
 
-  fetchAlt(app) {
+  fetchApp(app) {
     const headers = this.getHeaders(); 
+    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/apps?isFull=true&appId=' + app, { headers: headers })
+    .toPromise().then((apps) => {return apps[0]});
 
-    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/alts/' + app.app, { headers: headers }).map((data: FullApp[]) => {
-      return data.map((app: FullApp) =>{
-         app.hosts = app.hosts?app.hosts:[];
-         app.perms = app.perms?app.perms:[];
-         return app;
-       }); 
+  }
+
+  fetchAlts(app) {
+    const headers = this.getHeaders(); 
+    return this.httpClient.get<string[]>( 'https://negi.io/api/alt/' + app, { headers: headers }).map((data: string[]) => {
+      return data.map((app: string) =>{
+         return this.fetchApp(app).then(alt => {
+          alt.hosts = alt.hosts?alt.hosts:[];
+          alt.perms = alt.perms?alt.perms:[];
+          return alt;
+        });
+      }); 
     });
   }
 
