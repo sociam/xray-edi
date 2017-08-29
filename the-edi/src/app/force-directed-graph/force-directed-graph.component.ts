@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input, ElementRef, HostListener, HostBind
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { FullApp } from '../service/app-info-types.service';
 import { Router, NavigationEnd } from '@angular/router';
-
+import { CompanyInfoService, CompanyInfo } from '../service/company-info.service';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 
@@ -23,7 +23,10 @@ export class ForceDirectedGraphComponent implements OnInit {
   private chartWidth: number;
   private chartHeight: number;
 
-  constructor(private appTracker: SelectionTrackingService, private router: Router,private el: ElementRef) {
+  constructor(private appTracker: SelectionTrackingService,
+              private router: Router,
+              private el: ElementRef,
+              private companyLookup: CompanyInfoService) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
         this.buildGraph(this.dataset);
@@ -44,14 +47,22 @@ export class ForceDirectedGraphComponent implements OnInit {
     // }
     let nodes = selection.map((app, idx) => {
       return app.hosts.map((host) => {
-        return {'id': host, 'title': host,'group': 3}
-      }).concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
+        let companies = this.companyLookup.getCompanyFromDomain(host)
+          return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
+          console.log(company.id);
+        return {'id': company.id, 'title': company.id,'group': 3}
+        });
+      }).reduce((a,b) => a.concat(b),[])
+        .concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
     }).reduce((a,b) => a.concat(b),[]);
 
     let links = selection.map((app) => {
       return app.hosts.map((host) => {
-        return {'source': app.app, 'target': host, 'value': 1};
-      })
+         return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
+          console.log(company.id);
+          return {'source': app.app, 'target': company.id, 'value': 1};
+        });
+      }).reduce((a,b) => a.concat(b),[])
     }).reduce((a,b) => a.concat(b), []);
 
     return {'nodes':_.uniqBy(nodes, 'id'),'links':links};

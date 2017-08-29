@@ -24,7 +24,7 @@ import { AppInspectComponent } from './app-inspect/app-inspect.component';
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
 import { SelectionTrackingService } from './service/selection-tracking.service';
-
+import { CompanyInfoService } from './service/company-info.service';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -66,7 +66,15 @@ const appRoutes: Routes = [
       { enableTracing: true } // <-- debugging purposes only
     )
   ],
-  providers: [AppInfoTypesService, XrayAPIService, SelectionTrackingService],
-  bootstrap: [AppComponent,NavbarComponent,]
+  providers: [
+    AppInfoTypesService,
+    XrayAPIService,
+    SelectionTrackingService,
+    CompanyInfoService
+  ],
+  bootstrap: [
+    AppComponent,
+    NavbarComponent,
+  ]
 })
 export class AppModule { }
