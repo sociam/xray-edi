@@ -72,8 +72,7 @@ export class XrayAPIService {
     }) :Observable<FullApp[]> {
     
     const headers = this.getHeaders(); 
-    let body = this.parseFetchAppParams(options);    
-    let appData: FullApp[];
+    let body = this.parseFetchAppParams(options);
 
     return this.httpClient.get<FullApp[]>( 'https://negi.io/api/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
       return data.map((app: FullApp) =>{
@@ -82,7 +81,18 @@ export class XrayAPIService {
          return app;
        }); 
     });
-    
+  }
+
+  fetchAlt(app) {
+    const headers = this.getHeaders(); 
+
+    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/alts/' + app.app, { headers: headers }).map((data: FullApp[]) => {
+      return data.map((app: FullApp) =>{
+         app.hosts = app.hosts?app.hosts:[];
+         app.perms = app.perms?app.perms:[];
+         return app;
+       }); 
+    });
   }
 
 }

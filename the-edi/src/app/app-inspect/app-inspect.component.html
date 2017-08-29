@@ -38,6 +38,11 @@
             <div>
                 Hosts: {{currentSelection.hosts}}
             </div>
+            <div class="alt-apps" *ngIf="altApps.length != 0">
+                <div class="alt-app" *ngFor="let app of altApps">
+
+                </div>
+            </div>
         </div>
 
         <div class="app-details">
