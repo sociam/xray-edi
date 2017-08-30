@@ -207,37 +207,40 @@ export class HostCompanyDonutComponent implements OnInit {
       this.buildGraph(this.dataset);
   }
 
-  ngOnInit(): void {
+  private graphInit() {
     if(this.onlySingle) {
-      let selection = this.appTracker.getCurrentSelection();
-      if(selection) {
-        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
-      }
-    }
-    else {
-      let selection = this.appTracker.getSelections();
-      this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+          let selection = this.appTracker.getCurrentSelection();
+          if(selection) {
+            this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+          }
+        }
+        else {
+          let selection = this.appTracker.getSelections();
+          this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
 
-    }
-    this.buildGraph(this.dataset);
-    this.buildGraph(this.dataset);
+        }
+        this.buildGraph(this.dataset);
+        this.buildGraph(this.dataset);
 
 
-    this.appTracker.currentSelectionChanged.subscribe((data) => {
-      if(this.onlySingle) {
-        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
-      }
-    });
+        this.appTracker.currentSelectionChanged.subscribe((data) => {
+          if(this.onlySingle) {
+            this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+          }
+        });
 
-    this.appTracker.appSelectionsChanged.subscribe((data) => {
-      if(!this.onlySingle) {
-        let selection = this.appTracker.getSelections();
-        this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-      }
-      this.buildGraph(this.dataset);
-      this.buildGraph(this.dataset);
+        this.appTracker.appSelectionsChanged.subscribe((data) => {
+          if(!this.onlySingle) {
+            let selection = this.appTracker.getSelections();
+            this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+          }
+          this.buildGraph(this.dataset);
+          this.buildGraph(this.dataset);
 
-    });
+        });
+  }
+  ngOnInit(): void {
+    this.companyLookup.companyInfoParsed.subscribe((d) => this.graphInit());
     // Select the HTMl SVG Element from the template
   }
 

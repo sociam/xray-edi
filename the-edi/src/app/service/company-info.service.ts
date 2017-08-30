@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -28,6 +28,7 @@ export interface CompanyInfo {
 export class CompanyInfoService {
 
   public companyInfo: Map<string, CompanyInfo> = new Map<string, CompanyInfo>();
+  public companyInfoParsed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private httpClient: HttpClient) {
     this.companyInfo = new Map<string, CompanyInfo>();
@@ -38,6 +39,7 @@ export class CompanyInfoService {
     return this.httpClient.get<Map<string, CompanyInfo>>('../../assets/data/company_details.json')
     .subscribe(response => {
       this.companyInfo = response;
+      this.companyInfoParsed.emit(true);
     });
   }
 

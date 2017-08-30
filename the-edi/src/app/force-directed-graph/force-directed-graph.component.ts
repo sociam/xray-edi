@@ -141,7 +141,7 @@ export class ForceDirectedGraphComponent implements OnInit {
       this.buildGraph(this.dataset);
   }
 
-  ngOnInit(): void {
+  private graphInit() {
     if(this.onlySingle) {
       let selection = this.appTracker.getCurrentSelection();
       if(selection) {
@@ -170,5 +170,7 @@ export class ForceDirectedGraphComponent implements OnInit {
     });
     // Select the HTMl SVG Element from the template
   }
-
+  ngOnInit(): void {
+    this.companyLookup.companyInfoParsed.subscribe((d) => this.graphInit());
+  }
 }
