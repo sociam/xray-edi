@@ -149,6 +149,7 @@ export class ForceDirectedGraphComponent implements OnInit {
       }
     }
     else {
+      console.log('Multiple Selections')
       let selection = this.appTracker.getSelections();
       this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
 
@@ -171,6 +172,7 @@ export class ForceDirectedGraphComponent implements OnInit {
     // Select the HTMl SVG Element from the template
   }
   ngOnInit(): void {
+    this.companyLookup.parseCompanyInfo();
     this.companyLookup.companyInfoParsed.subscribe((d) => this.graphInit());
   }
 }

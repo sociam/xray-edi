@@ -41,9 +41,13 @@ export class HostCompanyDonutComponent implements OnInit {
     return selection.map((app, idx) => {
       let bigN = app.hosts.length;
       let companies = app.hosts.map((host) => {
-        return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
+        let mapping = this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
           return company.id;
         })
+        if (mapping.length == 0) {
+          mapping = ['Uknown'];
+        }
+        return mapping;
       }).reduce((a,b) => a.concat(b),[])
       let freq = _.countBy(companies, _.identity);
       return _.keys(freq).map((key) => {
@@ -90,7 +94,6 @@ export class HostCompanyDonutComponent implements OnInit {
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
     let data = this.dataset;
-    
     var slice = svg.select('.slices').selectAll('path.slice')
          .data(pie(data), key)
          .enter()
@@ -114,7 +117,8 @@ export class HostCompanyDonutComponent implements OnInit {
 
 	text.enter()
 		.append("text")
-		.attr("dy", ".35em")
+    .attr("dy", ".35em")
+    .attr('font-size', '0.7em')
 		.text(function(d) {
 			return d.data.label;
 		});
@@ -123,14 +127,13 @@ export class HostCompanyDonutComponent implements OnInit {
 		return d.startAngle + (d.endAngle - d.startAngle)/2;
 	}
 
-	text.transition().duration(1000)
-		.attrTween("transform", function(d) {
+	text.attr("transform", function(d) {
 			this._current = this._current || d;
 			var interpolate = d3.interpolate(this._current, d);
 			this._current = interpolate(0);
 			return function(t) {
 				var d2 = interpolate(t);
-				var pos = outerArc.centroid(d2);
+				var pos = outerArc.centroid(d);
 				pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
 				return "translate("+ pos +")";
 			};
@@ -195,7 +198,6 @@ export class HostCompanyDonutComponent implements OnInit {
 
         }
         this.buildGraph(this.dataset);
-        this.buildGraph(this.dataset);
 
 
         this.appTracker.currentSelectionChanged.subscribe((data) => {
@@ -210,12 +212,12 @@ export class HostCompanyDonutComponent implements OnInit {
             this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
           }
           this.buildGraph(this.dataset);
-          this.buildGraph(this.dataset);
 
         });
   }
   ngOnInit(): void {
-    this.companyLookup.companyInfoParsed.subscribe((d) => this.graphInit());
+    this.companyLookup.parseCompanyInfo();
+    this.companyLookup.companyInfoParsed.subscribe((d) => {this.graphInit(); this.graphInit()});
     // Select the HTMl SVG Element from the template
   }
 
