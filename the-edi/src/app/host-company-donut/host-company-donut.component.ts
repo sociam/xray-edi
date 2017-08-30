@@ -38,37 +38,18 @@ export class HostCompanyDonutComponent implements OnInit {
     // [ ...,
     //  { label: facebook, value: n / N },
     //  ... ]
-    console.log('Building Dataset');
-    let slices = selection.map((app, idx) => {
+    return selection.map((app, idx) => {
       let bigN = app.hosts.length;
-      console.log('Big N: ' + bigN);
       let companies = app.hosts.map((host) => {
         return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
-          console.log(company.id);
           return company.id;
         })
+      }).reduce((a,b) => a.concat(b),[])
+      let freq = _.countBy(companies, _.identity);
+      return _.keys(freq).map((key) => {
+        return {label: key, value: freq[key]/bigN}
       })
-    });
-
-    let nodes = selection.map((app, idx) => {
-      return app.hosts.map((host) => {
-        let companies = this.companyLookup.getCompanyFromDomain(host)
-          return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
-            return {'id': company.id, 'title': company.id,'group': 3}
-        });
-      }).reduce((a,b) => a.concat(b),[])
-        .concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
-    }).reduce((a,b) => a.concat(b),[]);
-
-    let links = selection.map((app) => {
-      return app.hosts.map((host) => {
-         return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
-          return {'source': app.app, 'target': company.id, 'value': 1};
-        });
-      }).reduce((a,b) => a.concat(b),[])
-    }).reduce((a,b) => a.concat(b), []);
-
-    return {'nodes':_.uniqBy(nodes, 'id'),'links':links};
+    })[0];
   }
 
   buildGraph(dataset) {
@@ -108,14 +89,8 @@ export class HostCompanyDonutComponent implements OnInit {
     var key = (d) => {return d.data.label};
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
-    var color = d3.scaleOrdinal()
-	                      .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
-	                      .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-    let data = color.domain().map((label) => {
-      return { label: label, value: Math.random() }
-    });
-
+    let data = this.dataset;
+    
     var slice = svg.select('.slices').selectAll('path.slice')
          .data(pie(data), key)
          .enter()
