@@ -101,7 +101,7 @@ export class HostCompanyDonutComponent implements OnInit {
          .style('fill', (d) => { return colour(d.data.label) })
          .attr('class', slice);
     slice.transition().duration(1000)
-		     .attrTween("d", function(d) {
+		     .attrTween('d', function(d) {
            this._current = this._current || d;
            var interpolate = d3.interpolate(this._current, d);
            this._current = interpolate(0);
@@ -112,70 +112,48 @@ export class HostCompanyDonutComponent implements OnInit {
     slice.exit()
          .remove();
          
-    var text = svg.select(".labels").selectAll("text")
+    var text = svg.select('.labels').selectAll('text')
 		              .data(pie(data), key);
-
+	function midAngle(d){
+		return d.startAngle + (d.endAngle - d.startAngle)/2;
+  }
+  
 	text.enter()
-		.append("text")
-    .attr("dy", ".35em")
+		.append('text')
+    .attr('dy', '.35em')
     .attr('font-size', '0.7em')
+    .attr('transform', (d) => {
+        var pos = outerArc.centroid(d);
+				pos[0] = radius * (midAngle(d) < Math.PI ? 1 : -1);
+        return 'translate('+ pos +')';
+        
+    })
+    .attr('text-anchor',  (d) => midAngle(d) < Math.PI ? 'start':'end')
 		.text(function(d) {
 			return d.data.label;
 		});
 	
-	function midAngle(d){
-		return d.startAngle + (d.endAngle - d.startAngle)/2;
-	}
-
-	text.attr("transform", function(d) {
-			this._current = this._current || d;
-			var interpolate = d3.interpolate(this._current, d);
-			this._current = interpolate(0);
-			return function(t) {
-				var d2 = interpolate(t);
-				var pos = outerArc.centroid(d);
-				pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-				return "translate("+ pos +")";
-			};
-		})
-		.styleTween("text-anchor", function(d){
-			this._current = this._current || d;
-			var interpolate = d3.interpolate(this._current, d);
-			this._current = interpolate(0);
-			return function(t) {
-				var d2 = interpolate(t);
-				return midAngle(d2) < Math.PI ? "start":"end";
-			};
-		});
 
     text.exit()
       .remove();
 
     /* ------- SLICE TO TEXT POLYLINES -------*/
 
-    var polyline = svg.select(".lines").selectAll("polyline")
+    var polyline = svg.select('.lines').selectAll('polyline')
       .data(pie(data), key);
     
     polyline.enter()
-      .append("polyline")
+      .append('polyline')
       .attr('opacity', '0.3')
 	    .attr('stroke', '#000')
 	    .attr('stroke-width', '2px')
-	    .attr('fill', 'none');
+      .attr('fill', 'none')
+      .attr('points', (d) => {
+        var pos = outerArc.centroid(d);
+          pos[0] = radius * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
+          return [arc.centroid(d), outerArc.centroid(d), pos];
+      })
 
-    polyline.transition().duration(1000)
-      .attrTween("points", function(d){
-        this._current = this._current || d;
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-          var d2 = interpolate(t);
-          var pos = outerArc.centroid(d2);
-          pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-          return [arc.centroid(d2), outerArc.centroid(d2), pos];
-        };			
-      });
-    
     polyline.exit()
       .remove();
   }
