@@ -58,7 +58,7 @@ export class HostCompanyDonutComponent implements OnInit {
 
   buildGraph(dataset) {
     var svg = d3.select(this.chart.nativeElement);
-    svg.selectAll('.slices').remove();
+    svg.selectAll('*').remove();
     this.chartHeight = this.el.nativeElement.children[0].offsetHeight;
     this.chartWidth = this.el.nativeElement.children[0].offsetWidth;
 
