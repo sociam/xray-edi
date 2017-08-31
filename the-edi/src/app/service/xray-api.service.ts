@@ -27,7 +27,8 @@ export class XrayAPIService {
    */
   private parseFetchAppParams(options: {
       title?: string,
-      startsWith?: string, 
+      startsWith?: string,
+      developer?: string, 
       appID?: string, 
       fullInfo?: boolean, 
       onlyAnalyzed?: boolean, 
@@ -38,6 +39,9 @@ export class XrayAPIService {
       
     if(options.title) {
       urlParams.append('title', options.title);
+    }
+    if(options.developer) {
+      urlParams.append('developer', options.developer);
     }
     if(options.startsWith) {
       urlParams.append('startsWith', options.startsWith);
@@ -65,9 +69,10 @@ export class XrayAPIService {
    */
   fetchApps(options: {
       title?: string,
-      startsWith?: string, 
+      startsWith?: string,
+      developer?: string, 
       appID?: string, 
-      fullInfo?: boolean, 
+      fullInfo?: boolean,
       onlyAnalyzed?: boolean, 
       limit?: number
     }) :Observable<FullApp[]> {

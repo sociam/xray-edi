@@ -44,8 +44,9 @@ export class AppInspectComponent implements OnInit {
     this.route.params.subscribe((param) => {
       if(param.app && param.app) {
         this.xrayAPI
-        .fetchApps({fullInfo: true, limit:1, appID: param.app})
+        .fetchApps({fullInfo: true, limit:10, appID: param.app})
         .subscribe((app) => {
+          app = app.filter(element => element.app == param.app);
           if(app.length > 0 && app[0].app == param.app) {
             this.appTracker.setCurrentSelection(app[0]);
           }
