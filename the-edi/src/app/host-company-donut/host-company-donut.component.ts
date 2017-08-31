@@ -17,7 +17,7 @@ export class HostCompanyDonutComponent implements OnInit {
 
   @ViewChild('chart') chart: ElementRef;
   private child: ElementRef;
-  private dataset: any = {links:[], nodes:[]}
+  private dataset: any = [{label:'', value: 0}];
 
   // https://bl.ocks.org/mbostock/4062045
   private chartWidth: number;
@@ -38,22 +38,23 @@ export class HostCompanyDonutComponent implements OnInit {
     // [ ...,
     //  { label: facebook, value: n / N },
     //  ... ]
-    return selection.map((app, idx) => {
-      let bigN = app.hosts.length;
-      let companies = app.hosts.map((host) => {
-        let mapping = this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
-          return company.id;
-        })
+    let bigN = 0
+    let companies = selection.map((app, idx) => {
+      bigN += app.hosts.length;
+      return app.hosts.map((host) => {
+        let mapping = this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => company.id );
         if (mapping.length == 0) {
           mapping = ['Uknown'];
         }
         return mapping;
-      }).reduce((a,b) => a.concat(b),[])
-      let freq = _.countBy(companies, _.identity);
-      return _.keys(freq).map((key) => {
-        return {label: key, value: freq[key]/bigN}
       })
-    })[0];
+    }).reduce((a,b) => a.concat(b),[]);
+    let freq = _.countBy(companies, _.identity);
+    if (!freq) {
+      return [{label:'', value: 0}];
+    }
+    return _.sortBy(_.keys(freq).map((key) =>  {return {label: key, value: freq[key]/bigN}}),'value');
+
   }
 
   buildGraph(dataset) {
@@ -62,7 +63,7 @@ export class HostCompanyDonutComponent implements OnInit {
     this.chartHeight = this.el.nativeElement.children[0].offsetHeight;
     this.chartWidth = this.el.nativeElement.children[0].offsetWidth;
 
-    var radius = Math.min(this.chartWidth / 2, this.chartHeight / 2);
+    var radius = Math.min(this.chartWidth / 3, this.chartHeight / 3);
     // Set the height and width of the SVG element.
     svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
     svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
@@ -80,16 +81,21 @@ export class HostCompanyDonutComponent implements OnInit {
                   return d.value
                 })
 
+    
     var arc = d3.arc()
                 .outerRadius(radius * 0.8)
-	              .innerRadius(radius * 0.4);
-
+	              .innerRadius(radius * 0.4)
+                .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
+                .endAngle(function(d) { return d.endAngle + Math.PI/3.333; });
     var outerArc = d3.arc()
                      .innerRadius(radius * 0.9)
-	                   .outerRadius(radius * 0.9);
+                     .outerRadius(radius * 0.9)
+                     .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
+                     .endAngle(function(d) { return d.endAngle + Math.PI/3.333; });
 
-    svg.attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
-    
+    //svg.attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
+    svg.selectAll('g').attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
+
     var key = (d) => {return d.data.label};
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
@@ -106,7 +112,7 @@ export class HostCompanyDonutComponent implements OnInit {
            var interpolate = d3.interpolate(this._current, d);
            this._current = interpolate(0);
            return function(t) {
-             return arc(interpolate(t));
+             return arc(d);
            };
       })
     slice.exit()
@@ -124,11 +130,11 @@ export class HostCompanyDonutComponent implements OnInit {
     .attr('font-size', '0.7em')
     .attr('transform', (d) => {
         var pos = outerArc.centroid(d);
-				pos[0] = radius * (midAngle(d) < Math.PI ? 1 : -1);
+				pos[0] = radius * (midAngle(d) < Math.PI - Math.PI/3 ? 1 : -1);
         return 'translate('+ pos +')';
         
     })
-    .attr('text-anchor',  (d) => midAngle(d) < Math.PI ? 'start':'end')
+    .attr('text-anchor',  (d) => midAngle(d) < Math.PI - Math.PI/3 ? 'start':'end')
 		.text(function(d) {
 			return d.data.label;
 		});
@@ -150,7 +156,7 @@ export class HostCompanyDonutComponent implements OnInit {
       .attr('fill', 'none')
       .attr('points', (d) => {
         var pos = outerArc.centroid(d);
-          pos[0] = radius * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
+          pos[0] = radius * 0.95 * (midAngle(d) <  Math.PI - Math.PI/3 ? 1 : -1);
           return [arc.centroid(d), outerArc.centroid(d), pos];
       })
 
