@@ -44,7 +44,7 @@
             </div>
 
             <div class="alt-apps" *ngIf="altApps.length != 0">
-                <div class="alt-app" *ngFor="let app of altApps" (onclick)="setCompare(app)">
+                <div class="alt-app" (click)="setCompare(app)" *ngFor="let app of altApps">
                     <img class="alt-icon" src="https://negi.io/api/icons{{app.icon}}"> {{app.storeinfo.title}}
                 </div>
             </div>
@@ -55,8 +55,23 @@
                 <app-force-directed-graph [onlySingle]="true"></app-force-directed-graph>
             </div>
             <div class="chart">
-                <app-host-company-donut [onlySingle]="true"></app-host-company-donut>
-                <app-host-company-donut [compareView]="true"></app-host-company-donut>
+                <div class="panel">
+                    <div class="title">
+                        {{currentSelection.storeinfo.title}}
+                    </div>
+                    <app-host-company-donut [onlySingle]="true"></app-host-company-donut>
+                </div>
+                <div class="panel" *ngIf="currentAltTitle != ''">
+                    <div class="title">
+                        {{currentAltTitle}}
+                    </div>
+                    <app-host-company-donut [onlySingle]="false" [compareView]="true"></app-host-company-donut>
+                </div>
+                <div class="panel" *ngIf="currentAltTitle == ''">
+                    <div class="title">
+                        Select an alternative app.
+                    </div>
+                </div>
             </div>
             <div class="chart">
                 <app-force-directed-graph [onlySingle]="true"></app-force-directed-graph>
