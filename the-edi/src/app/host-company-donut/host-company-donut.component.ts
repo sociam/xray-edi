@@ -243,6 +243,7 @@ export class HostCompanyDonutComponent implements OnInit {
   ngOnInit(): void {
     this.companyLookup.parseCompanyInfo();
     this.companyLookup.companyInfoParsed.subscribe((d) => {
+      this.graphInit();
       this.appTracker.hoverSelectionChanged.subscribe((d) => this.graphInit());
       this.appTracker.currentSelectionChanged.subscribe((d) => this.graphInit());
       this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());

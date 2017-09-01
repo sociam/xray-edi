@@ -22,8 +22,8 @@ export class AppDisplayComponent implements OnInit {
   constructor(private appTracker: SelectionTrackingService, private router: Router) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
-            this.allSelections = this.appTracker.getSelections();
-            this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+        this.allSelections = this.appTracker.getSelections();
+        this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
       }
     });
    }
@@ -37,7 +37,7 @@ export class AppDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
-        this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+    this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
 
     this.appTracker.currentSelectionChanged.subscribe((data) => {
       this.currentSelection = this.appTracker.getCurrentSelection();
