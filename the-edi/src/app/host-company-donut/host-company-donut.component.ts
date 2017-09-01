@@ -60,9 +60,8 @@ export class HostCompanyDonutComponent implements OnInit {
       let companyGroups = companies.filter((el) => el.company == key).map((el) => {return {company: el.company, app: el.app}});
       let companyFreq = _.countBy(companyGroups, 'app');
       let n = _.countBy(companyGroups,'company')[key];
-      return {company: key, freq: _.keys(companyFreq).map((key) => {return {app: key, value:100*(companyFreq[key]/n)}})};
+      return { company: key, freq: _.sortBy(_.keys(companyFreq).map((key) => {return {app: key, value:100*(companyFreq[key]/n)}}), 'value').reverse()} ;
     });
-    //console.log(companyData);
     return _.sortBy(_.keys(overallFreq).map((key) =>  {
       return {
         label: key,
@@ -72,7 +71,11 @@ export class HostCompanyDonutComponent implements OnInit {
     }),'value');
   }
 
+
+  // turn into BiLevel partitioned donut. Like https://bl.ocks.org/mbostock/5944371
   buildGraph(dataset) {
+    
+
     var svg = d3.select(this.chart.nativeElement);
     svg.selectAll('*').remove();
     this.chartHeight = this.el.nativeElement.children[0].offsetHeight;
@@ -91,24 +94,23 @@ export class HostCompanyDonutComponent implements OnInit {
        .attr('class', 'lines');
 
     var pie = d3.pie()
-                .sort(null)
-                .value((d) => {
-                  return d.value
-                })
+    .sort(null)
+    .value((d) => {
+      return d.value
+    })
 
     
     var arc = d3.arc()
-                .outerRadius(radius * 0.8)
-	              .innerRadius(radius * 0.4)
-                .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
-                .endAngle(function(d) { return d.endAngle + Math.PI/3.333; })
+    .outerRadius(radius * 0.8)
+    .innerRadius(radius * 0.4)
+    .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
+    .endAngle(function(d) { return d.endAngle + Math.PI/3.333; })
 
-                
     var outerArc = d3.arc()
-                     .innerRadius(radius * 0.9)
-                     .outerRadius(radius * 0.9)
-                     .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
-                     .endAngle(function(d) { return d.endAngle + Math.PI/3.333; });
+    .innerRadius(radius * 0.9)
+    .outerRadius(radius * 0.9)
+    .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
+    .endAngle(function(d) { return d.endAngle + Math.PI/3.333; });
 
     //svg.attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
     svg.selectAll('g').attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
@@ -117,22 +119,33 @@ export class HostCompanyDonutComponent implements OnInit {
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
     var data = this.dataset;
+    var hover = this.appTracker.getHoverSelection();
     var slice = svg.select('.slices').selectAll('path.slice')
-         .data(pie(data), key)
-         .enter()
-         .insert('path')
-         .style('fill', (d) => { return colour(d.data.label) })
-         .attr('class', slice);
-         
+    .data(pie(data), key)
+    .enter()
+    .insert('path')
+    .style('fill', (d) => { 
+      var hover = this.appTracker.getHoverSelection();
+      if(hover.length) {
+        if(d.data.apps.freq.filter((app) =>  app.app == hover[0].storeinfo.title).length) {
+          return '#116611'
+        } //hover[0].app);
+        return '#ccc';
+      }
+      return colour(d.data.label)
+    })
+    .attr('class', slice)
+    .style('stroke', '#fff')
+
     slice.transition().duration(1000)
-		     .attrTween('d', function(d) {
-           this._current = this._current || d;
-           let interpolate = d3.interpolate(this._current, d);
-           this._current = interpolate(0);
-           return function(t) {
-             return arc(d);
-           };
-      })
+    .attrTween('d', function(d) {
+      this._current = this._current || d;
+      let interpolate = d3.interpolate(this._current, d);
+      this._current = interpolate(0);
+      return function(t) {
+        return arc(d);
+      };
+    })
       
     var div = d3.select("body").append("div").attr("class", "toolTip");
     div.style('position', 'absolute')
@@ -153,7 +166,7 @@ export class HostCompanyDonutComponent implements OnInit {
       div.style("left", d3.event.pageX+10+"px");
       div.style("top", d3.event.pageY-25+"px");
       div.style("display", "inline-block");
-      div.html('<strong>' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) => a.app + ': ' + a.value.toFixed(2).replace('.00','') + '%<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
+      div.html('<strong>' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) =>  a.value.toFixed(2).replace('.00','') + '% - ' + a.app + '<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
     });
 
     slice
@@ -184,7 +197,6 @@ export class HostCompanyDonutComponent implements OnInit {
 			return d.data.label;
 		});
 	
-
     text.exit()
       .remove();
 
@@ -215,39 +227,28 @@ export class HostCompanyDonutComponent implements OnInit {
   }
 
   private graphInit() {
-    /* This makes me wanna Vom. pls forgive. this was a quick fix, cba to fix it up, have other things to do. */
     if(this.onlySingle) {
-          let selection = this.appTracker.getCurrentSelection();
-          if(selection) {
-            this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
-          }
-        }
-        else {
-          let selection = this.appTracker.getSelections();
-          this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-
-        }
-        this.buildGraph(this.dataset);
-
-
-        this.appTracker.currentSelectionChanged.subscribe((data) => {
-          if(this.onlySingle) {
-            this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
-          }
-        });
-
-        this.appTracker.appSelectionsChanged.subscribe((data) => {
-          if(!this.onlySingle) {
-            let selection = this.appTracker.getSelections();
-            this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-          }
-          this.buildGraph(this.dataset);
-
-        });
+      let selection = this.appTracker.getCurrentSelection();
+      if(selection) {
+        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+      }
+    }
+    else {
+      let selection = this.appTracker.getSelections();
+      this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+    }
+    this.buildGraph(this.dataset);
   }
+  
   ngOnInit(): void {
     this.companyLookup.parseCompanyInfo();
-    this.companyLookup.companyInfoParsed.subscribe((d) => {this.graphInit()});
+    this.companyLookup.companyInfoParsed.subscribe((d) => {
+      this.graphInit();
+      this.appTracker.hoverSelectionChanged.subscribe((d) => this.graphInit());
+      this.appTracker.currentSelectionChanged.subscribe((d) => this.graphInit());
+      this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());
+    });
+   
     // Select the HTMl SVG Element from the template
   }
 

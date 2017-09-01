@@ -31,21 +31,18 @@ export class AppInspectComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private xrayAPI: XrayAPIService) {
-                router.events.subscribe((event) => {
-                  if (event instanceof NavigationStart && event.url.split('/')[1] != 'apps') {
-                    this.currentSubscription.unsubscribe();
-                    this.selectionSubscription.unsubscribe();
-                  }
-                })
-              }
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationStart && event.url.split('/')[1] != 'apps') {
+        this.currentSubscription.unsubscribe();
+        this.selectionSubscription.unsubscribe();
+      }
+    })
+  }
 
   ngOnInit() {
-
     this.route.params.subscribe((param) => {
       if(param.app && param.app) {
-        this.xrayAPI
-        .fetchApps({fullInfo: true, limit:10, appID: param.app})
-        .subscribe((app) => {
+        this.xrayAPI.fetchApps({fullInfo: true, limit:10, appID: param.app}).subscribe((app) => {
           app = app.filter(element => element.app == param.app);
           if(app.length > 0 && app[0].app == param.app) {
             this.appTracker.setCurrentSelection(app[0]);
@@ -53,14 +50,14 @@ export class AppInspectComponent implements OnInit {
           else {
             this.router.navigate(['404']);
           }
-        })
+        });
 
         this.xrayAPI.fetchAlts(param.app).subscribe((alts) => {
           this.altApps = [];
           alts.map((alt) => alt.then((app) => this.altApps.push(app)));
         });
       }
-    })
+    });
 
     this.currentSubscription = this.appTracker.currentSelectionChanged.subscribe((data) => {
       this.currentSelection = this.appTracker.getCurrentSelection();
@@ -69,11 +66,11 @@ export class AppInspectComponent implements OnInit {
       this.downloads = this.currentSelection.storeinfo.installs.max.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       this.router.navigate(['apps/' + this.currentSelection.app]);
-    })
+    });
 
     this.selectionSubscription = this.appTracker.appSelectionsChanged.subscribe((data) => {
       this.allSelections = this.appTracker.getSelections();
       this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
-    })
+    });
   }
 }
