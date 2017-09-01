@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 export class HostCompanyDonutComponent implements OnInit {
 
 @Input() onlySingle: boolean = true;
-
+@Input() compareView: boolean = false;
   @ViewChild('chart') chart: ElementRef;
   private child: ElementRef;
   private dataset: any = [{label:'', value: 0, app: []}];
@@ -112,7 +112,7 @@ export class HostCompanyDonutComponent implements OnInit {
     .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
     .endAngle(function(d) { return d.endAngle + Math.PI/3.333; });
 
-    //svg.attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
+    //svg.attr('transform', 'translate(' + this.chartWihttps://www.youtube.com/watch?v=2dbR2JZmlWodth/2 + ',' + this.chartHeight / 2 + ')')
     svg.selectAll('g').attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
 
     var key = (d) => {return d.data.label};
@@ -145,7 +145,7 @@ export class HostCompanyDonutComponent implements OnInit {
       return function(t) {
         return arc(d);
       };
-    })
+    });
       
     var div = d3.select("body").append("div").attr("class", "toolTip");
     div.style('position', 'absolute')
@@ -187,10 +187,9 @@ export class HostCompanyDonutComponent implements OnInit {
     .attr('dy', '.35em')
     .attr('font-size', '0.7em')
     .attr('transform', (d) => {
-        var pos = outerArc.centroid(d);
-				pos[0] = radius * (midAngle(d) < Math.PI - Math.PI/3 ? 1 : -1);
-        return 'translate('+ pos +')';
-        
+      var pos = outerArc.centroid(d);
+      pos[0] = radius * (midAngle(d) < Math.PI - Math.PI/3 ? 1 : -1);
+      return 'translate('+ pos +')';
     })
     .attr('text-anchor',  (d) => midAngle(d) < Math.PI - Math.PI/3 ? 'start':'end')
 		.text(function(d) {
@@ -233,6 +232,12 @@ export class HostCompanyDonutComponent implements OnInit {
         this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
       }
     }
+    else if(this.compareView) {
+      let selection = this.appTracker.getCurrentSelection();
+      if(selection) {
+        this.dataset = this.buildDataset(Array.from([this.appTracker.getCompareSelection()]));
+      }
+    }
     else {
       let selection = this.appTracker.getSelections();
       this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
@@ -246,7 +251,12 @@ export class HostCompanyDonutComponent implements OnInit {
       this.graphInit();
       this.appTracker.hoverSelectionChanged.subscribe((d) => this.graphInit());
       this.appTracker.currentSelectionChanged.subscribe((d) => this.graphInit());
-      this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());
+      if(this.compareView) {
+        this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());      
+      }
+      else {
+        this.appTracker.compareGroupChanged.subscribe((d) => this.graphInit());
+      }
     });
    
     // Select the HTMl SVG Element from the template

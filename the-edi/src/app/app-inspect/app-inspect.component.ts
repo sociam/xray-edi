@@ -38,7 +38,10 @@ export class AppInspectComponent implements OnInit {
       }
     })
   }
-
+  setCompare(app: FullApp) {
+    console.log('alt Selected')
+    this.appTracker.setCompareSelection(app);
+  }
   ngOnInit() {
     this.route.params.subscribe((param) => {
       if(param.app && param.app) {
