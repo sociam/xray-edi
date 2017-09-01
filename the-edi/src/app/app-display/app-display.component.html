@@ -1,7 +1,7 @@
 <div class="main-display">
 
     <div class="selections" *ngIf="selectionValues.length != 0">
-        <div class="chip" *ngFor="let app of selectionValues">
+        <div class="chip" *ngFor="let app of selectionValues" (mouseenter)="addHover(app)" (mouseleave)="removeHover(app)">
             <div class="closebtn" (click)="removeApp(app.app)">&times;</div>
 
             <img src="https://negi.io/api/icons{{app.icon}}" alt="" width="100" height="100"> {{app.storeinfo.title}}
@@ -18,6 +18,7 @@
         <app-host-company-donut [onlySingle]="false"></app-host-company-donut>
     </div>
 </div>
+
 <app-sidenav [updateCurrent]="true" [updateList]="true"></app-sidenav>
 
 <div class="side-panel">

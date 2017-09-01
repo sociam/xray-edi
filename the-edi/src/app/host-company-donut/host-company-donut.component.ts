@@ -74,6 +74,8 @@ export class HostCompanyDonutComponent implements OnInit {
 
   // turn into BiLevel partitioned donut. Like https://bl.ocks.org/mbostock/5944371
   buildGraph(dataset) {
+    
+
     var svg = d3.select(this.chart.nativeElement);
     svg.selectAll('*').remove();
     this.chartHeight = this.el.nativeElement.children[0].offsetHeight;
@@ -119,11 +121,20 @@ export class HostCompanyDonutComponent implements OnInit {
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
     var data = this.dataset;
     var slice = svg.select('.slices').selectAll('path.slice')
-         .data(pie(data), key)
-         .enter()
-         .insert('path')
-         .style('fill', (d) => { return colour(d.data.label) })
-         .attr('class', slice);
+        .data(pie(data), key)
+        .enter()
+        .insert('path')
+        .style('fill', (d) => { 
+          var hover = this.appTracker.getHoverSelection();
+          if(hover.length) {
+            if(d.data.apps.freq.filter((app) =>  app.app == hover[0].storeinfo.title).length) {
+              return '#116611'
+            } //hover[0].app);
+            return '#ccc';
+          }
+          return colour(d.data.label)
+        })
+        .attr('class', slice);
          
     slice.transition().duration(1000)
 		     .attrTween('d', function(d) {
@@ -216,39 +227,27 @@ export class HostCompanyDonutComponent implements OnInit {
   }
 
   private graphInit() {
-    /* This makes me wanna Vom. pls forgive. this was a quick fix, cba to fix it up, have other things to do. */
     if(this.onlySingle) {
-          let selection = this.appTracker.getCurrentSelection();
-          if(selection) {
-            this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
-          }
-        }
-        else {
-          let selection = this.appTracker.getSelections();
-          this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-
-        }
-        this.buildGraph(this.dataset);
-
-
-        this.appTracker.currentSelectionChanged.subscribe((data) => {
-          if(this.onlySingle) {
-            this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
-          }
-        });
-
-        this.appTracker.appSelectionsChanged.subscribe((data) => {
-          if(!this.onlySingle) {
-            let selection = this.appTracker.getSelections();
-            this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
-          }
-          this.buildGraph(this.dataset);
-
-        });
+      let selection = this.appTracker.getCurrentSelection();
+      if(selection) {
+        this.dataset = this.buildDataset(Array.from([this.appTracker.getCurrentSelection()]));
+      }
+    }
+    else {
+      let selection = this.appTracker.getSelections();
+      this.dataset = this.buildDataset(Array.from(selection.keys()).map((key) => selection.get(key)));
+    }
+    this.buildGraph(this.dataset);
   }
+  
   ngOnInit(): void {
     this.companyLookup.parseCompanyInfo();
-    this.companyLookup.companyInfoParsed.subscribe((d) => {this.graphInit()});
+    this.companyLookup.companyInfoParsed.subscribe((d) => {
+      this.appTracker.hoverSelectionChanged.subscribe((d) => this.graphInit());
+      this.appTracker.currentSelectionChanged.subscribe((d) => this.graphInit());
+      this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());
+    });
+   
     // Select the HTMl SVG Element from the template
   }
 

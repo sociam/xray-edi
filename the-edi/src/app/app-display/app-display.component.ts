@@ -14,9 +14,11 @@ export class AppDisplayComponent implements OnInit {
   public allSelections: Map<string, FullApp> = new Map<string, FullApp>();
   public selectionValues: FullApp[];
 
+
   removeApp(id: string) {
     this.appTracker.removeApp(id);
   }
+
   constructor(private appTracker: SelectionTrackingService, private router: Router) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
@@ -26,17 +28,26 @@ export class AppDisplayComponent implements OnInit {
     });
    }
 
+  addHover(app: FullApp) {
+    this.appTracker.setHoverSelection([app]);
+  }
+
+  removeHover() {
+    this.appTracker.setHoverSelection([]);
+  }
+
   ngOnInit() {
         this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
 
     this.appTracker.currentSelectionChanged.subscribe((data) => {
       this.currentSelection = this.appTracker.getCurrentSelection();
-    })
+    });
 
     this.appTracker.appSelectionsChanged.subscribe((data) => {
       this.allSelections = this.appTracker.getSelections();
       this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
-    })
+    });
+
   }
 
 }

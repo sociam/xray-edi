@@ -9,25 +9,26 @@ export class SelectionTrackingService {
 
   private compareSelection: FullApp;
   private compareGroup: Map<string, FullApp>;
-  
-  private hoverSelection: FullApp;
-  private hoverGroup: Map<string, FullApp>;
-
+ 
   public currentSelectionChanged: EventEmitter<FullApp> = new EventEmitter<FullApp>();
   public appSelectionsChanged: EventEmitter<Map<string, FullApp>> = new EventEmitter<Map<string, FullApp>>();
 
   public compareSelectionChanged: EventEmitter<FullApp> = new EventEmitter<FullApp>();
   public compareGroupChanged: EventEmitter<Map<string, FullApp>> = new EventEmitter<Map<string, FullApp>>();
 
-  public hoverSelectionChanged: EventEmitter<FullApp> = new EventEmitter<FullApp>();
+  public hoverSelectionChanged: EventEmitter<Array<FullApp>> = new EventEmitter<Array<FullApp>>();
   public hoverGroupChanged: EventEmitter<Map<string, FullApp>> = new EventEmitter<Map<string, FullApp>>();
+   
+  private hoverSelection: Array<FullApp>;
+  private hoverGroup: Map<string, FullApp>;
 
   
 
   constructor() {
     this.appSelections = new Map<string, FullApp>();
     this.compareGroup = new Map<string, FullApp>();   
-    this.hoverGroup = new Map<string, FullApp>();   
+    this.hoverGroup = new Map<string, FullApp>();
+    this.hoverSelection = [];
   }
 
   /**
@@ -66,11 +67,11 @@ export class SelectionTrackingService {
   /**
    *  Hover Selection/s
    */
-  public getHoverSelection(): FullApp {
+  public getHoverSelection(): Array<FullApp> {
     return this.hoverSelection;
   }
 
-  public setHoverSelectino(app: FullApp): void {
+  public setHoverSelection(app: Array<FullApp>): void {
     this.hoverSelection = app;
     this.hoverSelectionChanged.emit(app);
   }
