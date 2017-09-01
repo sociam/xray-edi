@@ -233,7 +233,7 @@ export class HostCompanyDonutComponent implements OnInit {
       }
     }
     else if(this.compareView) {
-      let selection = this.appTracker.getCurrentSelection();
+      let selection = this.appTracker.getCompareSelection();
       if(selection) {
         this.dataset = this.buildDataset(Array.from([this.appTracker.getCompareSelection()]));
       }
@@ -252,10 +252,10 @@ export class HostCompanyDonutComponent implements OnInit {
       this.appTracker.hoverSelectionChanged.subscribe((d) => this.graphInit());
       this.appTracker.currentSelectionChanged.subscribe((d) => this.graphInit());
       if(this.compareView) {
-        this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());      
+        this.appTracker.compareSelectionChanged.subscribe((d) => this.graphInit());      
       }
       else {
-        this.appTracker.compareGroupChanged.subscribe((d) => this.graphInit());
+        this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());
       }
     });
    

@@ -16,7 +16,7 @@ div.app-details {
     float: left;
     background: #fff;
     padding: 20px;
-    height: 90vh;
+    height: 100%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     .app-icon {
         float: left;
@@ -46,7 +46,7 @@ div.app-details {
         margin: 10px;
         color: #222;
         background: #eee;
-        width: 44%;
+        width: 40%;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         div.list-item {
             font-size: 0.75em;
@@ -54,14 +54,12 @@ div.app-details {
     }
     div.alt-apps {
         width: 100%;
-        height: 5%;
+        height: 40px;
         margin: 10px;
         div.alt-app {
-            width: 15%;
+            width: 40%;
             margin: 5px;
             padding: 5px;
-            height: 100%;
-            float: left;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -70,14 +68,16 @@ div.app-details {
             img.alt-icon {
                 padding: 5px;
                 width: 30px;
-                float: left;
+            }
+            &:hover {
+                background: #eee;
             }
         }
     }
 }
 
 div.app-charts {
-    width: 45%;
+    width: 40%;
     float: left;
     div.chart {
         width: 100%;
@@ -87,6 +87,16 @@ div.app-charts {
         padding: 20px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
         float: left;
+        div.panel {
+            float: inherit;
+            width: 50%;
+            height: inherit;
+            div.title {
+                width: 90%;
+                font-size: 0.75em;
+                border-bottom: 0.5px solid #eee;
+            }
+        }
     }
 }
 

@@ -19,6 +19,7 @@ export class AppInspectComponent implements OnInit {
   public selectionValues: FullApp[];
   public altApps: FullApp[] = [];
   public test: string = '';
+  public currentAltTitle: string = '';
 
   private currentSubscription: Subscription;
   private selectionSubscription: Subscription;
@@ -39,7 +40,7 @@ export class AppInspectComponent implements OnInit {
     })
   }
   setCompare(app: FullApp) {
-    console.log('alt Selected')
+    this.currentAltTitle = app.storeinfo.title;
     this.appTracker.setCompareSelection(app);
   }
   ngOnInit() {
