@@ -94,24 +94,23 @@ export class HostCompanyDonutComponent implements OnInit {
        .attr('class', 'lines');
 
     var pie = d3.pie()
-                .sort(null)
-                .value((d) => {
-                  return d.value
-                })
+    .sort(null)
+    .value((d) => {
+      return d.value
+    })
 
     
     var arc = d3.arc()
-                .outerRadius(radius * 0.8)
-	              .innerRadius(radius * 0.4)
-                .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
-                .endAngle(function(d) { return d.endAngle + Math.PI/3.333; })
+    .outerRadius(radius * 0.8)
+    .innerRadius(radius * 0.4)
+    .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
+    .endAngle(function(d) { return d.endAngle + Math.PI/3.333; })
 
-                
     var outerArc = d3.arc()
-                     .innerRadius(radius * 0.9)
-                     .outerRadius(radius * 0.9)
-                     .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
-                     .endAngle(function(d) { return d.endAngle + Math.PI/3.333; });
+    .innerRadius(radius * 0.9)
+    .outerRadius(radius * 0.9)
+    .startAngle(function(d) { return d.startAngle + Math.PI/3.333; })
+    .endAngle(function(d) { return d.endAngle + Math.PI/3.333; });
 
     //svg.attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
     svg.selectAll('g').attr('transform', 'translate(' + this.chartWidth/2 + ',' + this.chartHeight / 2 + ')')
@@ -120,31 +119,33 @@ export class HostCompanyDonutComponent implements OnInit {
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
     var data = this.dataset;
+    var hover = this.appTracker.getHoverSelection();
     var slice = svg.select('.slices').selectAll('path.slice')
-        .data(pie(data), key)
-        .enter()
-        .insert('path')
-        .style('fill', (d) => { 
-          var hover = this.appTracker.getHoverSelection();
-          if(hover.length) {
-            if(d.data.apps.freq.filter((app) =>  app.app == hover[0].storeinfo.title).length) {
-              return '#116611'
-            } //hover[0].app);
-            return '#ccc';
-          }
-          return colour(d.data.label)
-        })
-        .attr('class', slice);
-         
+    .data(pie(data), key)
+    .enter()
+    .insert('path')
+    .style('fill', (d) => { 
+      var hover = this.appTracker.getHoverSelection();
+      if(hover.length) {
+        if(d.data.apps.freq.filter((app) =>  app.app == hover[0].storeinfo.title).length) {
+          return '#116611'
+        } //hover[0].app);
+        return '#ccc';
+      }
+      return colour(d.data.label)
+    })
+    .attr('class', slice)
+    .style('stroke', '#fff')
+
     slice.transition().duration(1000)
-		     .attrTween('d', function(d) {
-           this._current = this._current || d;
-           let interpolate = d3.interpolate(this._current, d);
-           this._current = interpolate(0);
-           return function(t) {
-             return arc(d);
-           };
-      })
+    .attrTween('d', function(d) {
+      this._current = this._current || d;
+      let interpolate = d3.interpolate(this._current, d);
+      this._current = interpolate(0);
+      return function(t) {
+        return arc(d);
+      };
+    })
       
     var div = d3.select("body").append("div").attr("class", "toolTip");
     div.style('position', 'absolute')
@@ -196,7 +197,6 @@ export class HostCompanyDonutComponent implements OnInit {
 			return d.data.label;
 		});
 	
-
     text.exit()
       .remove();
 

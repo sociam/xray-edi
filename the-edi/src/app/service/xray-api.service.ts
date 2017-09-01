@@ -12,8 +12,8 @@ export class XrayAPIService {
 
   constructor(private httpClient: HttpClient) {}
   
-  //public static readonly API_PREFIX : string = 'https://negi.io/api';
-  public static readonly API_PREFIX : string = 'http://localhost:8118/api';
+  public static readonly API_PREFIX : string = 'https://negi.io/api';
+  //public static readonly API_PREFIX : string = 'http://localhost:8118/api';
 
   /**
    * Returns a HTTP Headers object with the necessary headers required to
