@@ -60,9 +60,8 @@ export class HostCompanyDonutComponent implements OnInit {
       let companyGroups = companies.filter((el) => el.company == key).map((el) => {return {company: el.company, app: el.app}});
       let companyFreq = _.countBy(companyGroups, 'app');
       let n = _.countBy(companyGroups,'company')[key];
-      return {company: key, freq: _.keys(companyFreq).map((key) => {return {app: key, value:100*(companyFreq[key]/n)}})};
+      return { company: key, freq: _.sortBy(_.keys(companyFreq).map((key) => {return {app: key, value:100*(companyFreq[key]/n)}}), 'value').reverse()} ;
     });
-    //console.log(companyData);
     return _.sortBy(_.keys(overallFreq).map((key) =>  {
       return {
         label: key,
@@ -72,6 +71,8 @@ export class HostCompanyDonutComponent implements OnInit {
     }),'value');
   }
 
+
+  // turn into BiLevel partitioned donut. Like https://bl.ocks.org/mbostock/5944371
   buildGraph(dataset) {
     var svg = d3.select(this.chart.nativeElement);
     svg.selectAll('*').remove();
@@ -153,7 +154,7 @@ export class HostCompanyDonutComponent implements OnInit {
       div.style("left", d3.event.pageX+10+"px");
       div.style("top", d3.event.pageY-25+"px");
       div.style("display", "inline-block");
-      div.html('<strong>' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) => a.app + ': ' + a.value.toFixed(2).replace('.00','') + '%<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
+      div.html('<strong>' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) =>  a.value.toFixed(2).replace('.00','') + '% - ' + a.app + '<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
     });
 
     slice

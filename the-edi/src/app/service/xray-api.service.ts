@@ -12,6 +12,9 @@ export class XrayAPIService {
 
   constructor(private httpClient: HttpClient) {}
   
+  //public static readonly API_PREFIX : string = 'https://negi.io/api';
+  public static readonly API_PREFIX : string = 'http://localhost:8118/api';
+
   /**
    * Returns a HTTP Headers object with the necessary headers required to
    * interact with the xray API.
@@ -80,7 +83,7 @@ export class XrayAPIService {
     const headers = this.getHeaders(); 
     let body = this.parseFetchAppParams(options);
 
-    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
+    return this.httpClient.get<FullApp[]>( XrayAPIService.API_PREFIX + '/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
       return data.map((app: FullApp) =>{
          app.hosts = app.hosts?app.hosts:[];
          app.perms = app.perms?app.perms:[];
@@ -91,14 +94,14 @@ export class XrayAPIService {
 
   fetchApp(app) {
     const headers = this.getHeaders(); 
-    return this.httpClient.get<FullApp[]>( 'https://negi.io/api/apps?isFull=true&appId=' + app, { headers: headers })
+    return this.httpClient.get<FullApp[]>( XrayAPIService.API_PREFIX + '/apps?isFull=true&appId=' + app, { headers: headers })
     .toPromise().then((apps) => {return apps[0]});
 
   }
 
   fetchAlts(app) {
     const headers = this.getHeaders(); 
-    return this.httpClient.get<string[]>( 'https://negi.io/api/alt/' + app, { headers: headers }).map((data: string[]) => {
+    return this.httpClient.get<string[]>( XrayAPIService.API_PREFIX + '/alt/' + app, { headers: headers }).map((data: string[]) => {
       return data.map((app: string) =>{
          return this.fetchApp(app).then(alt => {
           alt.hosts = alt.hosts?alt.hosts:[];
