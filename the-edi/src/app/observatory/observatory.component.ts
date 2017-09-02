@@ -21,13 +21,13 @@ export class ObservatoryComponent implements OnInit {
 
   private hostFreq(hosts: string[]) {
     let freq = _.countBy(hosts);
-    return _.keys(freq).map((key) => {return {host: key, count:freq[key]}});
+    return _.sortBy(_.keys(freq).map((key) => {return {host: key, count:freq[key]}})).reverse();
   }
   
   ngOnInit() {
     this.companyInfo.parseCompanyInfo()
     this.companyInfo.companyInfoParsed.subscribe(data => {
-    this.appQuery = this.xrayAPI.fetchApps({fullInfo: true, onlyAnalyzed: true, limit: 1000})
+    this.appQuery = this.xrayAPI.fetchApps({fullInfo: true, onlyAnalyzed: true, limit: 10000})
     .subscribe((data) => { 
       /* Getting a List of Hosts */
       this.hosts = data.map(app => app.hosts).reduce((a,b) => a.concat(b), []).map(host =>  {
