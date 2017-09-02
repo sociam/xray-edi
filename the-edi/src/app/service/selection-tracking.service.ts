@@ -80,6 +80,11 @@ export class SelectionTrackingService {
     return this.hoverGroup;
   }
 
+  public addHover(app: FullApp): void {
+    this.hoverGroup.set(app.app, app);
+    this.hoverGroupChanged.emit(this.hoverGroup);
+  }
+
   public setHoverGroup(group: Map<string, FullApp>): void {
     this.hoverGroup = group;
     this.hoverGroupChanged.emit(group);

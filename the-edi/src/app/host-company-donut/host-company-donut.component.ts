@@ -45,9 +45,9 @@ export class HostCompanyDonutComponent implements OnInit {
         let mapping = this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => company.id );
         let pair = {company: '', app: ''}
         if (mapping.length == 0) {
-          return {company: 'Unknown', app: app.storeinfo.title, host: host}
+          return {company: 'Unknown', title: app.storeinfo.title, host: host}
         }
-        return {company: mapping[0], app: app.storeinfo.title, host: host};
+        return {company: mapping[0], title: app.storeinfo.title, host: host};
       })
     }).reduce((a,b) => a.concat(b),[]);
     let overallFreq = _.countBy(companies, 'company');
@@ -57,10 +57,11 @@ export class HostCompanyDonutComponent implements OnInit {
     }
 
     let companyData = _.keys(overallFreq).map((key) =>  {
-      let companyGroups = companies.filter((el) => el.company == key).map((el) => {return {company: el.company, app: el.app}});
-      let companyFreq = _.countBy(companyGroups, 'app');
+      let companyGroups = companies.filter((el) => el.company == key).map((el) => {return {company: el.company, title: el.title}});
+      let companyFreq = _.countBy(companyGroups, 'title');
       let n = _.countBy(companyGroups,'company')[key];
-      return { company: key, freq: _.sortBy(_.keys(companyFreq).map((key) => {return {app: key, value:100*(companyFreq[key]/n)}}), 'value').reverse()} ;
+      return { company: key, freq: _.sortBy(_.keys(companyFreq).map((key) => {
+        return {title: key, app: selection.filter(app => app.storeinfo.title == key)[0] ,value:100*(companyFreq[key]/n)}}), 'value').reverse()} ;
     });
     return _.sortBy(_.keys(overallFreq).map((key) =>  {
       return {
@@ -124,10 +125,11 @@ export class HostCompanyDonutComponent implements OnInit {
     .data(pie(data), key)
     .enter()
     .insert('path')
+    .style('transition-duration', '0.2s')
     .style('fill', (d) => { 
       var hover = this.appTracker.getHoverSelection();
       if(hover.length) {
-        if(d.data.apps.freq.filter((app) =>  app.app == hover[0].storeinfo.title).length) {
+        if(d.data.apps.freq.filter((app) =>  app.title == hover[0].storeinfo.title).length) {
           return '#116611'
         } //hover[0].app);
         return '#ccc';
@@ -166,13 +168,19 @@ export class HostCompanyDonutComponent implements OnInit {
       div.style("left", d3.event.pageX+10+"px");
       div.style("top", d3.event.pageY-25+"px");
       div.style("display", "inline-block");
-      div.html('<strong>' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) =>  a.value.toFixed(2).replace('.00','') + '% - ' + a.app + '<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
+      div.html('<strong>' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) =>  a.value.toFixed(2).replace('.00','') + '% - ' + a.title + '<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
     });
 
-    slice
-        .on("mouseout", function(d){
-            div.style("display", "none");
-        });
+    slice.on("mouseenter", (d) => {
+      d.data.apps.freq.forEach(element => {
+        this.appTracker.addHover(element.app)
+      });
+    })
+
+    slice.on("mouseout", (d) => {
+        div.style("display", "none");
+        this.appTracker.setHoverGroup(new Map<string, FullApp>());
+    });
     slice.exit()
          .remove();
          

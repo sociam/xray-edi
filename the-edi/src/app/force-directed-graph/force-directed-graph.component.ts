@@ -47,20 +47,18 @@ export class ForceDirectedGraphComponent implements OnInit {
     // }
     let nodes = selection.map((app, idx) => {
       return app.hosts.map((host) => {
-        let companies = this.companyLookup.getCompanyFromDomain(host)
           return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
-        return {'id': company.id, 'title': company.id,'group': 3}
-        });
-      }).reduce((a,b) => a.concat(b),[])
-        .concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
+            return {'id': company.id, 'title': company.id,'group': 3}
+      })})
+      .reduce((a,b) => a.concat(b),[])
+      .concat({'id': app.app, 'title': app.storeinfo.title, 'group': idx})
     }).reduce((a,b) => a.concat(b),[]);
 
     let links = selection.map((app) => {
       return app.hosts.map((host) => {
-         return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
+        return this.companyLookup.getCompanyFromDomain(host).map((company: CompanyInfo) => {
           return {'source': app.app, 'target': company.id, 'value': 1};
-        });
-      }).reduce((a,b) => a.concat(b),[])
+      })}).reduce((a,b) => a.concat(b),[])
     }).reduce((a,b) => a.concat(b), []);
 
     return {'nodes':_.uniqBy(nodes, 'id'),'links':links};

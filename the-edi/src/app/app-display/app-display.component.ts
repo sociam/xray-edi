@@ -12,11 +12,12 @@ export class AppDisplayComponent implements OnInit {
   
   public currentSelection: FullApp;
   public allSelections: Map<string, FullApp> = new Map<string, FullApp>();
-  public selectionValues: FullApp[];
-
+  public selectionValues: FullApp[] = [];
+  public boxShadows: string[] = [];
 
   removeApp(id: string) {
     this.appTracker.removeApp(id);
+    this.appTracker.setHoverSelection([]);
   }
 
   constructor(private appTracker: SelectionTrackingService, private router: Router) {
@@ -46,7 +47,12 @@ export class AppDisplayComponent implements OnInit {
     this.appTracker.appSelectionsChanged.subscribe((data) => {
       this.allSelections = this.appTracker.getSelections();
       this.selectionValues = Array.from(this.allSelections.keys()).map(key=>this.allSelections.get(key));
+      this.boxShadows.fill('',this.selectionValues.length);
     });
+
+    this.appTracker.hoverGroupChanged.subscribe((group) => {
+      this.boxShadows = this.selectionValues.map((app) => group.get(app.app) != undefined ? 'highlighted' : '');
+    })
 
   }
 
