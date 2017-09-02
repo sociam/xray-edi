@@ -31,6 +31,7 @@ div.chart {
 
 .chip {
     display: inline-block;
+    margin-left: 2.5px;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     padding: 0 25px;
@@ -44,6 +45,10 @@ div.chart {
     line-height: 25px;
     border-radius: 12px;
     background-color: #f1f1f1;
+    &:hover {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+        transition-duration: 0.2s;
+    }
     img {
         float: left;
         margin: 0 10px 0 -25px;
@@ -64,4 +69,10 @@ div.chart {
     .closebtn:hover {
         color: #000;
     }
+    transition-duration: 0.2s;
+}
+
+.highlighted {
+    transition-duration: 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.24), 0 2px 4px rgba(0, 0, 0, 0.48);
 }
