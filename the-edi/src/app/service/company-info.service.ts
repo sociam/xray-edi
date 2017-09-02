@@ -9,7 +9,7 @@ export interface CompanyInfo {
   company_old: string,
   company: string,
   crunchbase_url: string,
-  domains: string,
+  domains: string[],
   founded: string,
   acquired: string,
   type: string,
@@ -74,10 +74,10 @@ export class CompanyInfoService {
     return domain;
 }
 
-  getCompanyFromDomain(domain: string) {
+  getCompanyFromDomain(domain: string): CompanyInfo[] {
     domain = this.extractRootDomain(domain);
-    return Object.keys(this.companyInfo).map((key) => this.companyInfo[key]).filter((company) => {
-      return company.domains.filter((d) => d == domain).length != 0;
+    return Object.keys(this.companyInfo).map((key: string) => this.companyInfo[key]).filter((company: CompanyInfo) => {
+      return company.domains.filter((d: string) => d == domain).length != 0;
     });
   }
    
