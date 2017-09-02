@@ -21,7 +21,7 @@ export class ObservatoryComponent implements OnInit {
 
   private hostFreq(hosts: string[]) {
     let freq = _.countBy(hosts);
-    return _.sortBy(_.keys(freq).map((key) => {return {host: key, count:freq[key]}})).reverse();
+    return _.sortBy(_.keys(freq).map((key) => {return {host: key, count:freq[key]}}), 'count').reverse();
   }
   
   ngOnInit() {
