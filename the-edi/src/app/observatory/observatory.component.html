@@ -1,3 +1,13 @@
-<div>
-    <br><br><br> observatory works!
+<div class="loading" *ngIf="!loadingComplete">
+    <div class="sk-folding-cube">
+        <div class="sk-cube1 sk-cube"></div>
+        <div class="sk-cube2 sk-cube"></div>
+        <div class="sk-cube4 sk-cube"></div>
+        <div class="sk-cube3 sk-cube"></div>
+    </div>
+</div>
+<div class="loaded" *ngIf="loadingComplete">
+    <div *ngFor="let host of knownCounts">
+        {{host.host}} -- {{host.count}}
+    </div>
 </div>

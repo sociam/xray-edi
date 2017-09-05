@@ -20,7 +20,9 @@ export class AppInspectComponent implements OnInit {
   public altApps: FullApp[] = [];
   public test: string = '';
   public currentAltTitle: string = '';
+  public compareSelection: FullApp;
 
+  private fetchSubscription: Subscription = new Subscription();
   private currentSubscription: Subscription;
   private selectionSubscription: Subscription;
   public downloads: string = '0';
@@ -39,16 +41,29 @@ export class AppInspectComponent implements OnInit {
       }
     })
   }
+
   setCompare(app: FullApp) {
     this.currentAltTitle = app.storeinfo.title;
+    this.compareSelection = app;
     this.appTracker.setCompareSelection(app);
   }
+  selectApp(app: FullApp) {
+    this.compareSelection = this.currentSelection;
+    this.appTracker.setCompareSelection(this.compareSelection);
+    this.currentSelection = app;
+    this.appTracker.setCurrentSelection(app);
+  }
+
   ngOnInit() {
     this.route.params.subscribe((param) => {
-      if(param.app && param.app) {
-        this.xrayAPI.fetchApps({fullInfo: true, limit:10, appID: param.app}).subscribe((app) => {
+      if(param.app) {
+        if(!this.fetchSubscription.closed) {
+          this.fetchSubscription.unsubscribe();
+        }
+        this.fetchSubscription = this.xrayAPI.fetchApps({fullInfo: true, limit:10, appID: param.app}).subscribe((app) => {
           app = app.filter(element => element.app == param.app);
           if(app.length > 0 && app[0].app == param.app) {
+            if(!this.currentSubscription.closed) {}
             this.appTracker.setCurrentSelection(app[0]);
           }
           else {

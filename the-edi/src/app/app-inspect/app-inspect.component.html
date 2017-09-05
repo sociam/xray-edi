@@ -44,7 +44,7 @@
             </div>
 
             <div class="alt-apps" *ngIf="altApps.length != 0">
-                <div class="alt-app" (click)="setCompare(app)" *ngFor="let app of altApps">
+                <div class="alt-app" (dblclick)="selectApp(app)" (click)="setCompare(app)" *ngFor="let app of altApps">
                     <img class="alt-icon" src="https://negi.io/api/icons{{app.icon}}"> {{app.storeinfo.title}}
                 </div>
             </div>

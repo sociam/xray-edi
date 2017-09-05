@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 export class HostCompanyDonutComponent implements OnInit {
 
 @Input() onlySingle: boolean = true;
-@Input() compareView: boolean = false;
+@Input() compareView: boolean = false;N
   @ViewChild('chart') chart: ElementRef;
   private child: ElementRef;
   private dataset: any = [{label:'', value: 0, app: []}];
@@ -168,7 +168,7 @@ export class HostCompanyDonutComponent implements OnInit {
       div.style("left", d3.event.pageX+10+"px");
       div.style("top", d3.event.pageY-25+"px");
       div.style("display", "inline-block");
-      div.html('<strong>' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) =>  a.value.toFixed(2).replace('.00','') + '% - ' + a.title + '<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
+      div.html('<strong>'+ (d.data.value * 100).toFixed(2).replace('.00','') + '% - ' + d.data.label + '</strong><br>' + d.data.apps.freq.map((a) =>  a.value.toFixed(2).replace('.00','') + '% - ' + a.title + '<br>').toString().replace(/,/g, '') );//d.data.apps.reduce((a,b) => a+'<br>'+b));
     });
 
     slice.on("mouseenter", (d) => {
