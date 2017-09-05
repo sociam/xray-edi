@@ -18,27 +18,30 @@
 
             <div class="app-body">
                 <div  class="app-info">  
-                    App Summary 
-                    <br>
-                    {{currentSelection.storeinfo.summary}}
-                    
+                    <h4>App Summary </h4> 
+                    {{currentSelection.storeinfo.summary}}            
                 </div>
 
                 <div class="app-info">
-                    Developer Name 
-                    <br>
+                    <h4>Developer Name</h4>
                     {{currentSelection.developer.name}}
                 </div>
 
                 <div class="app-info">
-                    Developer Emails 
-                    <br>{{currentSelection.developer.emails}}
+                    <h4>Developer Emails  </h4>
+                    {{currentSelection.developer.emails}}
                 </div>
 
                 <div class="app-info">
-                    Google Play Page 
-                    <br>
+                    <h4>Google Play Page  </h4>
+
                     {{currentSelection.developer.storeSite}}
+                </div>
+
+
+                <div class="perm-body" *ngFor="let perm of currentSelection.perms">
+                    {{perm}}
+                    <img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Identity-icon.png">
                 </div>
 
                 <div class="lists">
@@ -47,19 +50,22 @@
                             {{host}}
                         </div>
                     </div>
-                    <div class="list">
-                        <div class="list-item" *ngFor="let perm of currentSelection.perms">
-                            {{perm}}
-                        </div>
-                    </div>
+              
                 </div>
             </div>
+
+
+
 
             <div class="alt-apps" *ngIf="altApps.length != 0">
                 <div class="alt-app" (click)="setCompare(app)" *ngFor="let app of altApps">
                     <img class="alt-icon" src="https://negi.io/api/icons{{app.icon}}"> {{app.storeinfo.title}}
                 </div>
             </div>
+
+
+
+
         </div>
 
         <div class="app-charts">

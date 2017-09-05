@@ -121,6 +121,42 @@ div.selections {
     }
 }
 
+
+.perm {
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    padding: 0 25px;
+    height: 25px;
+    overflow: hidden;
+    font-size: 0.8em;
+    line-height: 25px;
+    border-radius: 12px;
+    background-color: #f1f1f1;
+    img {
+        float: left;
+        margin: 0 10px 0 -25px;
+        height: 25px;
+        width: 25px;
+        border-radius: 25%;
+    }
+}
+
+
+//App perms danger zones
+
+.dangerous {
+     background-color: #B33A3A;
+}
+
+.third-party {
+    background-color: #FF6600;
+}
+
+.normal {
+    background-color: #91AA9D;
+}
+
 .chip {
     display: inline-block;
     font-family: 'Roboto', sans-serif;

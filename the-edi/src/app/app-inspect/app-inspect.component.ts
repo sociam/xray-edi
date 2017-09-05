@@ -5,6 +5,19 @@ import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { XrayAPIService } from '../service/xray-api.service';
 import { Subscription } from 'rxjs/Subscription';
 
+enum dangerZone {
+  dangerous,
+  thirdparty,
+  normal
+}
+
+
+export class Perms {
+  level: dangerZone
+  description: string
+  name: string
+}
+
 @Component({
   selector: 'app-app-inspect',
   templateUrl: './app-inspect.component.html',
@@ -43,6 +56,10 @@ export class AppInspectComponent implements OnInit {
     this.currentAltTitle = app.storeinfo.title;
     this.appTracker.setCompareSelection(app);
   }
+
+  //Danger
+
+
   ngOnInit() {
     this.route.params.subscribe((param) => {
       if(param.app && param.app) {
