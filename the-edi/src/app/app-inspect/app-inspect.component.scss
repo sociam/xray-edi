@@ -76,6 +76,13 @@ div.app-details {
     }
 }
 
+div.app-info {
+    display: block;
+    flex-shrink: 0;
+    padding: 10px 20px;
+    margin: 0;
+}
+
 div.app-charts {
     width: 40%;
     float: left;

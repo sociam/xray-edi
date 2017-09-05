@@ -17,18 +17,30 @@
             </div>
 
             <div class="app-body">
-                <div>
-                    App Summary: {{currentSelection.storeinfo.summary}}
+                <div  class="app-info">  
+                    App Summary 
+                    <br>
+                    {{currentSelection.storeinfo.summary}}
+                    
                 </div>
-                <div>
-                    Developer Name: {{currentSelection.developer.name}}
+
+                <div class="app-info">
+                    Developer Name 
+                    <br>
+                    {{currentSelection.developer.name}}
                 </div>
-                <div>
-                    Developer Emails: {{currentSelection.developer.emails}}
+
+                <div class="app-info">
+                    Developer Emails 
+                    <br>{{currentSelection.developer.emails}}
                 </div>
-                <div>
-                    Google Play Page: {{currentSelection.developer.storeSite}}
+
+                <div class="app-info">
+                    Google Play Page 
+                    <br>
+                    {{currentSelection.developer.storeSite}}
                 </div>
+
                 <div class="lists">
                     <div class="list">
                         <div class="list-item" *ngFor="let host of currentSelection.hosts">
