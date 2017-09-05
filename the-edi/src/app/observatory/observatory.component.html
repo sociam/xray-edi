@@ -7,7 +7,7 @@
     </div>
 </div>
 <div class="loaded" *ngIf="loadingComplete">
-    <div *ngFor="let host of knownCounts">
-        {{host.host}} -- {{host.count}}
+    <div *ngFor="let genre of genreStats">
+        {{genre.category}} -- {{genre.hostCount}} -- {{genre.genreAvg}}
     </div>
-</div>
+</div>S
