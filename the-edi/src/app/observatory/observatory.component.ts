@@ -3,6 +3,7 @@ import { XrayAPIService } from '../service/xray-api.service';
 import { Subscription } from 'rxjs';
 import { CompanyInfoService } from '../service/company-info.service';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
+import { GenreStats } from '../service/app-info-types.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -19,6 +20,7 @@ export class ObservatoryComponent implements OnInit {
   public knownCounts: Array<{host: string, count:number}> = [];
   public loadingComplete: boolean = false;
 
+  public genreStats: GenreStats[] = [];
   constructor(private xrayAPI: XrayAPIService, private companyInfo: CompanyInfoService, private router: Router)  { }
 
   private hostFreq(hosts: string[]) {
@@ -27,30 +29,11 @@ export class ObservatoryComponent implements OnInit {
   }
   
   ngOnInit() {
-    // this.router.events.subscribe((event) => {
-    //   if(event instanceof NavigationStart && !this.appQuery.closed) {
-    //     this.appQuery.unsubscribe();
-    //   }
-    // });
-    // this.companyInfo.parseCompanyInfo()
-    // this.companyInfo.companyInfoParsed.subscribe(data => {
-    // this.appQuery = this.xrayAPI.fetchApps({fullInfo: true, onlyAnalyzed: true, limit: 10000})
-    // .subscribe((data) => { 
-    //   /* Getting a List of Hosts */
-    //   this.hosts = data.map(app => app.hosts).reduce((a,b) => a.concat(b), []).map(host =>  {
-    //     let company = this.companyInfo.getCompanyFromDomain(host);
-    //     if(company.length) {
-    //       return company[0].id;
-    //     }
-    //     return 'Unknown';
-    //   });
-    //   /* Freq Counts of the hosts. */
-      
-    //   this.hostCounts = this.hostFreq(this.hosts);
-    //   this.knownCounts = this.hostFreq(this.hosts.filter(host => host != 'Uknown'));
-    //   this.loadingComplete = true;
-    // });
-    // })
+    this.xrayAPI.fetchGenreAvgs().subscribe((data: GenreStats[]) => {
+      console.log(data);
+      this.genreStats = data;
+      this.loadingComplete = true;
+    });
     
   }
 

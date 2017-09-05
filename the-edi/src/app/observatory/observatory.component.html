@@ -7,7 +7,5 @@
     </div>
 </div>
 <div class="loaded" *ngIf="loadingComplete">
-    <div *ngFor="let host of knownCounts">
-        {{host.host}} -- {{host.count}}
-    </div>
+    <app-genre-compare-observatory></app-genre-compare-observatory>
 </div>

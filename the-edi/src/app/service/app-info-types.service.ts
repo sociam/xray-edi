@@ -12,6 +12,21 @@ export interface AppStub {
 }
 
 /**
+ * Genre Stats represents a record from the app genre stats table found
+ * in the xray DB.
+ * Category - the name of the category the statistic applies to
+ * hostCount - the number of hosts found accross all apps in this genre
+ * appCount - the number of apps found in this genre
+ * genreAvg - the average number of hosts across apps in this genre.
+ */
+export interface GenreStats {
+  category: string;
+  hostCount: number;
+  appCount: number;
+  genreAvg: number;
+}
+
+/**
  * Installs represents the range of install that an app may have.
  * The install data scraped from google proviedes a max and a min
  * amount

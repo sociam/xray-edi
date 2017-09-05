@@ -26,6 +26,8 @@ import { XrayAPIService } from './service/xray-api.service';
 import { SelectionTrackingService } from './service/selection-tracking.service';
 import { CompanyInfoService } from './service/company-info.service';
 import { HostCompanyDonutComponent } from './host-company-donut/host-company-donut.component';
+import { HostGenreCompareComponent } from './host-genre-compare/host-genre-compare.component';
+import { GenreCompareObservatoryComponent } from './genre-compare-observatory/genre-compare-observatory.component';
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -56,7 +58,9 @@ const appRoutes: Routes = [
     ObservatoryComponent,
     ForceDirectedGraphComponent,
     AppInspectComponent,
-    HostCompanyDonutComponent
+    HostCompanyDonutComponent,
+    HostGenreCompareComponent,
+    GenreCompareObservatoryComponent
   ],
   imports: [
     BrowserModule,
