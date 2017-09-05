@@ -119,10 +119,10 @@ export class GenreCompareObservatoryComponent implements OnInit {
       this.genreStatsSubscription.unsubscribe();
     }
 
-      this.genreStatsSubscription = this.xrayAPI.fetchGenreAvgs().subscribe((data: GenreStats[]) => {
-        this.dataset = this.buildDataset(data);
-        this.buildGraph(this.dataset);
-      });
+    this.genreStatsSubscription = this.xrayAPI.fetchGenreAvgs().subscribe((data: GenreStats[]) => {
+      this.dataset = this.buildDataset(data);
+      this.buildGraph(this.dataset);
+    });
   }
   
   ngOnInit(): void {

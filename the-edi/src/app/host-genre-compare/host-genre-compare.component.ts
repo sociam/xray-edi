@@ -47,27 +47,24 @@ export class HostGenreCompareComponent implements OnInit {
     selection.map((app) => {
       dataset.push({label: app.storeinfo.title, value: app.hosts.length });
       let genre = genres.filter((genre) => genre.category == app.storeinfo.genre)[0];
-      dataset.push({label: genre.category, value: genre.genreAvg});
+      dataset.push({label: genre.category.replace(/_/g, ' '), value: genre.genreAvg});
     });
-
-    dataset.push({label: 'All Categories', value: genres.reduce((a, b) => a + b.genreAvg, 0)/genres.length});
-    
-    console.log(dataset);
+    dataset.push({label: 'All CATEGORIES', value: genres.reduce((a, b) => a + b.genreAvg, 0)/genres.length});
     return dataset;
   }
 
 
   buildGraph(dataset) {
-    
-
     var svg = d3.select(this.chart.nativeElement);
     svg.selectAll('*').remove();
+
     this.chartHeight = this.el.nativeElement.children[0].offsetHeight;
     this.chartWidth = this.el.nativeElement.children[0].offsetWidth;
 
-    var svg = d3.select('svg')
+    var svg = d3.select('svg');
     svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
     svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
+
     var margin = { top: 20, right: 20, bottom: 20, left: 20 };
     var width = this.chartWidth - margin.left - margin.right;
     var height = this.chartHeight - margin.top - margin.bottom;
@@ -75,6 +72,7 @@ export class HostGenreCompareComponent implements OnInit {
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
         y = d3.scaleLinear().rangeRound([height, 0]);
 
+    var colour = d3.scaleOrdinal(d3.schemeCategory20);
     var g = svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -94,7 +92,7 @@ export class HostGenreCompareComponent implements OnInit {
         .attr('y', 6)
         .attr('dy', '0.71em')
         .attr('text-anchor', 'end')
-        .text('Frequency');
+        .text('Host Averages');
 
     g.selectAll('.bar')
       .data(dataset)
@@ -103,7 +101,8 @@ export class HostGenreCompareComponent implements OnInit {
         .attr('x', (d) =>  x(d.label))
         .attr('y', (d)  => y(d.value))
         .attr('width', x.bandwidth())
-        .attr('height', (d) => height - y(d.value));
+        .attr('height', (d) => height - y(d.value))
+        .attr('fill', (d) => colour(d.label));
 
     this.loadingComplete = true;
   }
@@ -129,10 +128,6 @@ export class HostGenreCompareComponent implements OnInit {
   
   ngOnInit(): void {
     this.graphInit();
-    this.appTracker.hoverSelectionChanged.subscribe((d) => this.graphInit());
-    this.appTracker.currentSelectionChanged.subscribe((d) => this.graphInit());
-    this.appTracker.appSelectionsChanged.subscribe((d) => this.graphInit());   
-    // Select the HTMl SVG Element from the template
   }
 
 }
