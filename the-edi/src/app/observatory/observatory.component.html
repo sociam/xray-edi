@@ -1,11 +1,33 @@
-<div class="loading" *ngIf="!loadingComplete">
-    <div class="sk-folding-cube">
-        <div class="sk-cube1 sk-cube"></div>
-        <div class="sk-cube2 sk-cube"></div>
-        <div class="sk-cube4 sk-cube"></div>
-        <div class="sk-cube3 sk-cube"></div>
+<div class="root">
+    <div class="loading" *ngIf="!loadingComplete">
+        <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
     </div>
-</div>
-<div class="loaded" *ngIf="loadingComplete">
-    <app-genre-compare-observatory></app-genre-compare-observatory>
+    <div class="container">
+        <div class=" title">
+            App Genres - Hosts
+        </div>
+        <div class="description">
+            The difference in average number of hosts between a genre and the global average
+        </div>
+        <div class="figure">
+            <app-genre-compare-observatory></app-genre-compare-observatory>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class=" title">
+            App Genres - Hosts
+        </div>
+        <div class="description">
+            Ther Average number of hosts found within apps of each genre.
+        </div>
+        <div class="figure">
+            <app-genre-compare-observatory-diff></app-genre-compare-observatory-diff>
+        </div>
+    </div>
 </div>
