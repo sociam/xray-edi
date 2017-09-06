@@ -83,12 +83,6 @@ private dataset: any = [{label:'', value: 0, app: []}];
     d3.selectAll('g.tick')
       .style('stroke-width', 1);
 
-    g.append('g')
-        .attr('transform', 'translate(0,' + (y(0) - 1) + ')')
-        .call(d3.axisBottom(x))
-        .call(d3.axisBottom(x).tickFormat("").tickSize(0));
-
-
     g.selectAll("text")
     .attr("y", 10)
     .attr("x", 5)
@@ -114,9 +108,12 @@ private dataset: any = [{label:'', value: 0, app: []}];
         .attr('width', x.bandwidth())
         .attr('height', (d) => Math.abs(y(0) - y(d.value)))
         .attr('fill', (d) => colours.interpolateRdBu(d.idx/dataset.length))
-        .attr('stroke', '#000000')
-        .attr('stroke-width', '0.25')
 
+        
+    g.append('g')
+        .attr('transform', 'translate(0,' + (y(0)) + ')')
+        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x).tickFormat("").tickSize(0));
 
 
     this.loadingComplete = true;
