@@ -59,15 +59,29 @@
                     <img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Identity-icon.png">
                 </div>
 
-                <div class="lists">
-                    <div class="list">
-                        <div class="list-item" *ngFor="let host of currentSelection.hosts">
-                            {{host}}
-                            
-                        </div>
-                    </div>
-              
+                <div>
+                   <table id="data-table-row-grouping" class="display dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="data-table-row-grouping_info" style="width: 100%;">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                Company
+                            </th>
+                            <th style="width: 50%">
+                                Domain
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody> 
+                            <tr role="row" class="odd" *ngFor="let host of currentSelection.hosts">
+                                <td class="key" >TODO: LOAD IN COMPANY </td>
+                                <td class="value">{{host }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
                 </div>
+
             </div>
 
 

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
+
 div.main-display {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
@@ -228,4 +229,62 @@ div.selections {
     .closebtn:hover {
         color: #000;
     }
+}
+
+
+
+
+//TABLES
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0; 
+  width: 100%;
+}
+
+thead {
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+td {
+    padding: 10px 18px;
+    border-bottom: 1px solid #111;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+table.dataTable.display tbody tr.odd {
+    background-color: #f9f9f9;
+}
+
+table.details tr td.value, .modal.item table.details tr td.edit {
+    display: inline-block;
+    vertical-align: middle;
+    min-height: 2.5em;
+    padding: 0.5em;
+}
+
+.modal.item table.details td.value {
+    text-align: right;
+    padding-right: 10px;
+    font-weight: 400;
+}
+
+.modal.item table.details td.value {
+    width: 50%;
+}
+
+td, th {
+    padding: 15px 5px;
+
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 2px;
 }
