@@ -46,11 +46,11 @@
                 </div>
 
                 <div class="app-info">
-                    <h4>Google Play Page  </h4>
-
-                    {{currentSelection.storeinfo.storeURL}}
-
-                    {{currentSelection.storeinfo.storeURL}}
+                    <div class="img-wrapper"> 
+                        <a href= {{currentSelection.storeinfo.storeURL}}>
+                            <img src="https://play.google.com/intl/en_gb/badges/images/badge_new.png" alt="store-link"> 
+                        </a>
+                    </div>
                 </div>
 
 
@@ -63,6 +63,7 @@
                     <div class="list">
                         <div class="list-item" *ngFor="let host of currentSelection.hosts">
                             {{host}}
+                            
                         </div>
                     </div>
               

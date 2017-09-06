@@ -55,6 +55,11 @@ div.app-details {
         line-height: 19px;
         display: block;
     }
+    
+    .img-wrapper {
+            max-width: 100%;
+
+    }
 
     dd {
         margin-left: 140px;
@@ -64,12 +69,13 @@ div.app-details {
         font-weight: 400;
         min-height: 19px;
         display: block;
+        font-style: italic;
     }
 
     div.a {
-            color: #0288d1;
-    text-decoration: none;
-    font-weight: 500;
+        color: #0288d1;
+        text-decoration: none;
+        font-weight: 500;
     }
     div.list {
         height: 20vh;
