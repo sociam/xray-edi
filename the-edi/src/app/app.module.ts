@@ -29,6 +29,7 @@ import { XrayAPIService } from './service/xray-api.service';
 import { SelectionTrackingService } from './service/selection-tracking.service';
 import { CompanyInfoService } from './service/company-info.service';
 import { GenreCompareObservatoryDiffComponent } from './genre-compare-observatory-diff/genre-compare-observatory-diff.component';
+import { CompanyCoverageBarComponent } from './company-coverage-bar/company-coverage-bar.component';
 
 
 const appRoutes: Routes = [
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
     HostGenreCompareComponent,
     GenreCompareObservatoryComponent,
     GenreCompareObservatoryDiffComponent,
+    CompanyCoverageBarComponent,
   ],
   imports: [
     BrowserModule,
