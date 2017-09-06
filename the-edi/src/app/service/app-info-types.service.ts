@@ -25,6 +25,20 @@ export interface GenreStats {
   appCount: number;
   genreAvg: number;
 }
+/**
+ * Company Stats represents a record from the company coverage stats table
+ * found in the xray db.
+ * Company - the name of the company
+ * appCount - the number of apps that contain a host that directs to this company
+ * totalApps - the total number of apps that are analysed and available
+ * companyFreq - the percentage of apps that contain a host associated with a company
+ */
+export interface CompanyStats {
+  company: string;
+  appCount: number;
+  totalApps: number;
+  companyFreq: number;
+}
 
 /**
  * Installs represents the range of install that an app may have.

@@ -4,7 +4,7 @@ import { URLSearchParams } from '@angular/http';
 import { Observable, Subject} from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { FullApp, GenreStats } from './app-info-types.service';
+import { FullApp, GenreStats, CompanyStats } from './app-info-types.service';
 
 
 @Injectable()
@@ -115,6 +115,11 @@ export class XrayAPIService {
   fetchGenreAvgs() {
     const headers = this.getHeaders();
     return this.httpClient.get<GenreStats[]>(XrayAPIService.API_PREFIX + '/stats/genre_host_averages', {headers: headers});
+  }
+
+  fetchCompanyFreq() {
+    const headers = this.getHeaders();
+    return this.httpClient.get<CompanyStats[]>(XrayAPIService.API_PREFIX + '/stats/app_company_freq', {headers: headers});
   }
 
 }
