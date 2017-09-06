@@ -27,6 +27,8 @@ export class AppInspectComponent implements OnInit {
   public currentSelection: FullApp;
   public selectionMade: boolean = false;
 
+  public companyHosts: Map<string, string[]> = new Map<string, string[]>();
+
   public allSelections: Map<string, FullApp> = new Map<string, FullApp>();
   public selectionValues: FullApp[];
   public altApps: FullApp[] = [];
@@ -91,16 +93,15 @@ export class AppInspectComponent implements OnInit {
       this.router.navigate(['apps/' + this.currentSelection.app]);
 
 
-      var companiesToHosts = this.loadCompanyHosts(this.currentSelection);
+      let companiesToHosts = this.loadCompanyHosts(this.currentSelection);
 
       console.log( companiesToHosts);
-      var a3 = companiesToHosts.reduce((acc, x) => {
-        //var combinedHosts =  acc[x.company].concat(x.host);
-        console.log("Value", acc[x.company])
-        acc[x.company] = acc[x.company] ? acc[x.company].concat([x.host])  || {} : [x.host];
-        return acc;
+      let companyToHosts = companiesToHosts.reduce((acc, x) => {
+        this.companyHosts[x.company] = this.companyHosts[x.company] ? this.companyHosts[x.company].concat([x.host])  || {} : [x.host];
+        return this.companyHosts;
       }, {});
-      console.log(a3);
+
+      console.log(this.companyHosts);
 
     });
 
