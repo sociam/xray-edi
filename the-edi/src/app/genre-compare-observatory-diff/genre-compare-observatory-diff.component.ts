@@ -10,17 +10,17 @@ import * as colours from 'd3-scale-chromatic';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-genre-compare-observatory',
-  templateUrl: './genre-compare-observatory.component.html',
-  styleUrls: ['./genre-compare-observatory.component.scss']
+  selector: 'app-genre-compare-observatory-diff',
+  templateUrl: './genre-compare-observatory-diff.component.html',
+  styleUrls: ['./genre-compare-observatory-diff.component.scss']
 })
-export class GenreCompareObservatoryComponent implements OnInit {
+export class GenreCompareObservatoryDiffComponent implements OnInit {
 
 @Input() onlySingle: boolean = true;
 @Input() compareView: boolean = false;N
-@ViewChild('chart') chart: ElementRef;
-private child: ElementRef;
-private dataset: any = [{label:'', value: 0, app: []}];
+  @ViewChild('diffChart') chart: ElementRef;
+  private child: ElementRef;
+  private dataset: any = [{label:'', value: 0, app: []}];
 
   // https://bl.ocks.org/mbostock/4062045
   private chartWidth: number;
@@ -44,8 +44,8 @@ private dataset: any = [{label:'', value: 0, app: []}];
   buildDataset(genres: GenreStats[]) {
     // [{label: string, value: float}]
     let dataset = [];
-    let baseline = genres.reduce((a, b) => a + b.genreAvg, 0)/genres.length;
-    genres.map((genre) => dataset.push({label: genre.category.replace(/_/g, ' '), value: genre.genreAvg - baseline}));
+    genres.map((genre) => dataset.push({label: genre.category.replace(/_/g, ' '), value: genre.genreAvg}));
+    dataset.push({label: 'ALL CATEGORIES', value: genres.reduce((a, b) => a + b.genreAvg, 0)/genres.length});
     return dataset.sort((a,b) =>  b.value - a.value).map((genre, idx) => {return {label: genre.label, value: genre.value, idx: idx}});
   }
 
@@ -63,31 +63,18 @@ private dataset: any = [{label:'', value: 0, app: []}];
     var height = this.chartHeight - margin.top - margin.bottom;
 
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-        y = d3.scaleLinear().range([height, 0]);
+        y = d3.scaleLinear().rangeRound([height, 0]);
 
     var g = svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
            
     x.domain(dataset.map((d) => d.label ));
-    y.domain(d3.extent(dataset, (d) => d.value));
+    y.domain([0, d3.max(dataset, (d) => d.value)]);
 
     g.append('g')
-      .attr('class', 'axis axis--x')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(x))
-
-    d3.selectAll('g path')
-      .style('stroke-width', 0)
-
-    d3.selectAll('g.tick')
-      .style('stroke-width', 1);
-
-    g.append('g')
-        .attr('transform', 'translate(0,' + (y(0) - 1) + ')')
-        .call(d3.axisBottom(x))
-        .call(d3.axisBottom(x).tickFormat("").tickSize(0));
-
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(d3.axisBottom(x));
 
     g.selectAll("text")
     .attr("y", 10)
@@ -110,14 +97,10 @@ private dataset: any = [{label:'', value: 0, app: []}];
       .enter().append('rect')
         .attr('class', 'bar')
         .attr('x', (d) => x(d.label))
-        .attr('y', (d)  => d.value < 0 ? y(0) : y(d.value))
+        .attr('y', (d)  => y(d.value))
         .attr('width', x.bandwidth())
-        .attr('height', (d) => Math.abs(y(0) - y(d.value)))
-        .attr('fill', (d) => colours.interpolateRdBu(d.idx/dataset.length))
-        .attr('stroke', '#000000')
-        .attr('stroke-width', '0.25')
-
-
+        .attr('height', (d) => height - y(d.value))
+        .attr('fill', (d) => colours.interpolateRdBu(d.idx/dataset.length));
 
     this.loadingComplete = true;
   }

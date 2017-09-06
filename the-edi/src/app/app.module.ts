@@ -19,15 +19,17 @@ import { HomeComponent } from './home/home.component';
 import { ObservatoryComponent } from './observatory/observatory.component';
 import { ForceDirectedGraphComponent } from './force-directed-graph/force-directed-graph.component';
 import { AppInspectComponent } from './app-inspect/app-inspect.component';
+import { HostCompanyDonutComponent } from './host-company-donut/host-company-donut.component';
+import { HostGenreCompareComponent } from './host-genre-compare/host-genre-compare.component';
+import { GenreCompareObservatoryComponent } from './genre-compare-observatory/genre-compare-observatory.component';
 
 // Services
 import { AppInfoTypesService } from './service/app-info-types.service';
 import { XrayAPIService } from './service/xray-api.service';
 import { SelectionTrackingService } from './service/selection-tracking.service';
 import { CompanyInfoService } from './service/company-info.service';
-import { HostCompanyDonutComponent } from './host-company-donut/host-company-donut.component';
-import { HostGenreCompareComponent } from './host-genre-compare/host-genre-compare.component';
-import { GenreCompareObservatoryComponent } from './genre-compare-observatory/genre-compare-observatory.component';
+import { GenreCompareObservatoryDiffComponent } from './genre-compare-observatory-diff/genre-compare-observatory-diff.component';
+
 
 const appRoutes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -60,7 +62,8 @@ const appRoutes: Routes = [
     AppInspectComponent,
     HostCompanyDonutComponent,
     HostGenreCompareComponent,
-    GenreCompareObservatoryComponent
+    GenreCompareObservatoryComponent,
+    GenreCompareObservatoryDiffComponent,
   ],
   imports: [
     BrowserModule,
