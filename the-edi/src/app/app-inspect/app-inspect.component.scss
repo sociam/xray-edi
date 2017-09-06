@@ -10,14 +10,23 @@ div.main-display {
     background: #eee;
 }
 
+div.boxed {
+    float: left;
+    background: #fff;
+    height: 100%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 10px;
+}
+
 div.app-details {
     width: 45%;
     margin: 20px;
     float: left;
+        float: left;
     background: #fff;
-    padding: 20px;
     height: 100%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    padding: 10px;
     .app-icon {
         float: left;
         width: 10%;
@@ -36,6 +45,31 @@ div.app-details {
     }
     .app-count {
         font-size: 0.75em;
+    }
+
+    dt {
+        float: left;
+        color: #999999;
+        font-weight: 400;
+        margin-bottom: 5px;
+        line-height: 19px;
+        display: block;
+    }
+
+    dd {
+        margin-left: 140px;
+        margin-bottom: 5px;
+        color: #333333;
+        line-height: 19px;
+        font-weight: 400;
+        min-height: 19px;
+        display: block;
+    }
+
+    div.a {
+            color: #0288d1;
+    text-decoration: none;
+    font-weight: 500;
     }
     div.list {
         height: 20vh;
@@ -77,7 +111,7 @@ div.app-details {
 }
 
 div.app-info {
-    display: block;
+    display: inline-block;
     flex-shrink: 0;
     padding: 10px 20px;
     margin: 0;
@@ -122,8 +156,8 @@ div.selections {
 }
 
 
-.perm {
-    display: inline-block;
+.perm-body {
+    display: block;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     padding: 0 25px;
@@ -144,7 +178,6 @@ div.selections {
 
 
 //App perms danger zones
-
 .dangerous {
      background-color: #B33A3A;
 }

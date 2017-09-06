@@ -6,9 +6,13 @@
                 <img class="app-icon" src="https://negi.io/api/icons{{currentSelection.icon}}">
                 <div class="app-title">
                     {{currentSelection.storeinfo.title}}
+                    <br>
+                   
                 </div>
                 <div class="app-apk">
                     {{currentSelection.app}}
+                    <br>
+                    Version: {{currentSelection.ver}}                    
                 </div>
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Identity-icon.png">{{currentSelection.hosts.length}}</div>
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Star-fav-icon.png">{{currentSelection.perms.length}}</div>
@@ -19,23 +23,34 @@
             <div class="app-body">
                 <div  class="app-info">  
                     <h4>App Summary </h4> 
-                    {{currentSelection.storeinfo.summary}}            
+                    {{currentSelection.storeinfo.summary}}       
+                   
                 </div>
 
                 <div class="app-info">
-                    <h4>Developer Name</h4>
-                    {{currentSelection.developer.name}}
-                </div>
+                    <h4>Company  Details </h4>
 
-                <div class="app-info">
-                    <h4>Developer Emails  </h4>
-                    {{currentSelection.developer.emails}}
+
+                    <dt> Name </dt> 
+                    <dd>
+                        <a href={{currentSelection.developer.site}}> {{currentSelection.developer.name}} </a>
+                    </dd>
+
+                    <dt> Developer Email </dt>
+                    <dd>  {{currentSelection.developer.emails}} </dd>
+ 
+                    <dt> Developer Site </dt>
+                    <dd> 
+                        <a href={{currentSelection.developer.site}}> {{currentSelection.developer.site}} </a>
+                    </dd>                
                 </div>
 
                 <div class="app-info">
                     <h4>Google Play Page  </h4>
 
-                    {{currentSelection.developer.storeSite}}
+                    {{currentSelection.storeinfo.storeURL}}
+
+                    {{currentSelection.storeinfo.storeURL}}
                 </div>
 
 

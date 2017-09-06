@@ -57,7 +57,6 @@ export class AppInspectComponent implements OnInit {
     this.appTracker.setCompareSelection(app);
   }
 
-  //Danger
 
 
   ngOnInit() {
