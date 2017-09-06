@@ -76,10 +76,10 @@ private dataset: any = [{label:'', value: 0, app: []}];
       .attr('transform', 'translate(0,' + height + ')')
       .call(d3.axisBottom(x))
 
-    d3.selectAll('g path')
+    svg.selectAll('g path')
       .style('stroke-width', 0)
 
-    d3.selectAll('g.tick')
+    svg.selectAll('g.tick')
       .style('stroke-width', 1);
 
     g.selectAll("text")
@@ -99,6 +99,20 @@ private dataset: any = [{label:'', value: 0, app: []}];
         .text('Average Host Count');
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
+    
+    var div = d3.select("body").append("div").attr("class", "toolTip");
+    div.style('position', 'absolute')
+       .style('display', 'none')
+       .style('width', 'auto')
+       .style('height', 'auto')
+       .style('background', 'rgba(34,34,34,0.8)')
+       .style('border', '0 none')
+       .style('border', 'radius 8px 8px 8px 8px')
+       .style('box-shadow', '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)')
+       .style('color', '#fff')
+       .style('font-size', '0.75em')
+       .style('padding', '5px')
+       .style('text-align', 'left');
 
     g.selectAll('g.bar')
       .data(dataset)
@@ -109,7 +123,13 @@ private dataset: any = [{label:'', value: 0, app: []}];
         .attr('width', x.bandwidth())
         .attr('height', (d) => Math.abs(y(0) - y(d.value)))
         .attr('fill', (d) => colour(d.idx/dataset.length))
-
+        .on("mousemove", (d) => {
+          div.style("left", d3.event.pageX+10+"px");
+          div.style("top", d3.event.pageY-25+"px");
+          div.style("display", "inline-block");
+          div.html('<strong>' + d.label + '</strong><br>' + (Math.abs(d.value)).toFixed(2).replace('.00','') +((d.value > 0) ?' More': ' Less') + ' hosts on average')
+        })
+        .on('mouseout', (d) => div.style("display", "none"));
         
     g.append('g')
         .attr('transform', 'translate(0,' + (y(0)) + ')')
