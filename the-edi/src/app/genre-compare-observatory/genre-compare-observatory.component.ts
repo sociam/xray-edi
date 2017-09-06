@@ -36,16 +36,15 @@ private dataset: any = [{label:'', value: 0, app: []}];
               private companyLookup: CompanyInfoService) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
-        this.buildGraph(this.dataset);
+        this.graphInit();
       }
     });
   }
 
   buildDataset(genres: GenreStats[]) {
     // [{label: string, value: float}]
-    let dataset = [];
     let baseline = genres.reduce((a, b) => a + b.genreAvg, 0)/genres.length;
-    genres.map((genre) => dataset.push({label: genre.category.replace(/_/g, ' '), value: genre.genreAvg - baseline}));
+    let dataset = genres.map((genre) => {return {label: genre.category.replace(/_/g, ' '), value: genre.genreAvg - baseline}});
     return dataset.sort((a,b) =>  b.value - a.value).map((genre, idx) => {return {label: genre.label, value: genre.value, idx: idx}});
   }
 
@@ -99,6 +98,8 @@ private dataset: any = [{label:'', value: 0, app: []}];
         .attr('text-anchor', 'end')
         .text('Average Host Count');
 
+    var colour = d3.scaleOrdinal(d3.schemeCategory20);
+
     g.selectAll('g.bar')
       .data(dataset)
       .enter().append('rect')
@@ -107,7 +108,7 @@ private dataset: any = [{label:'', value: 0, app: []}];
         .attr('y', (d)  => d.value < 0 ? y(0) : y(d.value))
         .attr('width', x.bandwidth())
         .attr('height', (d) => Math.abs(y(0) - y(d.value)))
-        .attr('fill', (d) => colours.interpolateRdBu(d.idx/dataset.length))
+        .attr('fill', (d) => colour(d.idx/dataset.length))
 
         
     g.append('g')

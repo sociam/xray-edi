@@ -36,15 +36,14 @@ export class GenreCompareObservatoryDiffComponent implements OnInit {
               private companyLookup: CompanyInfoService) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
-        this.buildGraph(this.dataset);
+        this.graphInit();
       }
     });
   }
 
   buildDataset(genres: GenreStats[]) {
     // [{label: string, value: float}]
-    let dataset = [];
-    genres.map((genre) => dataset.push({label: genre.category.replace(/_/g, ' '), value: genre.genreAvg}));
+    let dataset = genres.map((genre) => {return {label: genre.category.replace(/_/g, ' '), value: genre.genreAvg}});
     dataset.push({label: 'ALL CATEGORIES', value: genres.reduce((a, b) => a + b.genreAvg, 0)/genres.length});
     return dataset.sort((a,b) =>  b.value - a.value).map((genre, idx) => {return {label: genre.label, value: genre.value, idx: idx}});
   }
@@ -91,6 +90,7 @@ export class GenreCompareObservatoryDiffComponent implements OnInit {
         .attr('dy', '0.71em')
         .attr('text-anchor', 'end')
         .text('Average Host Count');
+    var colour = d3.scaleOrdinal(d3.schemeCategory20);
 
     g.selectAll('g.bar')
       .data(dataset)
@@ -100,7 +100,7 @@ export class GenreCompareObservatoryDiffComponent implements OnInit {
         .attr('y', (d)  => y(d.value))
         .attr('width', x.bandwidth())
         .attr('height', (d) => height - y(d.value))
-        .attr('fill', (d) => colours.interpolateRdBu(d.idx/dataset.length));
+        .attr('fill', (d) => colour(d.idx/dataset.length));
 
     this.loadingComplete = true;
   }

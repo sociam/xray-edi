@@ -35,7 +35,7 @@ export class HostGenreCompareComponent implements OnInit {
               private companyLookup: CompanyInfoService) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
-        this.buildGraph(this.dataset);
+        this.graphInit();
       }
     });
   }
