@@ -75,9 +75,9 @@ export class CompanyInfoService {
 }
 
   getCompanyFromDomain(domain: string): CompanyInfo[] {
-    domain = this.extractRootDomain(domain);
+    let rootDomain = this.extractRootDomain(domain);
     return Object.keys(this.companyInfo).map((key: string) => this.companyInfo[key]).filter((company: CompanyInfo) => {
-      return company.domains.filter((d: string) => d == domain).length != 0;
+      return company.domains.filter((d: string) => d == rootDomain).length != 0;
     });
   }
    

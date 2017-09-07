@@ -94,15 +94,44 @@ export class HostGenreCompareComponent implements OnInit {
         .attr('text-anchor', 'end')
         .text('Host Averages');
 
-    g.selectAll('.bar')
+    var div = d3.select("body").append("div").attr("class", "toolTip");
+    div.style('position', 'absolute')
+       .style('display', 'none')
+       .style('width', 'auto')
+       .style('height', 'auto')
+       .style('background', 'rgba(34,34,34,0.8)')
+       .style('border', '0 none')
+       .style('border', 'radius 8px 8px 8px 8px')
+       .style('box-shadow', '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)')
+       .style('color', '#fff')
+       .style('font-size', '0.75em')
+       .style('padding', '5px')
+       .style('text-align', 'left');
+
+    var bars = g.selectAll('.bar')
       .data(dataset)
       .enter().append('rect')
         .attr('class', 'bar')
+        .attr('id', (d)=>d.label.replace(/ /g, ''))
         .attr('x', (d) =>  x(d.label))
         .attr('y', (d)  => y(d.value))
         .attr('width', x.bandwidth())
         .attr('height', (d) => height - y(d.value))
-        .attr('fill', (d) => colour(d.label));
+        .attr('fill', (d) => colour(d.label))
+        .on("mousemove", (d) => {
+          div.style("left", d3.event.pageX+10+"px");
+          div.style("top", d3.event.pageY-25+"px");
+          div.style("display", "inline-block");
+          div.html('<strong>' + d.label + '</strong><br>' + (Math.abs(d.value)).toFixed(2).replace('.00','') +' Hosts')
+          bars.attr('fill', 'grey');
+          svg.selectAll('#' + d.label.replace(/ /g, '')).attr('fill', 'green');
+        })
+        .on('mouseout', (d) => {
+          div.style("display", "none")
+          dataset.map(element => {
+            svg.selectAll('#' + element.label.replace(/ /g, '')).attr('fill', (element) => colour(element.label));
+          });
+        }); 
 
     this.loadingComplete = true;
   }
