@@ -122,4 +122,9 @@ export class XrayAPIService {
     return this.httpClient.get<CompanyStats[]>(XrayAPIService.API_PREFIX + '/stats/app_company_freq', {headers: headers});
   }
 
+  fetchCompanyTypeFreq() {
+    const headers = this.getHeaders();
+    return this.httpClient.get<CompanyStats[]>(XrayAPIService.API_PREFIX + '/stats/app_type_freq', {headers: headers});
+  }
+
 }

@@ -43,9 +43,17 @@ export class CompanyCoverageBarComponent implements OnInit {
 
   buildDataset(companies: CompanyStats[]) {
     // [{label: string, value: float}]
-    
-    let dataset = companies.map((company) => {return {label: company.company, value: company.companyFreq*100}});
-    return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {return {label: company.label, value: company.value, idx: idx}}).slice(0,50);
+    let dataset = companies.map((company) => 
+    {
+      return {
+        label: company.company,
+         type: company.type == 'app' ? 'functionality' : company.type, 
+        value: company.companyFreq*100
+      }
+  });
+    return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
+      return {label: company.label,type: company.type, value: company.value, idx: idx}
+    }).slice(0,50);
   }
 
 
@@ -121,7 +129,7 @@ export class CompanyCoverageBarComponent implements OnInit {
           div.style("left", d3.event.pageX+10+"px");
           div.style("top", d3.event.pageY-25+"px");
           div.style("display", "inline-block");
-          div.html('<strong>' + d.label + ' - ' + (d.value).toFixed(2).replace('.00','') + '%</strong>' );
+          div.html('<strong>' + d.label + ' - ' + (d.value).toFixed(2).replace('.00','') + '%</strong><br>Usage: '+d.type );
           bars.attr('fill', 'grey');
           svg.selectAll('#' + d.label).attr('fill', 'green');
         })

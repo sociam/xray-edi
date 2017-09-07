@@ -35,6 +35,7 @@ export interface GenreStats {
  */
 export interface CompanyStats {
   company: string;
+  type: string;
   appCount: number;
   totalApps: number;
   companyFreq: number;

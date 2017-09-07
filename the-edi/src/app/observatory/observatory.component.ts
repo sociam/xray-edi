@@ -29,11 +29,7 @@ export class ObservatoryComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.xrayAPI.fetchGenreAvgs().subscribe((data: GenreStats[]) => {
-      console.log(data);
-      this.genreStats = data;
-      this.loadingComplete = true;
-    });
+
     
   }
 
