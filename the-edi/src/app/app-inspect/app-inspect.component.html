@@ -15,7 +15,7 @@
                     Version: {{currentSelection.ver}}                    
                 </div>
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Identity-icon.png">{{currentSelection.hosts.length}}</div>
-                <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Star-fav-icon.png">{{currentSelection.perms.length}}</div>
+                <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Pencil-icon.png">{{currentSelection.perms.length}}</div>
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Star-fav-icon.png">{{currentSelection.storeinfo.rating}}</div>
                 <div class="chip"><img src="http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Arrow-download-3-icon.png">{{downloads}}</div>
             </div>
@@ -60,7 +60,7 @@
                 </div>
 
                 <div>
-                   <table id="data-table-row-grouping" class="display dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="data-table-row-grouping_info" style="width: 100%;">
+                   <!-- <table id="data-table-row-grouping" class="display dataTable" cellspacing="0" width="100%" role="grid" aria-describedby="data-table-row-grouping_info" style="width: 100%;">
                         <thead>
                         <tr>
                             <th style="width: 20%">
@@ -72,14 +72,41 @@
                         </tr>
                         </thead>
                         <tbody> 
-                            <tr role="row" class="odd" *ngFor="let host of currentSelection.hosts">
-                                <td class="key" >TODO: LOAD IN COMPANY </td>
-                                <td class="value">{{host }}</td>
-                            </tr>
+
+                            <div *ngFor="let key of objectKeys(companyHosts)">
+                                <tr class="group"> {{key}} </tr>
+                                <tr role="row" class="odd" *ngFor="let host of companyHosts[key]">
+                                    <td class="key" ></td>
+                                    <td class="value">{{host}}</td>
+                                </tr> 
+                            </div>`
+                                
                         </tbody>
                         <tfoot>
                         </tfoot>
-                    </table>
+                    </table> -->
+<!-- 
+                     <div *ngFor="let key of objectKeys(companyHosts)">
+                         
+                                <tr class="group"> {{key}} </tr>
+                                <tr role="row" class="odd" *ngFor="let host of companyHosts[key]">
+                                    <td class="key" ></td>
+                                    <td class="value">{{host}}</td>
+                                </tr> 
+                                
+                    </div>` -->
+                    
+                    <p-accordion [multiple]="true" class="ui-accordion">
+                        <div *ngFor="let key of objectKeys(companyHosts)">
+                            <p-accordionTab header={{key}}>
+                                <div  *ngFor="let host of companyHosts[key]">
+                                    <td class="host">{{host}}</td>
+                                </div>
+                            </p-accordionTab>
+                        </div>
+                    </p-accordion>
+
+
                 </div>
 
             </div>
