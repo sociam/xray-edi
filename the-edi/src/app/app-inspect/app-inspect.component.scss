@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400');
 
+@import "/node_modules/primeng/resources/themes/omega/theme.css";
+@import "/node_modules/primeng/resources/primeng.min.css" ;
+
 div.main-display {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
@@ -288,3 +291,5 @@ td, th {
     vertical-align: middle;
     border-radius: 2px;
 }
+
+

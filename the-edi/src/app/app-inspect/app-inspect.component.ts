@@ -6,6 +6,10 @@ import { XrayAPIService } from '../service/xray-api.service';
 import { Subscription } from 'rxjs/Subscription';
 import { CompanyInfoService, CompanyInfo } from '../service/company-info.service';
 
+import { PipeTransform, Pipe } from '@angular/core';
+
+
+
 enum dangerZone {
   dangerous,
   thirdparty,
@@ -26,6 +30,8 @@ export class AppInspectComponent implements OnInit {
 
   public currentSelection: FullApp;
   public selectionMade: boolean = false;
+
+  public objectKeys = Object.keys;
 
   public companyHosts: Map<string, string[]> = new Map<string, string[]>();
 
@@ -93,11 +99,15 @@ export class AppInspectComponent implements OnInit {
       this.router.navigate(['apps/' + this.currentSelection.app]);
 
 
+
+
+
+      //XXX: this is not the current selected app :'( scewed that up
       let companiesToHosts = this.loadCompanyHosts(this.currentSelection);
 
-      console.log( companiesToHosts);
+      console.log(companiesToHosts);
       let companyToHosts = companiesToHosts.reduce((acc, x) => {
-        this.companyHosts[x.company] = this.companyHosts[x.company] ? this.companyHosts[x.company].concat([x.host])  || {} : [x.host];
+        this.companyHosts[x.company] = this.companyHosts[x.company] ? this.companyHosts[x.company].concat([x.host]) || {} : [x.host];
         return this.companyHosts;
       }, {});
 
@@ -128,3 +138,5 @@ export class AppInspectComponent implements OnInit {
   }
 
 }
+
+
