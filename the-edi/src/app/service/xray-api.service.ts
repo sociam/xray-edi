@@ -4,7 +4,7 @@ import { URLSearchParams } from '@angular/http';
 import { Observable, Subject} from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { FullApp, GenreStats, CompanyStats } from './app-info-types.service';
+import { FullApp, GenreStats, CompanyStats, CompanyTypeStats } from './app-info-types.service';
 
 
 @Injectable()
@@ -124,7 +124,7 @@ export class XrayAPIService {
 
   fetchCompanyTypeFreq() {
     const headers = this.getHeaders();
-    return this.httpClient.get<CompanyStats[]>(XrayAPIService.API_PREFIX + '/stats/app_type_freq', {headers: headers});
+    return this.httpClient.get<CompanyTypeStats[]>(XrayAPIService.API_PREFIX + '/stats/app_type_freq', {headers: headers});
   }
 
 }

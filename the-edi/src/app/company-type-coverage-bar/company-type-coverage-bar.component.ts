@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input, ElementRef, HostListener, HostBind
 import { SelectionTrackingService } from '../service/selection-tracking.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { CompanyInfoService, CompanyInfo } from '../service/company-info.service';
-import { FullApp, GenreStats } from '../service/app-info-types.service';
+import { FullApp, CompanyTypeStats } from '../service/app-info-types.service';
 import { XrayAPIService } from '../service/xray-api.service';
 import { Subscription } from 'rxjs';
 import * as d3 from 'd3';
@@ -10,17 +10,18 @@ import * as colours from 'd3-scale-chromatic';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-genre-compare-observatory',
-  templateUrl: './genre-compare-observatory.component.html',
-  styleUrls: ['./genre-compare-observatory.component.scss']
+  selector: 'app-company-type-coverage-bar',
+  templateUrl: './company-type-coverage-bar.component.html',
+  styleUrls: ['./company-type-coverage-bar.component.scss']
 })
-export class GenreCompareObservatoryComponent implements OnInit {
+export class CompanyTypeCoverageBarComponent implements OnInit {
 
-@Input() onlySingle: boolean = true;
-@Input() compareView: boolean = false;N
-@ViewChild('chart') chart: ElementRef;
-private child: ElementRef;
-private dataset: any = [{label:'', value: 0, app: []}];
+
+  @Input() onlySingle: boolean = true;
+  @Input() compareView: boolean = false;N
+  @ViewChild('companyTypes') chart: ElementRef;
+  private child: ElementRef;
+  private dataset: any = [{label:'', value: 0, app: []}];
 
   // https://bl.ocks.org/mbostock/4062045
   private chartWidth: number;
@@ -36,16 +37,23 @@ private dataset: any = [{label:'', value: 0, app: []}];
               private companyLookup: CompanyInfoService) {
     router.events.subscribe((evt) => {
       if (evt instanceof NavigationEnd ) {
-        this.graphInit();
+        this.buildGraph(this.dataset);
       }
     });
   }
 
-  buildDataset(genres: GenreStats[]) {
+  buildDataset(types: CompanyTypeStats[]) {
     // [{label: string, value: float}]
-    let baseline = genres.reduce((a, b) => a + b.genreAvg, 0)/genres.length;
-    let dataset = genres.map((genre) => {return {label: genre.category.replace(/_/g, ' '), value: genre.genreAvg - baseline}});
-    return dataset.sort((a,b) =>  b.value - a.value).map((genre, idx) => {return {label: genre.label, value: genre.value, idx: idx}});
+    let dataset = types.map((type) => 
+    {
+      return {
+        label: type.type == 'app' ? 'functionality' : type.type,
+        value: type.typeFreq*100
+      }
+  });
+    return dataset.sort((a,b) =>  b.value - a.value).map((type, idx) => {
+      return {label: type.label, value: type.value, idx: idx}
+    }).slice(0,5).filter(type => type.label);
   }
 
 
@@ -57,50 +65,33 @@ private dataset: any = [{label:'', value: 0, app: []}];
 
     svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
     svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
-    var margin = { top: 20, right: 60, bottom: 120, left: 80 };
+    var margin = { top: 20, right: 40, bottom: 50, left: 80 };
     var width = this.chartWidth - margin.left - margin.right;
     var height = this.chartHeight - margin.top - margin.bottom;
 
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-        y = d3.scaleLinear().range([height, 0]);
+        y = d3.scaleLinear().rangeRound([height, 0]);
 
     var g = svg.append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
            
     x.domain(dataset.map((d) => d.label ));
-    y.domain(d3.extent(dataset, (d) => d.value));
+    y.domain([0, 100]);
 
     g.append('g')
-      .attr('class', 'axis axis--x')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(x))
-
-    svg.selectAll('g path')
-      .style('stroke-width', 0)
-
-    svg.selectAll('g.tick')
-      .style('stroke-width', 1);
-
-    svg.append('text')             
-      .attr('transform','translate(' + (width/2 + margin.left/2) + ' ,' + (height + margin.bottom) + ')')
-      .style('text-anchor', 'middle')
-      .text('App Genres');
-
-    svg.append('text')
-      .attr('transform', 'translate(' + (margin.left / 2 ) + ' ,' + (height/2 + margin.top) + ') rotate(-90)')
-      .style('text-anchor', 'middle')
-      .text('Difference in Average');
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(d3.axisBottom(x));
 
     g.selectAll("text")
-    .attr("y", 10)
-    .attr("x", 5)
-    .attr("dy", ".35em")
-    .attr("transform", "rotate(45)")
-    .style("text-anchor", "start");
+      .attr("y", 10)
+      .attr("dy", "1em")
+      .style('font-size', '1em')
+      .style('text-align', 'center')
+      .style("text-anchor", "center");
 
     g.append('g')
-        .call(d3.axisLeft(y).ticks(10))
+        .call(d3.axisLeft(y).ticks(20).tickFormat(d => d + '%'))
       .append('text')
         .attr('transform', 'rotate(-90)')
         .attr('y', 6)
@@ -108,8 +99,17 @@ private dataset: any = [{label:'', value: 0, app: []}];
         .attr('text-anchor', 'end')
         .text('Average Host Count');
 
+    svg.append('text')             
+      .attr('transform','translate(' + (width/2 + margin.left/2)  + ' ,' + (height + margin.top/2 + margin.bottom) + ')')
+      .style('text-anchor', 'middle')
+      .text('Usage Types');
+
+    svg.append('text')
+      .attr('transform', 'translate(' + (margin.left / 2 ) + ' ,' + (height/2 + margin.top) + ') rotate(-90)')
+      .style('text-anchor', 'middle')
+      .text('Presence in apps');
+
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
-    
     var div = d3.select("body").append("div").attr("class", "toolTip");
     div.style('position', 'absolute')
        .style('display', 'none')
@@ -126,34 +126,30 @@ private dataset: any = [{label:'', value: 0, app: []}];
 
     var bars = g.selectAll('g.bar')
       .data(dataset)
-      .enter().append('rect')
+      .enter()
+        .append('rect')
         .attr('class', 'bar')
-        .attr('id', (d)=>d.label.replace(/ /g, ''))
+        .attr('id', (d)=>d.label)
         .attr('x', (d) => x(d.label))
-        .attr('y', (d)  => d.value < 0 ? y(0) : y(d.value))
+        .attr('y', (d)  => y(d.value))
         .attr('width', x.bandwidth())
-        .attr('height', (d) => Math.abs(y(0) - y(d.value)))
+        .attr('height', (d) => height - y(d.value))
         .attr('fill', (d) => colour(d.idx/dataset.length))
         .on("mousemove", (d) => {
           div.style("left", d3.event.pageX+10+"px");
           div.style("top", d3.event.pageY-25+"px");
           div.style("display", "inline-block");
-          div.html('<strong>' + d.label + '</strong><br>' + (Math.abs(d.value)).toFixed(2).replace('.00','') +((d.value > 0) ?' More': ' Less') + ' hosts on average')
+          div.html('<strong>' + d.label + '</strong> - Featured in ' + (d.value).toFixed(2).replace('.00','')+'% of apps.');
           bars.attr('fill', 'grey');
-          svg.selectAll('#' + d.label.replace(/ /g, '')).attr('fill', 'green');
+          svg.selectAll('#' + d.label).attr('fill', 'green');
         })
         .on('mouseout', (d) => {
           div.style("display", "none")
           dataset.map(element => {
-            svg.selectAll('#' + element.label.replace(/ /g, '')).attr('fill', (element) => colour(element.idx/dataset.length));
+            svg.selectAll('#' + element.label).attr('fill', (element)=>colour(element.idx/dataset.length));
           });
-        }); 
-
-    g.append('g')
-        .attr('transform', 'translate(0,' + (y(0)) + ')')
-        .call(d3.axisBottom(x))
-        .call(d3.axisBottom(x).tickFormat("").tickSize(0));
-
+        });    
+    
 
     this.loadingComplete = true;
   }
@@ -169,7 +165,7 @@ private dataset: any = [{label:'', value: 0, app: []}];
       this.genreStatsSubscription.unsubscribe();
     }
 
-    this.genreStatsSubscription = this.xrayAPI.fetchGenreAvgs().subscribe((data: GenreStats[]) => {
+    this.genreStatsSubscription = this.xrayAPI.fetchCompanyTypeFreq().subscribe((data: CompanyTypeStats[]) => {
       this.dataset = this.buildDataset(data);
       this.buildGraph(this.dataset);
     });

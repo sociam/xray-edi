@@ -30,6 +30,7 @@ import { SelectionTrackingService } from './service/selection-tracking.service';
 import { CompanyInfoService } from './service/company-info.service';
 import { GenreCompareObservatoryDiffComponent } from './genre-compare-observatory-diff/genre-compare-observatory-diff.component';
 import { CompanyCoverageBarComponent } from './company-coverage-bar/company-coverage-bar.component';
+import { CompanyTypeCoverageBarComponent } from './company-type-coverage-bar/company-type-coverage-bar.component';
 
 
 const appRoutes: Routes = [
@@ -66,6 +67,7 @@ const appRoutes: Routes = [
     GenreCompareObservatoryComponent,
     GenreCompareObservatoryDiffComponent,
     CompanyCoverageBarComponent,
+    CompanyTypeCoverageBarComponent,
   ],
   imports: [
     BrowserModule,

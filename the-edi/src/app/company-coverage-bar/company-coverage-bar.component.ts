@@ -65,7 +65,7 @@ export class CompanyCoverageBarComponent implements OnInit {
 
     svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
     svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
-    var margin = { top: 20, right: 40, bottom: 100, left: 40 };
+    var margin = { top: 20, right: 40, bottom: 110, left: 80 };
     var width = this.chartWidth - margin.left - margin.right;
     var height = this.chartHeight - margin.top - margin.bottom;
 
@@ -83,15 +83,26 @@ export class CompanyCoverageBarComponent implements OnInit {
         .attr('transform', 'translate(0,' + height + ')')
         .call(d3.axisBottom(x));
 
-    g.selectAll("text")
-    .attr("y", 10)
-    .attr("x", 5)
-    .attr("dy", ".35em")
-    .attr("transform", "rotate(45)")
-    .style("text-anchor", "start");
+    g.selectAll('text')
+    .attr('y', 10)
+    .attr('x', 5)
+    .attr('dy', '.35em')
+    .attr('transform', 'rotate(45)')
+    .style('text-anchor', 'start');
+
+    svg.append('text')             
+      .attr('transform','translate(' + (width/2 + margin.left/2) + ' ,' + (height  + margin.bottom) + ')')
+      .style('text-anchor', 'middle')
+      .text('Company');
+
+    svg.append('text')
+      .attr('transform', 'translate(' + (margin.left / 2 ) + ' ,' + (height/2 + margin.top) + ') rotate(-90)')
+      .style('text-anchor', 'middle')
+      .text('Presence in apps');
+
 
     g.append('g')
-        .call(d3.axisLeft(y).ticks(20))
+        .call(d3.axisLeft(y).ticks(20).tickFormat(d => d + '%'))
       .append('text')
         .attr('transform', 'rotate(-90)')
         .attr('y', 6)
@@ -100,7 +111,7 @@ export class CompanyCoverageBarComponent implements OnInit {
         .text('Average Host Count');
 
     var colour = d3.scaleOrdinal(d3.schemeCategory20);
-    var div = d3.select("body").append("div").attr("class", "toolTip");
+    var div = d3.select('body').append('div').attr('class', 'toolTip');
     div.style('position', 'absolute')
        .style('display', 'none')
        .style('width', 'auto')
@@ -125,24 +136,25 @@ export class CompanyCoverageBarComponent implements OnInit {
         .attr('width', x.bandwidth())
         .attr('height', (d) => height - y(d.value))
         .attr('fill', (d) => colour(d.idx/dataset.length))
-        .on("mousemove", (d) => {
-          div.style("left", d3.event.pageX+10+"px");
-          div.style("top", d3.event.pageY-25+"px");
-          div.style("display", "inline-block");
-          div.html('<strong>' + d.label + ' - ' + (d.value).toFixed(2).replace('.00','') + '%</strong><br>Usage: '+d.type );
+        .on('mousemove', (d) => {
+          div.style('left', d3.event.pageX+10+'px');
+          div.style('top', d3.event.pageY-25+'px');
+          div.style('display', 'inline-block');
+          div.html('<strong>' + d.label + '</strong><br>Features in ' + (d.value).toFixed(2).replace('.00','') + '% of apps.<br>Usage: '+d.type );
           bars.attr('fill', 'grey');
-          svg.selectAll('#' + d.label).attr('fill', 'green');
+          svg.selectAll('#' + d.label)
+          .attr('fill', 'green')
+          .attr('cursor', 'none');
         })
         .on('mouseout', (d) => {
-          div.style("display", "none")
+          div.style('display', 'none')
           dataset.map(element => {
             svg.selectAll('#' + element.label).attr('fill', (element)=>colour(element.idx/dataset.length));
           });
         });    
     
-
-    this.loadingComplete = true;
-  }
+      this.loadingComplete = true;
+    }
 
   @HostListener('window:resize', ['$event'])
   onResize(event){

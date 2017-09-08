@@ -25,6 +25,18 @@ export interface GenreStats {
   appCount: number;
   genreAvg: number;
 }
+
+/**
+ * Company Type Stats represents a record from the company types coverage stats
+ * table found in the XRay DB.
+ */
+export interface CompanyTypeStats {
+  type: string;
+  appCount: number;
+  totalApps: number;
+  typeFreq: number;
+}
+
 /**
  * Company Stats represents a record from the company coverage stats table
  * found in the xray db.

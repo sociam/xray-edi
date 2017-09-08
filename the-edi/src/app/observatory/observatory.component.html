@@ -1,30 +1,95 @@
 <div class="root">
-    <div class="loading" *ngIf="!loadingComplete">
-        <div class="sk-folding-cube">
-            <div class="sk-cube1 sk-cube"></div>
-            <div class="sk-cube2 sk-cube"></div>
-            <div class="sk-cube4 sk-cube"></div>
-            <div class="sk-cube3 sk-cube"></div>
-        </div>
-    </div>
     <div class="container">
-        <div class=" title">
+        <div class="heading">
+            App Type Coverage
+        </div>
+        <div class="description-lead">
+            Percentage of Apps that contain a host mapped to a specific usage type.
+        </div>
+        <div class="divider left half"></div>
+        <div class="figure right half">
+            <app-company-type-coverage-bar></app-company-type-coverage-bar>
+        </div>
+        <div class="description-info left half">
+            Mobile Applications send to a range of different companies for various different reasons. This chart shows the percentage off apps available on the Google Play Store that contain hosts used for a specific purpose.
+        </div>
+
+        <div class="description-info left half">
+            <table>
+                <tr>
+                    <td><strong>Functionality</strong></td>
+                    <td> Apps that leak information to add functionality.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Uknown</strong></td>
+                    <td> Apps that leak information for unknown reasons.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Advertising</strong></td>
+                    <td> Apps that leak information for advertising purposes
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Analytics</strong></td>
+                    <td> Apps that leak information for analytics purposes.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Payments</strong></td>
+                    <td> Apps that leak information for payment purposes.
+                    </td>
+                </tr>
+            </table>
+            <div class="divider"></div>
+
+        </div>
+
+        <div class="description-info left half">
+            Over {{<strong>90%</strong>}} of apps on the store leak information for functionality reasons. The most common destinations for these leaks include companies like {{<strong>Google</strong>}}, {{<strong>Facebook</strong>}} and {{<strong>Twitter</strong>}}.
+        </div>
+
+        <div class="description-info left half">
+            Approximately {{<strong>3 in every 4</strong>}} apps are leaking information for the purposes of advertisement. The most common destinations for these leaks include companies like {{<strong>DoubleClick</strong>}}, {{<strong>Google-Ads</strong>}}
+            and {{<strong>AdMob</strong>}}
+        </div>
+
+        <div class="description-info left half">
+            Over {{<strong>50%</strong>}} of apps are leaking information to be used in analytics. The most common destinations for these leaks include companies like {{<strong>Google-Analytics</strong>}}, {{<strong>Fabric.io</strong>}} and {{<strong>Crashlytics</strong>}}
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="heading">
             Companies - App Coverage
         </div>
-        <div class="description">
-            The percentage of apps that contain a host mapped to a specific company
+        <div class="description-lead">
+            The percentage of apps that contain a host mapped to a specific company.
         </div>
-        <div class="figure">
+
+        <div class="description-info left one-third">
+            <div class="divider"></div>
+            Apps frequently send information accross networks, the very purpose of many apps require communication and connectivity. It is not always immediately visible exactly who information is sent to, frequently information is leaked to other companies for reasons
+            ranging from analytics to advertisement.
+            <br> Over {{<strong>85%</strong>}} of the apps found on the Google Play Store can identified as sending information to {{<strong>Google</strong>}}. Whilst at the same time, over {{<strong>75%</strong>}} leak information to an <strong>Uknown</strong>            location that could not be identified.
+            <div class="divider"></div>
+            Top 50 Companies usage types: <br>
+            <img src="https://i.kinja-img.com/gawker-media/image/upload/t_original/mfi4b9mekjgkymxtl0ns.jpg" style="width:100%">
+        </div>
+
+        <div class="figure right two-third">
             <app-company-coverage-bar></app-company-coverage-bar>
         </div>
     </div>
 
     <div class="container">
-        <div class=" title">
+        <div class="heading">
             App Genres - Hosts
         </div>
-        <div class="description">
-            The difference in average number of hosts between a genre and the global average
+        <div class="description-lead">
+            The difference in average number of hosts between a genre and the global average.
         </div>
         <div class="figure">
             <app-genre-compare-observatory></app-genre-compare-observatory>
@@ -32,10 +97,10 @@
     </div>
 
     <div class="container">
-        <div class=" title">
+        <div class="heading">
             App Genres - Hosts
         </div>
-        <div class="description">
+        <div class="description-lead">
             Ther Average number of hosts found within apps of each genre.
         </div>
         <div class="figure">
