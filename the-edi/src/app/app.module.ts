@@ -6,6 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import {AccordionModule} from 'primeng/primeng';     //accordion and accordion tab
+
+
+
 // Components
 import { AppComponent } from './app.component';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
@@ -59,6 +63,7 @@ const appRoutes: Routes = [
     HostCompanyDonutComponent
   ],
   imports: [
+    AccordionModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
