@@ -57,7 +57,7 @@ export class GenreCompareObservatoryDiffComponent implements OnInit {
 
     svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
     svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
-    var margin = { top: 20, right: 40, bottom: 100, left: 40 };
+    var margin = { top: 20, right: 60, bottom: 120, left: 80 };
     var width = this.chartWidth - margin.left - margin.right;
     var height = this.chartHeight - margin.top - margin.bottom;
 
@@ -82,6 +82,16 @@ export class GenreCompareObservatoryDiffComponent implements OnInit {
     .attr("transform", "rotate(45)")
     .style("text-anchor", "start");
 
+    svg.append('text')             
+      .attr('transform','translate(' + (width/2 + margin.left/2) + ' ,' + (height + margin.bottom) + ')')
+      .style('text-anchor', 'middle')
+      .text('App Genres');
+
+    svg.append('text')
+      .attr('transform', 'translate(' + (margin.left / 2 ) + ' ,' + (height/2 + margin.top) + ') rotate(-90)')
+      .style('text-anchor', 'middle')
+      .text('Average Hosts');
+    
     g.append('g')
         .call(d3.axisLeft(y).ticks(10))
       .append('text')

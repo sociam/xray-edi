@@ -11,6 +11,11 @@ div.root {
     height: 100%;
 }
 
+a {
+    color: #226622;
+    text-decoration: none;
+}
+
 div.banner {
     color: #fff;
     background: #222;
@@ -34,19 +39,36 @@ div.content {
     z-index: 1;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    color: #222;
     div.heading {
         text-align: center;
         font-size: 2em;
         width: 100%;
     }
-    div.description {
+    div.description-lead {
         padding-top: 10px;
         padding-bottom: 10px;
-        width: 80%;
+        width: 50%;
         margin-left: auto;
         margin-right: auto;
         text-align: justify;
+        line-height: 150%;
         font-size: 1.5em;
+    }
+    div.description-info {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: justify;
+        font-size: 1em;
+        line-height: 150%;
+    }
+    div.divider {
+        margin: 10px auto;
+        width: 75%;
+        border-bottom: solid 0.5px #226622;
     }
     margin-left: auto;
     margin-right: auto;

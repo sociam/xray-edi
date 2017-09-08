@@ -130,9 +130,9 @@ export class HostCompanyDonutComponent implements OnInit {
       var hover = this.appTracker.getHoverSelection();
       if(hover.length) {
         if(d.data.apps.freq.filter((app) =>  app.title == hover[0].storeinfo.title).length) {
-          return '#116611'
+          return 'green'
         } //hover[0].app);
-        return '#ccc';
+        return 'grey';
       }
       return colour(d.data.label)
     })

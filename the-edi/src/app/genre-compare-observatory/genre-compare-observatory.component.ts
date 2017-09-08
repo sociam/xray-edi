@@ -57,7 +57,7 @@ private dataset: any = [{label:'', value: 0, app: []}];
 
     svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
     svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
-    var margin = { top: 20, right: 40, bottom: 100, left: 40 };
+    var margin = { top: 20, right: 60, bottom: 120, left: 80 };
     var width = this.chartWidth - margin.left - margin.right;
     var height = this.chartHeight - margin.top - margin.bottom;
 
@@ -81,6 +81,16 @@ private dataset: any = [{label:'', value: 0, app: []}];
 
     svg.selectAll('g.tick')
       .style('stroke-width', 1);
+
+    svg.append('text')             
+      .attr('transform','translate(' + (width/2 + margin.left/2) + ' ,' + (height + margin.bottom) + ')')
+      .style('text-anchor', 'middle')
+      .text('App Genres');
+
+    svg.append('text')
+      .attr('transform', 'translate(' + (margin.left / 2 ) + ' ,' + (height/2 + margin.top) + ') rotate(-90)')
+      .style('text-anchor', 'middle')
+      .text('Difference in Average');
 
     g.selectAll("text")
     .attr("y", 10)
