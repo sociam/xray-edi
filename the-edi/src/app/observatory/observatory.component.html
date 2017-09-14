@@ -4,23 +4,24 @@
 
 
     <div class="container">
-        <div class="heading">
-            Companies - App Coverage
-        </div>
-        <div class="description-lead">
-            The percentage of apps that contain a host mapped to a specific company.
-        </div>
+        <div class="left one-third">
+            <div class="heading">
+                Companies - App Coverage
+            </div>
+            <div class="description-lead">
+                The percentage of apps that contain a host mapped to a specific company.
+            </div>
 
-        <div class="description-info left one-third">
-            <div class="divider"></div>
-            Apps frequently send information accross networks, the very purpose of many apps require communication and connectivity. It is not always immediately visible exactly who information is sent to, frequently information is leaked to other companies for reasons
-            ranging from analytics to advertisement.
-            <br> Over {{<strong>85%</strong>}} of the apps found on the Google Play Store can identified as sending information to {{<strong>Google</strong>}}. Whilst at the same time, over {{<strong>75%</strong>}} leak information to an <strong>Uknown</strong>            location that could not be identified.
-            <div class="divider"></div>
-            Top 50 Companies usage types: <br>
-            <img src="https://i.kinja-img.com/gawker-media/image/upload/t_original/mfi4b9mekjgkymxtl0ns.jpg" style="width:100%">
+            <div class="description-info">
+                <div class="divider"></div>
+                Apps frequently send information accross networks, the very purpose of many apps require communication and connectivity. It is not always immediately visible exactly who information is sent to, frequently information is leaked to other companies for reasons
+                ranging from analytics to advertisement.
+                <br> Over {{<strong>85%</strong>}} of the apps found on the Google Play Store can identified as sending information to {{<strong>Google</strong>}}. Whilst at the same time, over {{<strong>75%</strong>}} leak information to an <strong>Uknown</strong>                location that could not be identified.
+                <div class="divider"></div>
+                Top 50 Companies usage types: <br>
+                <img src="https://i.kinja-img.com/gawker-media/image/upload/t_original/mfi4b9mekjgkymxtl0ns.jpg" style="width:100%">
+            </div>
         </div>
-
         <div class="figure right two-third">
             <app-company-coverage-bar></app-company-coverage-bar>
         </div>
@@ -42,9 +43,12 @@
         <div class="heading">
             App Genres - Hosts
         </div>
+        <br><br>
         <div class="description-lead">
-            Ther Average number of hosts found within apps of each genre.
+            The Average number of hosts found within apps of each genre.
         </div>
+        <div class="divider"></div>
+
         <div class="figure">
             <app-genre-compare-observatory-diff></app-genre-compare-observatory-diff>
         </div>

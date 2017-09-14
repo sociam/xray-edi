@@ -81,14 +81,16 @@ div.left {
 }
 
 div.half {
-    min-width: 500px;
+    min-width: 300px;
     width: 50%!important;
 }
 
 div.two-third {
     width: 66%!important;
+    min-width: 400px;
 }
 
 div.one-third {
     width: 33%!important;
+    min-width: 300px
 }
