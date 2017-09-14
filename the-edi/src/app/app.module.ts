@@ -31,6 +31,8 @@ import { CompanyInfoService } from './service/company-info.service';
 import { GenreCompareObservatoryDiffComponent } from './genre-compare-observatory-diff/genre-compare-observatory-diff.component';
 import { CompanyCoverageBarComponent } from './company-coverage-bar/company-coverage-bar.component';
 import { CompanyTypeCoverageBarComponent } from './company-type-coverage-bar/company-type-coverage-bar.component';
+import { UsageTypeCulpritsComponent } from './usage-type-culprits/usage-type-culprits.component';
+import { SlidepanelComponent } from './slidepanel/slidepanel.component';
 
 
 const appRoutes: Routes = [
@@ -68,6 +70,8 @@ const appRoutes: Routes = [
     GenreCompareObservatoryDiffComponent,
     CompanyCoverageBarComponent,
     CompanyTypeCoverageBarComponent,
+    UsageTypeCulpritsComponent,
+    SlidepanelComponent,
   ],
   imports: [
     BrowserModule,
