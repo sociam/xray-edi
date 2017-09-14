@@ -6,6 +6,10 @@
     font-family: 'Roboto', sans-serif;
 }
 
+div.hidden-panel {
+    display: none;
+}
+
 div.root {
     padding-top: 50px;
     background: #eee;
@@ -14,7 +18,7 @@ div.root {
 }
 
 div.container {
-    height: 75vh;
+    //height: 75vh;
     width: 75%;
     margin: auto;
     margin-top: 20px;
@@ -26,6 +30,7 @@ div.container {
     font-weight: 300;
     color: #222;
     display: flex;
+    flex-wrap: wrap;
     div.divider {
         margin: 10px auto;
         width: 75%;
@@ -33,7 +38,7 @@ div.container {
     }
     div.heading {
         text-align: left;
-        font-size: 1.4vh;
+        font-size: 1.5em;
         font-weight: 400;
     }
     table {
@@ -42,11 +47,19 @@ div.container {
             padding: 5px;
         }
     }
-    div.info {
-        display: inline-flex;
+    div.description-lead {
+        padding-top: 10px;
+        text-align: justify;
+        line-height: 150%;
+        font-size: 1.25em;
+    }
+    div.description-info {
+        padding-bottom: 10px;
+        text-align: justify;
+        font-size: 1em;
+        line-height: 175%;
     }
     div.figure {
-        display: inline-flex;
         margin-bottom: 30px;
         padding-bottom: 30px;
         width: 100%;
@@ -68,6 +81,7 @@ div.left {
 }
 
 div.half {
+    min-width: 500px;
     width: 50%!important;
 }
 

@@ -1,0 +1,78 @@
+<div class="container {{panels[0]}}">
+
+    <div class="left half">
+        <div class="heading ">
+            App Usage Type Coverage
+        </div>
+        <div class="description-lead">
+            Percentage of Apps that contain a host mapped to a specific usage type.
+        </div>
+        <div class="divider"></div>
+
+        <div class="description-info">
+            Mobile Applications send to a range of different companies for various different reasons. This chart shows the percentage off apps available on the Google Play Store that contain hosts used for a specific purpose.
+        </div>
+
+        <div class="description-info">
+            <table>
+                <tr>
+                    <td><strong>Functionality</strong></td>
+                    <td> Apps that leak information to add functionality.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Uknown</strong></td>
+                    <td> Apps that leak information for unknown reasons.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Advertising</strong></td>
+                    <td> Appleft halfs that leak information for advertising purposes
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Analytics</strong></td>
+                    <td> Apps that leak information for analytics purposes.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Payments</strong></td>
+                    <td> Apps that leak information for payment purposes.
+                    </td>
+                </tr>
+            </table>
+            <div class="divider"></div>
+
+        </div>
+
+        <div class="description-info ">
+            Over {{<strong>90%</strong>}} of apps on the store leak information for functionality reasons. The most common destinations for these leaks include companies like {{<strong>Google</strong>}}, {{<strong>Facebook</strong>}} and {{<strong>Twitter</strong>}}.
+        </div>
+
+        <div class="description-info  ">
+            Approximately {{<strong>3 in every 4</strong>}} apps are leaking information for the purposes of advertisement. The most common destinations for these leaks include companies like {{<strong>DoubleClick</strong>}}, {{<strong>Google-Ads</strong>}}
+            and {{<strong>AdMob</strong>}}
+        </div>
+
+        <div class="description-info  ">
+            Over {{<strong>50%</strong>}} of apps are leaking information to be used in analytics. The most common destinations for these leaks include companies like {{<strong>Google-Analytics</strong>}}, {{<strong>Fabric.io</strong>}} and {{<strong>Crashlytics</strong>}}
+        </div>
+
+    </div>
+    <div class="figure right half">
+        <app-company-type-coverage-bar></app-company-type-coverage-bar>
+    </div>
+</div>
+<div class="container">
+    <div class="heading {{panels[1]}}">
+        App Usage Type Culprit
+    </div>
+    <div class="description-lead">
+        The most prominent companies for each usage type.
+    </div>
+    <div class="divider left half"></div><br>
+    <div class="figure">
+        <app-usage-type-culprits></app-usage-type-culprits>
+    </div>
+
+</div>
