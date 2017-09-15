@@ -1,0 +1,6 @@
+<div>
+    <select name="genreSelect" [(ngModel)]="selectedGenre" (change)="graphInit()" id="genreSelect">
+        <option *ngFor="let genre of genres" [ngValue]="genre" value="{{genre}}">{{genre}}</option>
+    </select>
+    <svg #companyTypes></svg>
+</div>
