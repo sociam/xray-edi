@@ -17,11 +17,12 @@ import * as _ from 'lodash';
 export class CompanyGenreCoverageDisplayComponent implements OnInit {
 
 
-  public selectedGenre: string = 'All Games'; 
+  public selectedGenres: string[] = ['All','None','None','None','None']; 
   @ViewChild('companyTypes') chart: ElementRef;
   private child: ElementRef;
   private dataset: any = [{label:'', value: 0, app: []}];
   public genres: string[] = [];
+  public scrollOffset: number = 0;
 
   // https://bl.ocks.org/mbostock/4062045
   private chartWidth: number;
@@ -44,63 +45,68 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
   }
 
   buildDataset(companyGenreData: CompanyGenreCoverage[], companyData: CompanyStats[]) {
-    console.log(this.selectedGenre);
     // [{label: string, value: float}]
-    this.genres = companyGenreData.map((data) => data.genre.replace(/_/g, ' ').toLowerCase()).filter((v, i, arr) => arr.indexOf(v) === i).concat(['All', 'All Games']).sort((a,b) => a.localeCompare(b));
+    this.genres = ['None'].concat(companyGenreData.map((data) => data.genre.replace(/_/g, ' ').toLowerCase()).filter((v, i, arr) => arr.indexOf(v) === i).concat(['All', 'All Games']).sort((a,b) => a.localeCompare(b)));
     const companies = companyData.map((data) => data.company).filter((v, i, arr) => arr.indexOf(v) === i);
 
+    return this.selectedGenres.filter((g) => g != 'None').map((selectedGenre, idx) => {
+      // Across all Genres
+      if (selectedGenre == 'All') {
+        let dataset = companyData.map((company) => {
+          return {
+            label: company.company,
+            type: company.type == 'app' ? 'functionality' : company.type, 
+            value: company.companyFreq*100,
+            genre: selectedGenre,
+            genreIdx: idx
+          }
+        });
+        return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
+          return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-')}
+        }).slice(this.scrollOffset,this.scrollOffset + 10);
+      }
 
-    // Across all Genres
-    if (this.selectedGenre == 'All') {
-      let dataset = companyData.map((company) => {
+      // accross all games
+      if(selectedGenre == 'All Games') {
+        let selectedGenreData = companyGenreData.filter((companyGenre) => companyGenre.genre.toUpperCase().includes('GAME'));
+        let possibleCompanies = selectedGenreData.map((d) => d.company).filter((v, i, arr) => arr.indexOf(v) === i);
+
+        let dataset = possibleCompanies.map((company) => {
+          let filteredGenreData = selectedGenreData.filter( data => data.company === company);
+          let type = companyData.filter((data) => data.company === company).reduce((a,b) => a + b.type, '');
+            let genreTotal =  selectedGenreData.map((d) => d.genre).filter((v, i, arr) => arr.indexOf(v) === i).map((d) => selectedGenreData.filter((data) => data.genre == d)[0]).reduce((a,b) => a + b.genreTotal, 0);
+          return {
+            label: company,
+            type : type == 'app' ? 'functionality' : type,
+            value: (filteredGenreData.reduce((a,b) => a + b.companyCount, 0) / genreTotal)*100,
+            genre: selectedGenre,
+            genreIdx: idx
+          } 
+        });
+        console.log(dataset);
+        return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
+            return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-')}
+        }).slice(this.scrollOffset,this.scrollOffset + 10);
+      
+      }
+
+      // specific genres.
+      let selectedGenreData = companyGenreData.filter((companyGenre) => companyGenre.genre.replace(/_/g, ' ').toLowerCase() === selectedGenre);
+      let dataset = selectedGenreData.map((data) => {
+        let type = companyData.filter( company => company.company === data.company).reduce((a,b) => a+b.company,'');
         return {
-          label: company.company,
-          type: company.type == 'app' ? 'functionality' : company.type, 
-          value: company.companyFreq*100
-        }
-      });
-      return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
-        return {label: company.label,type: company.type, value: company.value, idx: idx}
-      }).slice(0,50);
-    }
-
-
-    // accross all games
-    if(this.selectedGenre == 'All Games') {
-      let selectedGenreData = companyGenreData.filter((companyGenre) => companyGenre.genre.toUpperCase().includes('GAME'));
-      let possibleCompanies = selectedGenreData.map((d) => d.company).filter((v, i, arr) => arr.indexOf(v) === i);
-
-      let dataset = possibleCompanies.map((company) => {
-        let filteredGenreData = selectedGenreData.filter( data => data.company === company);
-        let type = companyData.filter((data) => data.company === company).reduce((a,b) => a + b.type, '');
-          let genreTotal =  selectedGenreData.map((d) => d.genre).filter((v, i, arr) => arr.indexOf(v) === i).map((d) => selectedGenreData.filter((data) => data.genre == d)[0]).reduce((a,b) => a + b.genreTotal, 0);
-        return {
-          label: company,
+          label: data.company,
           type : type == 'app' ? 'functionality' : type,
-          value: (filteredGenreData.reduce((a,b) => a + b.companyCount, 0) / genreTotal)*100
+          value: data.companyPct,
+          genre: selectedGenre,
+            genreIdx: idx
         } 
       });
-      console.log(dataset);
       return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
-          return {label: company.label,type: company.type, value: company.value, idx: idx}
-      }).slice(0, 50);
+        return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-')}
+      }).slice(this.scrollOffset,this.scrollOffset + 10);
+    }).reduce((a,b) => a.concat(b),[]);
     
-    }
-
-    // specific genres.
-    let selectedGenreData = companyGenreData.filter((companyGenre) => companyGenre.genre.replace(/_/g, ' ').toLowerCase() === this.selectedGenre);
-    let dataset = selectedGenreData.map((data) => {
-       let type = companyData.filter( company => company.company === data.company).reduce((a,b) => a+b.company,'');
-      return {
-        label: data.company,
-        type : type == 'app' ? 'functionality' : type,
-        value: data.companyPct
-      } 
-    });
-    console.log(dataset);
-    return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
-        return {label: company.label,type: company.type, value: company.value, idx: idx}
-      }).slice(0, dataset.length < 50 ? dataset.length : 50);
 
     
   }
@@ -114,11 +120,12 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
 
     svg.attr('height', this.el.nativeElement.children[0].offsetHeight);
     svg.attr('width', this.el.nativeElement.children[0].offsetWidth);
-    var margin = { top: 20, right: 40, bottom: 100, left: 80 };
+    var margin = { top: 20, right: 10, bottom: 100, left: 70 };
     var width = this.chartWidth - margin.left - margin.right;
     var height = this.chartHeight - margin.top - margin.bottom;
 
-    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+    var x = d3.scaleBand().rangeRound([0, width]).padding(0.2),
+        x1 = d3.scaleBand().padding(0.05),
         y = d3.scaleLinear().rangeRound([height, 0]);
 
     var g = svg.append('g')
@@ -178,24 +185,26 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
       .enter()
         .append('rect')
         .attr('class', 'bar')
-        .attr('id', (d)=>d.label)
+        .attr('id', (d)=>d.idName+d.genreIdx)
+        .attr('class', (d)=>'genre'+d.genreIdx)
         .attr('x', (d) => x(d.label))
         .attr('y', (d)  => y(d.value))
-        .attr('width', x.bandwidth())
+        .attr('width', x.bandwidth() / this.selectedGenres.filter((val) => val != 'None').length)
         .attr('height', (d) => height - y(d.value))
-        .attr('fill', (d) => colour(d.idx/dataset.length))
+        .attr('fill', (d) => colour(d.genreIdx))
+        .attr('transform', (d) => 'translate(' + ((x.bandwidth()/ this.selectedGenres.filter((val) => val != 'None').length) * d.genreIdx) + ', 0)')
         .on("mousemove", (d) => {
           div.style("left", d3.event.pageX+10+"px");
           div.style("top", d3.event.pageY-25+"px");
           div.style("display", "inline-block");
-          div.html('<strong>' + d.label + '</strong> - Featured in ' + (d.value).toFixed(2).replace('.00','')+'% of ' + this.selectedGenre.toLocaleLowerCase() + ' apps.');
+          div.html( '<strong>' + d.label + '</strong> - Featured in ' + (d.value).toFixed(2).replace('.00','')+'% of '+ d.genre + ' apps.');
           bars.attr('fill', 'grey');
-          svg.selectAll('#' + d.label).attr('fill', 'green');
+          svg.selectAll('.' + 'genre'+d.genreIdx).attr('fill', 'green');
         })
         .on('mouseout', (d) => {
           div.style("display", "none")
           dataset.map(element => {
-            svg.selectAll('#' + element.label).attr('fill', (element)=>colour(element.idx/dataset.length));
+            svg.selectAll('#' + element.idName+element.genreIdx).attr('fill', (element)=>colour(element.genreIdx));
           });
         });    
     
