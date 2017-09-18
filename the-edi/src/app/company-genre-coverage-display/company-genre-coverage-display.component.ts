@@ -100,7 +100,7 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
       // specific genres.
       let selectedGenreData = companyGenreData.filter((companyGenre) => companyGenre.genre.replace(/_/g, ' ').toLowerCase() === selectedGenre);
       let dataset = selectedGenreData.map((data) => {
-        let type = companyData.filter( company => company.company === data.company).reduce((a,b) => a+b.company,'');
+        let type = companyData.filter( company => company.company === data.company).reduce((a,b) => a+b.type,'');
         return {
           label: data.company,
           type : type == 'app' ? 'functionality' : type,
@@ -215,7 +215,7 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
           div.style("left", d3.event.pageX+10+"px");
           div.style("top", d3.event.pageY-25+"px");
           div.style("display", "inline-block");
-          div.html( /*console.log(d));*/'<strong>' + d.label + '</strong> - Featured in ' + (d.value).toFixed(2).replace('.00','')+'% of '+ d.total + ' ' + d.genre + ' apps.');
+          div.html( /*console.log(d));*/'<strong>' + d.label + '</strong> - Featured in ' + (d.value).toFixed(2).replace('.00','')+'% of '+ d.total + ' ' + d.genre + ' apps. <br> Type: ' + d.type);
           bars.attr('fill', 'grey');
           svg.selectAll('.' + 'genre'+d.genreIdx).attr('fill', 'green');
         })
