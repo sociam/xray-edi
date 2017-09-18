@@ -11,3 +11,50 @@ option,
 select {
     text-transform: capitalize;
 }
+
+select {
+    background: transparent;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 1;
+    border: 0;
+    border-radius: 0;
+    height: 34px;
+    //-webkit-appearance: none;
+    &:after {
+        content: "▼";
+        padding: 12px 8px;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        z-index: 1;
+        text-align: center;
+        width: 10%;
+        height: 100%;
+        pointer-events: none;
+    }
+}
+
+.first {
+    border-bottom: solid 4px #3366cc!important;
+}
+
+.second {
+    border-bottom: solid 4px #dc3912!important;
+}
+
+.third {
+    border-bottom: solid 4px #ff9900!important;
+}
+
+.fourth {
+    border-bottom: solid 4px #109618!important;
+}
+
+.fifth {
+    border-bottom: solid 4px #990099!important;
+}
+
+.none {
+    border-bottom: solid 4px #000000!important;
+}

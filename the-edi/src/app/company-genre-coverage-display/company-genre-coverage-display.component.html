@@ -1,18 +1,18 @@
 <div class="figure">
     <div class="selection">
-        <select name="genreSelect" [(ngModel)]="selectedGenres[0]" (change)="graphInit()" id="genreSelect">
+        <select name="genreSelect" [(ngModel)]="selectedGenres[0]" (change)="graphInit()" id="genreSelect" class="{{dropdowns[0]}}">
             <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='All'" value="{{genre}}">{{genre}}</option>
         </select>
-        <select name="genreSelect" [(ngModel)]="selectedGenres[1]" (change)="graphInit()" id="genreSelect2">
+        <select name="genreSelect" [(ngModel)]="selectedGenres[1]" (change)="graphInit()" id="genreSelect2" class="{{dropdowns[1]}}">
             <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
         </select>
-        <select name="genreSelect" [(ngModel)]="selectedGenres[2]" (change)="graphInit()" id="genreSelect3">
+        <select name="genreSelect" [(ngModel)]="selectedGenres[2]" (change)="graphInit()" id="genreSelect3" class="{{dropdowns[2]}}">
             <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
         </select>
-        <select name="genreSelect" [(ngModel)]="selectedGenres[3]" (change)="graphInit()" id="genreSelect4">
+        <select name="genreSelect" [(ngModel)]="selectedGenres[3]" (change)="graphInit()" id="genreSelect4" class="{{dropdowns[3]}}">
             <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
         </select>
-        <select name="genreSelect" [(ngModel)]="selectedGenres[4]" (change)="graphInit()" id="genreSelect5">
+        <select name="genreSelect" [(ngModel)]="selectedGenres[4]" (change)="graphInit()" id="genreSelect5" class="{{dropdowns[4]}}">
             <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
         </select>
 

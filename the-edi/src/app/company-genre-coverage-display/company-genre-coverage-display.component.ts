@@ -17,7 +17,10 @@ import * as _ from 'lodash';
 export class CompanyGenreCoverageDisplayComponent implements OnInit {
 
 
-  public selectedGenres: string[] = ['All','None','None','None','None']; 
+  public selectedGenres: string[] = ['All','None','None','None','None'];
+  public colours: string[] = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099"];
+  public possibleDropdowns: string[] = ['first', 'second', 'third', 'fourth', 'fifth'];
+  public dropdowns: string[] = [];
   @ViewChild('companyTypes') chart: ElementRef;
   private child: ElementRef;
   private dataset: any = [{label:'', value: 0, app: []}];
@@ -48,7 +51,9 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
     // [{label: string, value: float}]
     this.genres = ['None'].concat(companyGenreData.map((data) => data.genre.replace(/_/g, ' ').toLowerCase()).filter((v, i, arr) => arr.indexOf(v) === i).concat(['All', 'All Games']).sort((a,b) => a.localeCompare(b)));
     const companies = companyData.map((data) => data.company).filter((v, i, arr) => arr.indexOf(v) === i);
-
+    this.dropdowns = [];
+    this.selectedGenres.forEach((g) => this.dropdowns.push(g == 'None' ? 'none' : this.possibleDropdowns[this.dropdowns.filter((g) => g != 'none').length]));
+    console.log(this.dropdowns);
     return this.selectedGenres.filter((g) => g != 'None').map((selectedGenre, idx) => {
       // Across all Genres
       if (selectedGenre == 'All') {
@@ -139,6 +144,12 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
         .attr('transform', 'translate(0,' + height + ')')
         .call(d3.axisBottom(x));
 
+    svg.selectAll('g path')
+      .style('stroke-width', 0)
+
+    svg.selectAll('g.tick')
+      .style('stroke-width', 1);
+
     g.selectAll("text")
       .attr('y', 10)
       .attr('x', 5)
@@ -165,7 +176,7 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
       .style('text-anchor', 'middle')
       .text('Presence in apps');
 
-    var colour = d3.scaleOrdinal(d3.schemeCategory20);
+    var colour = d3.scaleOrdinal(["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"]);
     var div = d3.select("body").append("div").attr("class", "toolTip");
     div.style('position', 'absolute')
        .style('display', 'none')
@@ -206,9 +217,8 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
           dataset.map(element => {
             svg.selectAll('#' + element.idName+element.genreIdx).attr('fill', (element)=>colour(element.genreIdx));
           });
-        });    
-    
-
+        });
+        
     this.loadingComplete = true;
   }
 
