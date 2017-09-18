@@ -17,7 +17,10 @@ import * as _ from 'lodash';
 export class CompanyGenreCoverageDisplayComponent implements OnInit {
 
 
-  public selectedGenres: string[] = ['All','None','None','None','None']; 
+  public selectedGenres: string[] = ['All','None','None','None','None'];
+  public colours: string[] = ["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099"];
+  public possibleDropdowns: string[] = ['first', 'second', 'third', 'fourth', 'fifth'];
+  public dropdowns: string[] = [];
   @ViewChild('companyTypes') chart: ElementRef;
   private child: ElementRef;
   private dataset: any = [{label:'', value: 0, app: []}];
@@ -48,8 +51,10 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
     // [{label: string, value: float}]
     this.genres = ['None'].concat(companyGenreData.map((data) => data.genre.replace(/_/g, ' ').toLowerCase()).filter((v, i, arr) => arr.indexOf(v) === i).concat(['All', 'All Games']).sort((a,b) => a.localeCompare(b)));
     const companies = companyData.map((data) => data.company).filter((v, i, arr) => arr.indexOf(v) === i);
-
-    return this.selectedGenres.filter((g) => g != 'None').map((selectedGenre, idx) => {
+    this.dropdowns = [];
+    this.selectedGenres.forEach((g) => this.dropdowns.push(g == 'None' ? 'none' : this.possibleDropdowns[this.dropdowns.filter((g) => g != 'none').length]));
+    console.log(this.dropdowns);
+    let data = this.selectedGenres.filter((g) => g != 'None').map((selectedGenre, idx) => {
       // Across all Genres
       if (selectedGenre == 'All') {
         let dataset = companyData.map((company) => {
@@ -58,12 +63,13 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
             type: company.type == 'app' ? 'functionality' : company.type, 
             value: company.companyFreq*100,
             genre: selectedGenre,
-            genreIdx: idx
+            genreIdx: idx,
+            total: company.totalApps //companyGenreData.map((g) => g.genreTotal).reduce((a,b) => a + b, 0)
           }
         });
         return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
-          return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-')}
-        }).slice(this.scrollOffset,this.scrollOffset + 10);
+          return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-'), total: company.total}
+        });
       }
 
       // accross all games
@@ -80,13 +86,14 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
             type : type == 'app' ? 'functionality' : type,
             value: (filteredGenreData.reduce((a,b) => a + b.companyCount, 0) / genreTotal)*100,
             genre: selectedGenre,
-            genreIdx: idx
+            genreIdx: idx,
+            total: genreTotal
           } 
         });
         console.log(dataset);
         return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
-            return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-')}
-        }).slice(this.scrollOffset,this.scrollOffset + 10);
+            return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-'), total: company.total}
+        });
       
       }
 
@@ -99,15 +106,17 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
           type : type == 'app' ? 'functionality' : type,
           value: data.companyPct,
           genre: selectedGenre,
-            genreIdx: idx
+            genreIdx: idx,
+          total: data.genreTotal
         } 
       });
       return dataset.sort((a,b) =>  b.value - a.value).map((company, idx) => {
-        return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-')}
-      }).slice(this.scrollOffset,this.scrollOffset + 10);
+        return {label: company.label,type: company.type, value: company.value, idx: idx, genre: company.genre, genreIdx: company.genreIdx, idName: company.label.replace(/[.\s]/g, '-'), total: company.total}
+      });
     }).reduce((a,b) => a.concat(b),[]);
     
-
+    let topTen = data.slice(this.scrollOffset,this.scrollOffset + 10).map((d) => d.label);
+    return data.filter((d) => topTen.includes(d.label));
     
   }
 
@@ -139,6 +148,12 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
         .attr('transform', 'translate(0,' + height + ')')
         .call(d3.axisBottom(x));
 
+    svg.selectAll('g path')
+      .style('stroke-width', 0)
+
+    svg.selectAll('g.tick')
+      .style('stroke-width', 1);
+
     g.selectAll("text")
       .attr('y', 10)
       .attr('x', 5)
@@ -165,7 +180,7 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
       .style('text-anchor', 'middle')
       .text('Presence in apps');
 
-    var colour = d3.scaleOrdinal(d3.schemeCategory20);
+    var colour = d3.scaleOrdinal(["#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac"]);
     var div = d3.select("body").append("div").attr("class", "toolTip");
     div.style('position', 'absolute')
        .style('display', 'none')
@@ -178,7 +193,10 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
        .style('color', '#fff')
        .style('font-size', '0.75em')
        .style('padding', '5px')
-       .style('text-align', 'left');
+       .style('text-align', 'left')
+       .on('mousemove', (d) => {
+          div.style("display", "none")
+        });
 
     var bars = g.selectAll('g.bar')
       .data(dataset)
@@ -197,7 +215,7 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
           div.style("left", d3.event.pageX+10+"px");
           div.style("top", d3.event.pageY-25+"px");
           div.style("display", "inline-block");
-          div.html( '<strong>' + d.label + '</strong> - Featured in ' + (d.value).toFixed(2).replace('.00','')+'% of '+ d.genre + ' apps.');
+          div.html( /*console.log(d));*/'<strong>' + d.label + '</strong> - Featured in ' + (d.value).toFixed(2).replace('.00','')+'% of '+ d.total + ' ' + d.genre + ' apps.');
           bars.attr('fill', 'grey');
           svg.selectAll('.' + 'genre'+d.genreIdx).attr('fill', 'green');
         })
@@ -206,9 +224,8 @@ export class CompanyGenreCoverageDisplayComponent implements OnInit {
           dataset.map(element => {
             svg.selectAll('#' + element.idName+element.genreIdx).attr('fill', (element)=>colour(element.genreIdx));
           });
-        });    
-    
-
+        });
+        
     this.loadingComplete = true;
   }
 
