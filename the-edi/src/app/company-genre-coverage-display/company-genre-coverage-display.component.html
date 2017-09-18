@@ -1,0 +1,24 @@
+<div class="figure">
+    <div class="selection">
+        <select name="genreSelect" [(ngModel)]="selectedGenres[0]" (change)="graphInit()" id="genreSelect">
+            <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='All'" value="{{genre}}">{{genre}}</option>
+        </select>
+        <select name="genreSelect" [(ngModel)]="selectedGenres[1]" (change)="graphInit()" id="genreSelect2">
+            <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
+        </select>
+        <select name="genreSelect" [(ngModel)]="selectedGenres[2]" (change)="graphInit()" id="genreSelect3">
+            <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
+        </select>
+        <select name="genreSelect" [(ngModel)]="selectedGenres[3]" (change)="graphInit()" id="genreSelect4">
+            <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
+        </select>
+        <select name="genreSelect" [(ngModel)]="selectedGenres[4]" (change)="graphInit()" id="genreSelect5">
+            <option *ngFor="let genre of genres" [ngValue]="genre" [selected]="genre=='None'" value="{{genre}}">{{genre}}</option>
+        </select>
+
+
+    </div>
+
+    <svg #companyTypes></svg>
+    <input class="scroll" type="range" min="0" max="100" step="10" [(ngModel)]="scrollOffset" (change)="graphInit()">
+</div>

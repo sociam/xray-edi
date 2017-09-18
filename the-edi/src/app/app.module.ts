@@ -33,6 +33,7 @@ import { CompanyCoverageBarComponent } from './company-coverage-bar/company-cove
 import { CompanyTypeCoverageBarComponent } from './company-type-coverage-bar/company-type-coverage-bar.component';
 import { UsageTypeCulpritsComponent } from './usage-type-culprits/usage-type-culprits.component';
 import { SlidepanelComponent } from './slidepanel/slidepanel.component';
+import { CompanyGenreCoverageDisplayComponent } from './company-genre-coverage-display/company-genre-coverage-display.component';
 
 
 const appRoutes: Routes = [
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
     CompanyTypeCoverageBarComponent,
     UsageTypeCulpritsComponent,
     SlidepanelComponent,
+    CompanyGenreCoverageDisplayComponent,
   ],
   imports: [
     BrowserModule,

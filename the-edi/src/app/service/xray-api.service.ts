@@ -4,7 +4,7 @@ import { URLSearchParams } from '@angular/http';
 import { Observable, Subject} from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { FullApp, GenreStats, CompanyStats, CompanyTypeStats } from './app-info-types.service';
+import { FullApp, GenreStats, CompanyStats, CompanyTypeStats, CompanyGenreCoverage } from './app-info-types.service';
 
 
 @Injectable()
@@ -19,8 +19,12 @@ export class XrayAPIService {
    * Returns a HTTP Headers object with the necessary headers required to
    * interact with the xray API.
    */
-  getHeaders() {
-    return new HttpHeaders().set('Accept', 'application/json');
+  getHeaders(noCache: boolean): HttpHeaders {
+    let headers =  new HttpHeaders().set('Accept', 'application/json')
+    if(noCache) {
+      headers.append('Pragma','no-cache');
+    }
+    return headers;
   }
 
   /**
@@ -35,7 +39,8 @@ export class XrayAPIService {
       appID?: string, 
       fullInfo?: boolean, 
       onlyAnalyzed?: boolean, 
-      limit?: number
+      limit?: number,
+      noCache?: boolean
     }) :string {
       // Initialising URL Parameters from passed in options.
     let urlParams = new URLSearchParams();
@@ -61,6 +66,9 @@ export class XrayAPIService {
     if(options.limit) {
       urlParams.append('limit', options.limit.toString());
     }
+    if(options.noCache) {
+      urlParams.append('nocache', options.noCache ? 'true': 'false');
+    }
     return urlParams.toString();
   }
 
@@ -80,7 +88,7 @@ export class XrayAPIService {
       limit?: number
     }) :Observable<FullApp[]> {
     
-    const headers = this.getHeaders(); 
+    const headers = this.getHeaders(false); 
     let body = this.parseFetchAppParams(options);
 
     return this.httpClient.get<FullApp[]>( XrayAPIService.API_PREFIX + '/apps?' + body, { headers: headers }).map((data: FullApp[]) => {
@@ -93,14 +101,14 @@ export class XrayAPIService {
   }
 
   fetchApp(app) {
-    const headers = this.getHeaders(); 
+    const headers = this.getHeaders(false); 
     return this.httpClient.get<FullApp[]>( XrayAPIService.API_PREFIX + '/apps?isFull=true&appId=' + app, { headers: headers })
     .toPromise().then((apps) => {return apps[0]});
 
   }
 
   fetchAlts(app) {
-    const headers = this.getHeaders(); 
+    const headers = this.getHeaders(false); 
     return this.httpClient.get<string[]>( XrayAPIService.API_PREFIX + '/alt/' + app, { headers: headers }).map((data: string[]) => {
       return data.map((app: string) =>{
          return this.fetchApp(app).then(alt => {
@@ -113,18 +121,23 @@ export class XrayAPIService {
   }
 
   fetchGenreAvgs() {
-    const headers = this.getHeaders();
+    const headers = this.getHeaders(true);
     return this.httpClient.get<GenreStats[]>(XrayAPIService.API_PREFIX + '/stats/genre_host_averages', {headers: headers});
   }
 
   fetchCompanyFreq() {
-    const headers = this.getHeaders();
+    const headers = this.getHeaders(true);
     return this.httpClient.get<CompanyStats[]>(XrayAPIService.API_PREFIX + '/stats/app_company_freq', {headers: headers});
   }
 
   fetchCompanyTypeFreq() {
-    const headers = this.getHeaders();
+    const headers = this.getHeaders(true);
     return this.httpClient.get<CompanyTypeStats[]>(XrayAPIService.API_PREFIX + '/stats/app_type_freq', {headers: headers});
+  }
+
+  fetchCompanyGenreCoverage() {
+    const headers = this.getHeaders(true);
+    return this.httpClient.get<CompanyGenreCoverage[]>(XrayAPIService.API_PREFIX + '/stats/company_genre_coverage', {headers: headers});
   }
 
 }

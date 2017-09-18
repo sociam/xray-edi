@@ -116,6 +116,14 @@ export interface FullApp {
   packages: string[];
 }
 
+export interface CompanyGenreCoverage {
+  company: string;
+  companyCount: number;
+  genre: string;
+  genreTotal: number;
+  companyPct: number
+}
+
 @Injectable()
 export class AppInfoTypesService {
 
